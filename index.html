@@ -35,21 +35,15 @@
       border-radius: 4px;
     }
 
-    /* Input sizes */
-    .small-input {
-      width: 200px; /* Small input for Version and Date */
+    .button-group {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-left: 160px; /* Align with inputs */
+      margin-bottom: 15px;
     }
 
-    .medium-input {
-      width: 400px; /* Medium input for Author and Document Type */
-    }
-
-    .wide-input {
-      width: 600px; /* Wide input for Comments and Link Location */
-    }
-
-    /* Button styling */
-    button {
+    .add-button {
       padding: 10px 20px;
       background-color: #007BFF;
       color: white;
@@ -58,19 +52,16 @@
       cursor: pointer;
     }
 
-    button:hover {
+    .add-button:hover {
       background-color: #0056b3;
     }
 
-    .add-button {
-      margin-left: 160px;
-      margin-bottom: 10px;
-      cursor: pointer;
-    }
-
     .remove-button {
-      margin-left: 10px;
+      padding: 10px 20px;
       background-color: #FF4C4C;
+      color: white;
+      border: none;
+      border-radius: 4px;
       cursor: pointer;
     }
 
@@ -80,30 +71,8 @@
   </style>
 </head>
 <body>
-  <h1>TxDIR PIF AWS Summary Page</h1><br>
+  <h1>TxDIR PIF AWS Summary Page</h1>
   <form id="dataInputForm" action="/submit" method="post" enctype="multipart/form-data">
-    <h3>Revision History</h3>
-    <div class="form-group">
-      <label for="version">Version:</label>
-      <input type="number" id="version" name="version" placeholder="Enter the version number" class="small-input" required>
-    </div>
-
-    <div class="form-group">
-      <label for="author">Author:</label>
-      <input type="text" id="author" name="author" placeholder="Enter author name" class="medium-input" maxlength="50" required>
-    </div>
-
-    <div class="form-group">
-      <label for="comments">Comments:</label>
-      <input type="text" id="comments" name="comments" placeholder="Enter comments" class="wide-input" maxlength="250" required>
-    </div>
-
-    <div class="form-group">
-      <label for="date">Date:</label>
-      <input type="date" id="date" name="date" class="small-input" required>
-    </div>
- 
-
     <h3>Build Documents</h3>
     <div id="document-fields">
       <div class="document-group">
@@ -116,60 +85,29 @@
             <option value="Reference URL">Reference URL</option>
           </select>
         </div>
-    
+
         <div class="form-group">
           <label for="link-location">Link Location:</label>
           <input type="text" id="link-location" name="link-location[]" placeholder="Enter URL" class="wide-input" maxlength="250" required>
+        </div>
+
+        <div class="button-group">
+          <button type="button" id="add-button" class="add-button">+ Add Another Document</button>
           <button type="button" class="remove-button">Remove</button>
         </div>
       </div>
     </div>
-    <button type="button" id="add-button" class="add-button">+ Add Another Document</button>
-
-    <h2>Account</h2>
-    <h3>Customer</h3>
-    <div id="document-fields">
-      <div class="document-group">
-        <div class="form-group">
-          <label for="document-type">Customer Name:</label>
-          <select id="document-type" name="document-type[]" class="small-input" required>
-            <option value="" disabled selected>Agency List</option>
-            <option value="SOS">SOS</option>
-            <option value="TWDB">TWDB</option>
-            <option value="OAG-AL">OAG-AL</option>
-          </select>
-        </div>
-    
-        <!-- <div class="form-group">
-          <label for="link-location">Comments:</label>
-          <input type="text" id="link-location" name="link-location[]" placeholder="Enter URL" class="wide-input" maxlength="250" required>
-          <button type="button" class="remove-button">Remove</button>
-        </div> -->
-      </div>
-    </div> <br>
-
     <button type="submit">Submit</button>
-    <!-- <button type="button" id="add-button" class="add-button">+ Add Another Document</button> -->
   </form>
-
-
-
-
-
-
-
-
-
 
   <script>
     const maxFields = 5; // Maximum number of document fields allowed
     let fieldCount = 1; // Start with one set of fields
     const documentFieldsContainer = document.getElementById("document-fields");
-    const addButton = document.getElementById("add-button");
 
-    // Add new document fields
-    addButton.addEventListener("click", () => {
-      if (fieldCount < maxFields) {
+    // Handle Add Another Document
+    document.addEventListener("click", (event) => {
+      if (event.target.id === "add-button" && fieldCount < maxFields) {
         fieldCount++;
 
         // Create new document group
@@ -186,30 +124,27 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="link-location">Comments:</label>
+            <label for="link-location">Link Location:</label>
             <input type="text" id="link-location" name="link-location[]" placeholder="Enter URL" class="wide-input" maxlength="250" required>
+          </div>
+          <div class="button-group">
+            <button type="button" id="add-button" class="add-button">+ Add Another Document</button>
             <button type="button" class="remove-button">Remove</button>
           </div>
         `;
 
-        // Add event listener for the Remove button
-        newDocumentGroup.querySelector(".remove-button").addEventListener("click", () => {
-          documentFieldsContainer.removeChild(newDocumentGroup);
-          fieldCount--;
-        });
-
-        // Append the new group to the container
+        // Add new group to container
         documentFieldsContainer.appendChild(newDocumentGroup);
-      } else {
-        alert("Maximum of " + maxFields + " document fields allowed.");
+      } else if (event.target.id === "add-button") {
+        alert(`Maximum of ${maxFields} documents allowed.`);
       }
-    });
 
-    // Handle Remove button for the initial group
-    document.querySelector(".remove-button").addEventListener("click", function () {
-      const group = this.closest(".document-group");
-      documentFieldsContainer.removeChild(group);
-      fieldCount--;
+      // Handle Remove Document
+      if (event.target.classList.contains("remove-button")) {
+        const documentGroup = event.target.closest(".document-group");
+        documentFieldsContainer.removeChild(documentGroup);
+        fieldCount--;
+      }
     });
   </script>
 </body>
