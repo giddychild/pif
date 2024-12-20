@@ -52,24 +52,24 @@
       display: flex;
       justify-content: flex-start;
       gap: 10px;
-      margin-left: 160px; /* Align with inputs */
       margin-bottom: 15px;
     }
 
-    /* Add this styling for the Submit button */
+    /* Submit Button */
     button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
 
     button[type="submit"]:hover {
-    background-color: #0056b3;
+      background-color: #0056b3;
     }
 
+    /* Add and Remove Buttons */
     .add-button {
       padding: 10px 20px;
       background-color: #007BFF;
@@ -101,28 +101,6 @@
   <h1>TxDIR PIF AWS Summary Page</h1>
   <form id="dataInputForm" action="/submit" method="post" enctype="multipart/form-data">
 
-    <!-- Revision History -->
-    <h3>Revision History</h3>
-    <div class="form-group">
-      <label for="version">Version:</label>
-      <input type="number" id="version" name="version" placeholder="Enter the version #" class="small-input" required>
-    </div>
-
-    <div class="form-group">
-      <label for="author">Author:</label>
-      <input type="text" id="author" name="author" placeholder="Enter author name" class="medium-input" maxlength="50" required>
-    </div>
-
-    <div class="form-group">
-      <label for="comments">Comments:</label>
-      <input type="text" id="comments" name="comments" placeholder="Enter comments" class="wide-input" maxlength="250" required>
-    </div>
-
-    <div class="form-group">
-      <label for="date">Date:</label>
-      <input type="date" id="date" name="date" class="small-input" required>
-    </div>
-
     <!-- Build Documents -->
     <h3>Build Documents</h3>
     <div id="document-fields">
@@ -143,26 +121,10 @@
         </div>
 
         <div class="button-group">
-          <button type="button" id="add-button" class="add-button">+ Add Another Document</button>
-          <button type="button" class="remove-button">Remove</button>
+          <button type="button" id="add-document" class="add-button">+ Add Another Document</button>
         </div>
       </div>
     </div><br>
-
-    <!-- Account Section -->
-    <h2>ACCOUNT</h2>
-    <!-- <h3>Customer</h3> -->
-    <div id="customer-section">
-      <div class="form-group">
-        <label for="customer-name">Customer Name:</label>
-        <select id="customer-name" name="customer-name[]" class="small-input" required>
-          <option value="" disabled selected>Agency List</option>
-          <option value="SOS">SOS</option>
-          <option value="TWDB">TWDB</option>
-          <option value="OAG-AL">OAG-AL</option>
-        </select>
-      </div>
-    </div>
 
     <!-- Environments -->
     <h3>Environments</h3>
@@ -196,87 +158,95 @@
             <option value="us-central-2">us-central-2</option>
           </select>
         </div>
-      </div>
-    
-      <div class="button-group">
-        <button type="button" id="add-environment" class="add-button">+ Add Environment</button>
         <button type="button" class="remove-environment remove-button">Remove</button>
       </div>
+
+      <div class="button-group">
+        <button type="button" id="add-environment" class="add-button">+ Add Environment</button>
+      </div>
     </div>
-    
-    
+
     <br>
-
-
     <button type="submit">Submit</button>
   </form>
 
   <script>
-// Maximum number of environment groups
-const maxEnvironmentFields = 5;
-let environmentFieldCount = 1;
+    // Add Another Document
+    document.getElementById("add-document").addEventListener("click", () => {
+      const documentFields = document.getElementById("document-fields");
+      const newDocumentGroup = document.createElement("div");
+      newDocumentGroup.classList.add("document-group");
+      newDocumentGroup.style.cssText = "display: flex; gap: 20px; align-items: flex-start;";
+      newDocumentGroup.innerHTML = `
+        <div class="form-group">
+          <label for="document-type">Document Type:</label>
+          <select name="document-type[]" class="small-input" required>
+            <option value="" disabled selected>Select document type</option>
+            <option value="AWS Calculator">AWS Calculator</option>
+            <option value="HLA">HLA</option>
+            <option value="Reference URL">Reference URL</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="link-location">Link Location:</label>
+          <input type="text" name="link-location[]" placeholder="Enter URL" class="wide-input" maxlength="250" required>
+        </div>
+        <button type="button" class="remove-document remove-button">Remove</button>
+      `;
+      documentFields.appendChild(newDocumentGroup);
+    });
 
-// Get the container for environment fields
-const environmentFieldsContainer = document.getElementById("environment-fields");
+    // Remove Document
+    document.addEventListener("click", (event) => {
+      if (event.target.classList.contains("remove-document")) {
+        event.target.closest(".document-group").remove();
+      }
+    });
 
-// Handle Add Environment button
-document.addEventListener("click", (event) => {
-  if (event.target.id === "add-environment" && environmentFieldCount < maxEnvironmentFields) {
-    environmentFieldCount++;
+    // Add Another Environment
+    document.getElementById("add-environment").addEventListener("click", () => {
+      const environmentFields = document.getElementById("environment-fields");
+      const newEnvironmentGroup = document.createElement("div");
+      newEnvironmentGroup.classList.add("environment-group");
+      newEnvironmentGroup.style.cssText = "display: flex; gap: 20px; align-items: flex-start;";
+      newEnvironmentGroup.innerHTML = `
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Environment:</label>
+          <select name="environment-type[]" class="small-input" required>
+            <option value="" disabled selected>Select environment type</option>
+            <option value="DEV">DEV</option>
+            <option value="TEST">TEST</option>
+            <option value="STAGE">STAGE</option>
+            <option value="PROD">PROD</option>
+            <option value="UTILITY">UTILITY</option>
+          </select>
+        </div>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Account Number:</label>
+          <input type="text" name="account-number[]" placeholder="Enter AWS Account Number" class="small-input" maxlength="12" required>
+        </div>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Region:</label>
+          <select name="region[]" class="small-input" required>
+            <option value="" disabled selected>Select region</option>
+            <option value="us-east-1">us-east-1</option>
+            <option value="us-east-2">us-east-2</option>
+            <option value="us-west-1">us-west-2</option>
+            <option value="us-central-1">us-central-1</option>
+            <option value="us-central-2">us-central-2</option>
+          </select>
+        </div>
+        <button type="button" class="remove-environment remove-button">Remove</button>
+      `;
+      environmentFields.insertBefore(newEnvironmentGroup, environmentFields.querySelector(".button-group"));
+    });
 
-    // Create a new environment group
-    const newEnvironmentGroup = document.createElement("div");
-    newEnvironmentGroup.classList.add("environment-group");
-    newEnvironmentGroup.style.cssText = "display: flex; gap: 20px; align-items: flex-start;";
-
-    newEnvironmentGroup.innerHTML = `
-      <div class="form-group" style="display: flex; flex-direction: column;">
-        <label for="environment-type-${environmentFieldCount}">Environment:</label>
-        <select id="environment-type-${environmentFieldCount}" name="environment-type[]" class="small-input" required>
-          <option value="" disabled selected>Select environment type</option>
-          <option value="DEV">DEV</option>
-          <option value="TEST">TEST</option>
-          <option value="STAGE">STAGE</option>
-          <option value="PROD">PROD</option>
-          <option value="UTILITY">UTILITY</option>
-        </select>
-      </div>
-
-      <div class="form-group" style="display: flex; flex-direction: column;">
-        <label for="account-number-${environmentFieldCount}">Account Number:</label>
-        <input type="text" id="account-number-${environmentFieldCount}" name="account-number[]" placeholder="Enter AWS Account Number" class="small-input" maxlength="12" required>
-      </div>
-
-      <div class="form-group" style="display: flex; flex-direction: column;">
-        <label for="region-${environmentFieldCount}">Region:</label>
-        <select id="region-${environmentFieldCount}" name="region[]" class="small-input" required>
-          <option value="" disabled selected>Select region</option>
-          <option value="us-east-1">us-east-1</option>
-          <option value="us-east-2">us-east-2</option>
-          <option value="us-west-1">us-west-2</option>
-          <option value="us-central-1">us-central-1</option>
-          <option value="us-central-2">us-central-2</option>
-        </select>
-      </div>
-    `;
-
-    // Append new group as a new row
-    environmentFieldsContainer.insertBefore(newEnvironmentGroup, environmentFieldsContainer.querySelector(".button-group"));
-  } else if (event.target.id === "add-environment") {
-    alert(`Maximum of ${maxEnvironmentFields} environments allowed.`);
-  }
-
-  // Handle Remove Environment button
-  if (event.target.classList.contains("remove-environment")) {
-    const environmentGroup = event.target.closest(".environment-group");
-    if (environmentGroup) {
-      environmentFieldsContainer.removeChild(environmentGroup);
-      environmentFieldCount--;
-    }
-  }
-});
-
-
+    // Remove Environment
+    document.addEventListener("click", (event) => {
+      if (event.target.classList.contains("remove-environment")) {
+        event.target.closest(".environment-group").remove();
+      }
+    });
   </script>
 </body>
 </html>
