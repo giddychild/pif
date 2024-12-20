@@ -29,7 +29,8 @@
 
     /* Default input styling */
     .form-group input,
-    .form-group textarea {
+    .form-group textarea,
+    .form-group select {
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -41,11 +42,11 @@
     }
 
     .medium-input {
-      width: 400px; /* Medium input for Author */
+      width: 400px; /* Medium input for Author and Document Type */
     }
 
     .wide-input {
-      width: 600px; /* Wide input for Comments */
+      width: 600px; /* Wide input for Comments and Link Location */
     }
 
     /* Button styling */
@@ -67,7 +68,6 @@
   <h1>TxDIR PIF AWS Summary Page</h1><br>
   <h2>Revision History</h2>
   <form id="dataInputForm" action="/submit" method="post" enctype="multipart/form-data">
-    <!-- <h2>Revision History</h2> -->
     <div class="form-group">
       <label for="version">Version:</label>
       <input type="number" id="version" name="version" placeholder="Enter the version number" class="small-input" required>
@@ -91,14 +91,19 @@
     <h2>Build Documents</h2>
 
     <div class="form-group">
-        <label for="document-type">Document Type:</label>
-        <input type="text" id="document-type" name="document-type" placeholder="Enter document type" class="medium-input" maxlength="50" required>
-      </div>
+      <label for="document-type">Document Type:</label>
+      <select id="document-type" name="document-type" class="medium-input" required>
+        <option value="" disabled selected>Select document type</option>
+        <option value="AWS Calculator">AWS Calculator</option>
+        <option value="HLA">HLA</option>
+        <option value="Reference URL">Reference URL</option>
+      </select>
+    </div>
   
-      <div class="form-group">
-        <label for="link-location">Comments:</label>
-        <input type="text" id="Link Location" name="link-location" placeholder="Enter URL" class="wide-input" maxlength="250" required>
-      </div>
+    <div class="form-group">
+      <label for="link-location">Comments:</label>
+      <input type="text" id="link-location" name="link-location" placeholder="Enter URL" class="wide-input" maxlength="250" required>
+    </div>
 
     <button type="submit">Submit</button>
   </form>
