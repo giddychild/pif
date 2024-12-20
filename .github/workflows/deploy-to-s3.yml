@@ -22,4 +22,4 @@ jobs:
 
     - name: Sync S3 bucket
       run: |
-        aws s3 sync . s3://project-intake-form --exclude ".git/*" --acl public-read
+        aws s3 sync . s3://project-intake-form --exclude ".git/*"
