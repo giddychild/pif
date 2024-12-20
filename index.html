@@ -65,9 +65,9 @@
 </head>
 <body>
   <h1>TxDIR PIF AWS Summary Page</h1><br>
-  <!-- <h2>Revision History</h2> -->
+  <h2>Revision History</h2>
   <form id="dataInputForm" action="/submit" method="post" enctype="multipart/form-data">
-    <h2>Revision History</h2>
+    <!-- <h2>Revision History</h2> -->
     <div class="form-group">
       <label for="version">Version:</label>
       <input type="number" id="version" name="version" placeholder="Enter the version number" class="small-input" required>
@@ -88,7 +88,17 @@
       <input type="date" id="date" name="date" class="small-input" required>
     </div>
 
-    <h2>Revision History</h2>
+    <h2>Build Documents</h2>
+
+    <div class="form-group">
+        <label for="document-type">Document Type:</label>
+        <input type="text" id="document-type" name="document-type" placeholder="Enter document type" class="medium-input" maxlength="50" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="link-location">Comments:</label>
+        <input type="text" id="Link Location" name="link-location" placeholder="Enter URL" class="wide-input" maxlength="250" required>
+      </div>
 
     <button type="submit">Submit</button>
   </form>
