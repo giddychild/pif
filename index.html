@@ -151,7 +151,7 @@
 
     <!-- Account Section -->
     <h2>ACCOUNT</h2>
-    <h3>Customer</h3>
+    <!-- <h3>Customer</h3> -->
     <div id="customer-section">
       <div class="form-group">
         <label for="customer-name">Customer Name:</label>
@@ -171,7 +171,7 @@
         <div class="form-group">
           <label for="document-type">Environment:</label>
           <select id="document-type" name="document-type[]" class="small-input" required>
-            <option value="" disabled selected>Select document type</option>
+            <option value="" disabled selected>Select environment type</option>
             <option value="DEV">DEV</option>
             <option value="TEST">TEST</option>
             <option value="STAGE">STAGE</option>
@@ -182,7 +182,7 @@
 
         <div class="form-group">
           <label for="account-number">Account Number:</label>
-          <input type="text" id="account-number" name="link-location[]" placeholder="Enter AWS Account Number" class="small-input" required>
+          <input type="text" id="account-number" name="link-location[]" placeholder="Enter AWS Account Number" class="small-input" maxlength="12" required>
         </div>
 
         <div class="button-group">
