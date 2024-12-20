@@ -73,6 +73,28 @@
 <body>
   <h1>TxDIR PIF AWS Summary Page</h1>
   <form id="dataInputForm" action="/submit" method="post" enctype="multipart/form-data">
+
+    <h3>Revision History</h3>
+    <div class="form-group">
+      <label for="version">Version:</label>
+      <input type="number" id="version" name="version" placeholder="Enter the version number" class="small-input" required>
+    </div>
+
+    <div class="form-group">
+      <label for="author">Author:</label>
+      <input type="text" id="author" name="author" placeholder="Enter author name" class="medium-input" maxlength="50" required>
+    </div>
+
+    <div class="form-group">
+      <label for="comments">Comments:</label>
+      <input type="text" id="comments" name="comments" placeholder="Enter comments" class="wide-input" maxlength="250" required>
+    </div>
+
+    <div class="form-group">
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" class="small-input" required>
+    </div>
+
     <h3>Build Documents</h3>
     <div id="document-fields">
       <div class="document-group">
@@ -97,6 +119,21 @@
         </div>
       </div>
     </div>
+
+    <h3>Account</h3>
+    <h3>Customer</h3>
+    <div id="customer-section">
+      <div class="form-group">
+        <label for="customer-name">Customer Name:</label>
+        <select id="customer-name" name="customer-name[]" class="small-input" required>
+          <option value="" disabled selected>Agency List</option>
+          <option value="SOS">SOS</option>
+          <option value="TWDB">TWDB</option>
+          <option value="OAG-AL">OAG-AL</option>
+        </select>
+      </div>
+    </div>
+
     <button type="submit">Submit</button>
   </form>
 
