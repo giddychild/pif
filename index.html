@@ -101,7 +101,7 @@
   <h1>TxDIR PIF AWS Summary Page</h1>
   <form id="dataInputForm" action="/submit" method="post" enctype="multipart/form-data">
 
-    /* Add this styling for the Submit button */
+    <!-- Revision History -->
     <h3>Revision History</h3>
     <div class="form-group">
       <label for="version">Version:</label>
@@ -123,6 +123,7 @@
       <input type="date" id="date" name="date" class="small-input" required>
     </div>
 
+    <!-- Build Documents -->
     <h3>Build Documents</h3>
     <div id="document-fields">
       <div class="document-group">
@@ -148,6 +149,7 @@
       </div>
     </div><br>
 
+    <!-- Account Section -->
     <h2>ACCOUNT</h2>
     <h3>Customer</h3>
     <div id="customer-section">
@@ -161,6 +163,39 @@
         </select>
       </div>
     </div>
+
+    <!-- Environments -->
+    <h3>Environments</h3>
+    <div id="document-fields">
+      <div class="document-group">
+        <div class="form-group">
+          <label for="document-type">Environment:</label>
+          <select id="document-type" name="document-type[]" class="small-input" required>
+            <option value="" disabled selected>Select document type</option>
+            <option value="DEV">DEV</option>
+            <option value="TEST">TEST</option>
+            <option value="STAGE">STAGE</option>
+            <option value="PROD">PROD</option>
+            <option value="UTILITY">UTILITY</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="account-number">Account Number:</label>
+          <input type="text" id="account-number" name="link-location[]" placeholder="Enter AWS Account Number" class="small-input" required>
+        </div>
+
+        <div class="button-group">
+          <button type="button" id="add-button" class="add-button">+ Add Another Document</button>
+          <button type="button" class="remove-button">Remove</button>
+        </div>
+      </div>
+    </div><br>
+
+
+
+
+
 
     <button type="submit">Submit</button>
   </form>
