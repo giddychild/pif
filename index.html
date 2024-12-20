@@ -166,8 +166,8 @@
 
     <!-- Environments -->
     <h3>Environments</h3>
-    <div id="environment-fields">
-      <div class="environment-group" style="display: inline-flex; gap: 20px; align-items: flex-start;">
+    <div id="environment-fields" style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="environment-group" style="display: flex; gap: 20px; align-items: flex-start;">
         <div class="form-group" style="display: flex; flex-direction: column;">
           <label for="environment-type-1">Environment:</label>
           <select id="environment-type-1" name="environment-type[]" class="small-input" required>
@@ -204,6 +204,7 @@
       </div>
     </div>
     
+    
     <br>
 
 
@@ -211,69 +212,70 @@
   </form>
 
   <script>
-    // Maximum number of environment groups
-    const maxEnvironmentFields = 5;
-    let environmentFieldCount = 1;
+// Maximum number of environment groups
+const maxEnvironmentFields = 5;
+let environmentFieldCount = 1;
 
-    // Get the container for environment fields
-    const environmentFieldsContainer = document.getElementById("environment-fields");
+// Get the container for environment fields
+const environmentFieldsContainer = document.getElementById("environment-fields");
 
-    // Handle Add Environment button
-    document.addEventListener("click", (event) => {
-    if (event.target.id === "add-environment" && environmentFieldCount < maxEnvironmentFields) {
-        environmentFieldCount++;
+// Handle Add Environment button
+document.addEventListener("click", (event) => {
+  if (event.target.id === "add-environment" && environmentFieldCount < maxEnvironmentFields) {
+    environmentFieldCount++;
 
-        // Create a new environment group
-        const newEnvironmentGroup = document.createElement("div");
-        newEnvironmentGroup.classList.add("environment-group");
-        newEnvironmentGroup.style.cssText = "display: inline-flex; gap: 20px; align-items: flex-start;";
+    // Create a new environment group
+    const newEnvironmentGroup = document.createElement("div");
+    newEnvironmentGroup.classList.add("environment-group");
+    newEnvironmentGroup.style.cssText = "display: flex; gap: 20px; align-items: flex-start;";
 
-        newEnvironmentGroup.innerHTML = `
-        <div class="form-group" style="display: flex; flex-direction: column;">
-            <label for="environment-type-${environmentFieldCount}">Environment:</label>
-            <select id="environment-type-${environmentFieldCount}" name="environment-type[]" class="small-input" required>
-            <option value="" disabled selected>Select environment type</option>
-            <option value="DEV">DEV</option>
-            <option value="TEST">TEST</option>
-            <option value="STAGE">STAGE</option>
-            <option value="PROD">PROD</option>
-            <option value="UTILITY">UTILITY</option>
-            </select>
-        </div>
+    newEnvironmentGroup.innerHTML = `
+      <div class="form-group" style="display: flex; flex-direction: column;">
+        <label for="environment-type-${environmentFieldCount}">Environment:</label>
+        <select id="environment-type-${environmentFieldCount}" name="environment-type[]" class="small-input" required>
+          <option value="" disabled selected>Select environment type</option>
+          <option value="DEV">DEV</option>
+          <option value="TEST">TEST</option>
+          <option value="STAGE">STAGE</option>
+          <option value="PROD">PROD</option>
+          <option value="UTILITY">UTILITY</option>
+        </select>
+      </div>
 
-        <div class="form-group" style="display: flex; flex-direction: column;">
-            <label for="account-number-${environmentFieldCount}">Account Number:</label>
-            <input type="text" id="account-number-${environmentFieldCount}" name="account-number[]" placeholder="Enter AWS Account Number" class="small-input" maxlength="12" required>
-        </div>
+      <div class="form-group" style="display: flex; flex-direction: column;">
+        <label for="account-number-${environmentFieldCount}">Account Number:</label>
+        <input type="text" id="account-number-${environmentFieldCount}" name="account-number[]" placeholder="Enter AWS Account Number" class="small-input" maxlength="12" required>
+      </div>
 
-        <div class="form-group" style="display: flex; flex-direction: column;">
-            <label for="region-${environmentFieldCount}">Region:</label>
-            <select id="region-${environmentFieldCount}" name="region[]" class="small-input" required>
-            <option value="" disabled selected>Select region</option>
-            <option value="us-east-1">us-east-1</option>
-            <option value="us-east-2">us-east-2</option>
-            <option value="us-west-1">us-west-2</option>
-            <option value="us-central-1">us-central-1</option>
-            <option value="us-central-2">us-central-2</option>
-            </select>
-        </div>
-        `;
+      <div class="form-group" style="display: flex; flex-direction: column;">
+        <label for="region-${environmentFieldCount}">Region:</label>
+        <select id="region-${environmentFieldCount}" name="region[]" class="small-input" required>
+          <option value="" disabled selected>Select region</option>
+          <option value="us-east-1">us-east-1</option>
+          <option value="us-east-2">us-east-2</option>
+          <option value="us-west-1">us-west-2</option>
+          <option value="us-central-1">us-central-1</option>
+          <option value="us-central-2">us-central-2</option>
+        </select>
+      </div>
+    `;
 
-        // Add new group to the container
-        environmentFieldsContainer.insertBefore(newEnvironmentGroup, environmentFieldsContainer.querySelector(".button-group"));
-    } else if (event.target.id === "add-environment") {
-        alert(`Maximum of ${maxEnvironmentFields} environments allowed.`);
+    // Append new group as a new row
+    environmentFieldsContainer.insertBefore(newEnvironmentGroup, environmentFieldsContainer.querySelector(".button-group"));
+  } else if (event.target.id === "add-environment") {
+    alert(`Maximum of ${maxEnvironmentFields} environments allowed.`);
+  }
+
+  // Handle Remove Environment button
+  if (event.target.classList.contains("remove-environment")) {
+    const environmentGroup = event.target.closest(".environment-group");
+    if (environmentGroup) {
+      environmentFieldsContainer.removeChild(environmentGroup);
+      environmentFieldCount--;
     }
+  }
+});
 
-    // Handle Remove Environment button
-    if (event.target.classList.contains("remove-environment")) {
-        const environmentGroup = event.target.closest(".environment-group");
-        if (environmentGroup) {
-        environmentFieldsContainer.removeChild(environmentGroup);
-        environmentFieldCount--;
-        }
-    }
-    });
 
   </script>
 </body>
