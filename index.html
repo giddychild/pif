@@ -1,33 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TxDIR PIF AWS Summary Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Styled Data Input Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      flex: 1;
+      margin-right: 10px;
+      text-align: right;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      flex: 2;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      height: 80px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
-
 <body>
-    <h1>Data Input Form</h1>
-    <form id="dataInputForm" action="/submit" method="post" enctype="multipart/form-data">
-        <label for="version">Version:</label>
-        <input type="number" id="version" name="version" placeholder="Enter the version number" required><br><br>
+  <h1>Data Input Form</h1>
+  <form id="dataInputForm" action="/submit" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="version">Version:</label>
+      <input type="number" id="version" name="version" placeholder="Enter the version number" required>
+    </div>
 
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author" placeholder="Enter author name" maxlength="50" required><br><br>
+    <div class="form-group">
+      <label for="author">Author:</label>
+      <input type="text" id="author" name="author" placeholder="Enter author name" maxlength="50" required>
+    </div>
 
-        <label for="comments">Comments:</label>
-        <textarea id="comments" name="comments" placeholder="Enter comments (optional)"
-            maxlength="500"></textarea><br><br>
+    <div class="form-group">
+      <label for="comments">Comments:</label>
+      <textarea id="comments" name="comments" placeholder="Enter comments (optional)" maxlength="500"></textarea>
+    </div>
 
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required><br><br>
+    <div class="form-group">
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" required>
+    </div>
 
-        <label for="file">File Upload:</label>
-        <input type="file" id="file" name="file" accept=".txt,.pdf,.docx" required><br><br>
-
-        <button type="submit">Submit</button>
-    </form>
+    <button type="submit">Submit</button>
+  </form>
 </body>
-
 </html>
