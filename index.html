@@ -167,23 +167,26 @@
     <!-- Environments -->
     <h3>Environments</h3>
     <div id="document-fields">
-      <div class="document-group">
-        <div class="form-group">
-          <label for="document-type">Environment:</label>
-          <select id="document-type" name="document-type[]" class="small-input" required>
-            <option value="" disabled selected>Select environment type</option>
-            <option value="DEV">DEV</option>
-            <option value="TEST">TEST</option>
-            <option value="STAGE">STAGE</option>
-            <option value="PROD">PROD</option>
-            <option value="UTILITY">UTILITY</option>
-          </select>
+        <div class="document-group" style="display: inline-flex; gap: 20px; align-items: flex-start;">
+          <div class="form-group" style="display: flex; flex-direction: column;">
+            <label for="document-type">Environment:</label>
+            <select id="document-type" name="document-type[]" class="small-input" required>
+              <option value="" disabled selected>Select environment type</option>
+              <option value="DEV">DEV</option>
+              <option value="TEST">TEST</option>
+              <option value="STAGE">STAGE</option>
+              <option value="PROD">PROD</option>
+              <option value="UTILITY">UTILITY</option>
+            </select>
+          </div>
+      
+          <div class="form-group" style="display: flex; flex-direction: column;">
+            <label for="account-number">Account Number:</label>
+            <input type="text" id="account-number" name="link-location[]" placeholder="Enter AWS Account Number" class="small-input" maxlength="12" required>
+          </div>
         </div>
-
-        <div class="form-group">
-          <label for="account-number">Account Number:</label>
-          <input type="text" id="account-number" name="link-location[]" placeholder="Enter AWS Account Number" class="small-input" maxlength="12" required>
-        </div>
+      </div>
+      
 
         <div class="button-group">
           <button type="button" id="add-button" class="add-button">+ Add Another Document</button>
