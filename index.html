@@ -596,7 +596,15 @@
                             <td>PCM Build Template</td>
                             <td>no</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
+                            <td>
+                                <select name="pcm-tools_pcess-ci-1">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="exception">exception</option>
+                                    <option value="n/a">n/a</option>
+                                    <option value="no">no</option>
+                                    <option value="yes">yes</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td title="Backup services and/or configuration details.">pcm-backup_enabled</td>
@@ -604,7 +612,14 @@
                             <td>PCM Build Template</td>
                             <td>True</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
+                            <td>
+                                <select name="pcm-backup_enabled-ci-1">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="empty">empty</option>
+                                    <option value="no">no</option>
+                                    <option value="true">true</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td title="Name of backup service or product used to backup this resource.">pcm-backup_product</td>
@@ -612,7 +627,15 @@
                             <td>PCM Build Template</td>
                             <td>backup service</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
+                            <td>
+                                <select name="pcm-backup_product-ci-1">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="aws_backup">aws_backup</option>
+                                    <option value="azure_recovery_vault">azure_recovery_vault</option>
+                                    <option value="empty">empty</option>
+                                    <option value="gcp_snapshot_scheduler">gcp_snapshot_scheduler</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td title="Date and time of last successful backup for continuity purposes.">pcm-backup_last_updated</td>
@@ -620,7 +643,14 @@
                             <td>Mulesoft Daily Automation</td>
                             <td>empty</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
+                            <td>
+                                <select name="pcm-backup_last_updated-option" onchange="toggleDateInput(this)">
+                                    <option value="empty" selected>Empty</option>
+                                    <option value="date">Specify Date</option>
+                                </select>
+                                <input type="date" name="pcm-backup_last_updated-date" style="display: none; margin-top: 5px;">
+                            </td>
+                            </td>
                         </tr>
                         <tr>
                             <td
