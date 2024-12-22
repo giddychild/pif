@@ -761,6 +761,45 @@
             </div>
         </div>
 
+        <!-- New DNS Section -->
+        <button type="button" class="collapsible">DNS</button>
+        <div class="content">
+            <div class="table-container" style="overflow-x: auto;">
+                <table id="dns-table">
+                    <thead>
+                        <tr>
+                            <th>Environment</th>
+                            <th>Domain</th>
+                            <th>Type</th>
+                            <th>Ticket Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select name="dns-environment[]" class="small-input environment-dropdown" required>
+                                    <option value="" disabled selected>Select Environment</option>
+                                    <!-- Dynamic options will be added here -->
+                                </select>
+                            </td>
+                            <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="small-input" required></td>
+                            <td>
+                                <select name="dns-type[]" class="small-input" required>
+                                    <option value="" disabled selected>Select Type</option>
+                                    <option value="A">A</option>
+                                    <option value="CNAME">CNAME</option>
+                                    <option value="MX">MX</option>
+                                    <option value="TXT">TXT</option>
+                                </select>
+                            </td>
+                            <td><input type="date" name="dns-ticket[]" class="small-input" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" id="add-dns-row" class="add-button">+ Add DNS Entry</button>
+            </div>
+        </div>
+
         <br>
         <button type="submit">Submit</button>
     </form>
@@ -951,6 +990,78 @@
                     }
                 });
             });
+        });
+
+        // Sync Environment Options
+        function updateEnvironmentDropdown() {
+            const selectedEnvironments = new Set();
+            const environmentDropdowns = document.querySelectorAll('select[name="environment-type[]"]');
+            const dnsDropdowns = document.querySelectorAll('.environment-dropdown');
+
+            // Collect selected environments
+            environmentDropdowns.forEach((dropdown) => {
+                if (dropdown.value) {
+                    selectedEnvironments.add(dropdown.value);
+                }
+            });
+
+            // Update DNS dropdown options
+            dnsDropdowns.forEach((dnsDropdown) => {
+                const currentSelection = dnsDropdown.value;
+                dnsDropdown.innerHTML = '<option value="" disabled>Select Environment</option>';
+
+                selectedEnvironments.forEach((env) => {
+                    const option = document.createElement('option');
+                    option.value = env;
+                    option.textContent = env;
+                    dnsDropdown.appendChild(option);
+                });
+
+                // Restore previously selected value if it still exists
+                if (currentSelection && selectedEnvironments.has(currentSelection)) {
+                    dnsDropdown.value = currentSelection;
+                }
+            });
+        }
+
+        // Add New DNS Row
+        document.getElementById('add-dns-row').addEventListener('click', () => {
+            const dnsTable = document.getElementById('dns-table').querySelector('tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>
+                    <select name="dns-environment[]" class="small-input environment-dropdown" required>
+                        <option value="" disabled selected>Select Environment</option>
+                    </select>
+                </td>
+                <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="small-input" required></td>
+                <td>
+                    <select name="dns-type[]" class="small-input" required>
+                        <option value="" disabled selected>Select Type</option>
+                        <option value="A">A</option>
+                        <option value="CNAME">CNAME</option>
+                        <option value="MX">MX</option>
+                        <option value="TXT">TXT</option>
+                    </select>
+                </td>
+                <td><input type="date" name="dns-ticket[]" class="small-input" required></td>
+            `;
+            dnsTable.appendChild(newRow);
+
+            // Update the environment dropdown for the new row
+            updateEnvironmentDropdown();
+        });
+
+        // Listen for changes in the environment section
+        document.addEventListener('change', (event) => {
+            if (event.target.name === 'environment-type[]') {
+                updateEnvironmentDropdown();
+            }
+        });
+
+        // Initialize DNS dropdowns on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateEnvironmentDropdown();
         });
     
         // Toggle Date Input
