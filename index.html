@@ -403,7 +403,14 @@
                     <td>PCM Build Template</td>
                     <td>empty</td>
                     <td style="background-color: black;"></td>
-                    <td></td>
+                    <td>
+                        <select name="pcm-self_service-ci-1">
+                            <option value="development">development</option>
+                            <option value="pre-prod" selected>pre-prod</option>
+                            <option value="production">production</option>
+                            <option value="testing" selected>testing</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td title="Used to categorize the primary capability associated with end point.">pcm-primary_capability</td>
