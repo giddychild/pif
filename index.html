@@ -117,10 +117,10 @@
     }
     
     table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 15px;
-      table-layout: auto;
+    width: 100%; /* Allows the table to occupy the full container width */
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: auto; /* Allows columns to size based on their content */
     }
 
     th, td {
@@ -128,7 +128,8 @@
       padding: 8px;
       text-align: left;
       word-wrap: break-word;
-      max-width: 60px;
+      word-break: break-word;
+      max-width: none;
     }
 
     th {
@@ -533,7 +534,7 @@
                 <td title="Name of backup service or product used to backup this resource.">pcm-backup_product</td>
                 <td>No</td>
                 <td>PCM Build Template</td>
-                <td>backup service of selected cloud provider</td>
+                <td>backup service</td>
                 <td></td>
                 <td></td>
             </tr>
