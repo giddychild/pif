@@ -891,55 +891,67 @@
             }
         });
     
-        // Add/Remove Environment
-        document.getElementById("add-environment")?.addEventListener("click", () => {
-            const environmentTable = document.getElementById("environmentTable")?.querySelector("tbody");
-            if (environmentTable) {
-                const newRow = document.createElement("tr");
-                newRow.innerHTML = `
-                    <td>
-                        <select name="environment-type[]" class="small-input" required>
-                            <option value="" disabled selected>Select ENV type</option>
-                            <option value="DEV">DEV</option>
-                            <option value="TEST">TEST</option>
-                            <option value="STAGE">STAGE</option>
-                            <option value="PROD">PROD</option>
-                            <option value="UTILITY">UTILITY</option>
-                        </select>
-                    </td>
-                    <td><input type="text" name="account-number[]" placeholder="Enter AWS Account #" class="small-input" maxlength="12" required></td>
-                    <td>
-                        <select name="region[]" class="small-input" required>
-                            <option value="" disabled selected>Select region</option>
-                            <option value="us-east-1">us-east-1</option>
-                            <option value="us-east-2">us-east-2</option>
-                            <option value="us-west-1">us-west-1</option>
-                            <option value="us-west-2">us-west-2</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="existing[]" class="small-input" required>
-                            <option value="" disabled selected>Select existing</option>
-                            <option value="New">New</option>
-                            <option value="Existing">Existing</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="sla[]" class="small-input" required>
-                            <option value="" disabled selected>Select SLA</option>
-                            <option value="Fully Managed">Fully Managed</option>
-                            <option value="Semi Managed">Semi Managed</option>
-                        </select>
-                    </td>
-                    <td><button type="button" class="remove-environment remove-button">Remove</button></td>
-                `;
-                environmentTable.appendChild(newRow);
+        // Add Environment Row
+        document.getElementById('add-environment').addEventListener('click', () => {
+            const environmentTable = document.getElementById('environmentTable').querySelector('tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>
+                    <select name="environment-type[]" class="small-input" required>
+                        <option value="" disabled selected>Select ENV type</option>
+                        <option value="DEV">DEV</option>
+                        <option value="TEST">TEST</option>
+                        <option value="STAGE">STAGE</option>
+                        <option value="PROD">PROD</option>
+                        <option value="UTILITY">UTILITY</option>
+                    </select>
+                </td>
+                <td><input type="text" name="account-number[]" placeholder="Enter AWS Account #" class="small-input" maxlength="12" required></td>
+                <td>
+                    <select name="region[]" class="small-input" required>
+                        <option value="" disabled selected>Select region</option>
+                        <option value="us-east-1">us-east-1</option>
+                        <option value="us-east-2">us-east-2</option>
+                        <option value="us-west-1">us-west-1</option>
+                        <option value="us-west-2">us-west-2</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="existing[]" class="small-input" required>
+                        <option value="" disabled selected>Select existing</option>
+                        <option value="New">New</option>
+                        <option value="Existing">Existing</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="sla[]" class="small-input" required>
+                        <option value="" disabled selected>Select SLA</option>
+                        <option value="Fully Managed">Fully Managed</option>
+                        <option value="Semi Managed">Semi Managed</option>
+                    </select>
+                </td>
+                <td><button type="button" class="remove-environment remove-button">Remove</button></td>
+            `;
+            environmentTable.appendChild(newRow);
+
+            // Update all environment-dependent dropdowns
+            updateEnvironmentDropdowns();
+        });
+
+        // Remove Environment Row
+        document.addEventListener('click', (event) => {
+            if (event.target.classList.contains('remove-environment')) {
+                event.target.closest('tr').remove();
+
+                // Update all environment-dependent dropdowns after removal
+                updateEnvironmentDropdowns();
             }
         });
-    
-        document.addEventListener("click", (event) => {
-            if (event.target.classList.contains("remove-environment")) {
-                event.target.closest("tr").remove();
+
+        // Listen for changes in the environment section
+        document.addEventListener('change', (event) => {
+            if (event.target.name === 'environment-type[]') {
+                updateEnvironmentDropdowns();
             }
         });
 
@@ -1183,6 +1195,40 @@
         document.addEventListener('DOMContentLoaded', () => {
             updateSSLEnvironmentDropdown();
         });
+
+        // Sync Environment Options Across Sections
+        function updateEnvironmentDropdowns() {
+            const selectedEnvironments = new Set();
+            const environmentDropdowns = document.querySelectorAll('select[name="environment-type[]"]');
+            const targetDropdowns = document.querySelectorAll('.environment-dropdown');
+
+            // Collect selected environments
+            environmentDropdowns.forEach((dropdown) => {
+                if (dropdown.value) {
+                    selectedEnvironments.add(dropdown.value);
+                }
+            });
+
+            // Update all target dropdowns (DNS and SSL)
+            targetDropdowns.forEach((dropdown) => {
+                const currentSelection = dropdown.value;
+                dropdown.innerHTML = '<option value="" disabled>Select Environment</option>';
+
+                selectedEnvironments.forEach((env) => {
+                    const option = document.createElement('option');
+                    option.value = env;
+                    option.textContent = env;
+                    dropdown.appendChild(option);
+                });
+
+                // Restore previously selected value if it still exists
+                if (currentSelection && selectedEnvironments.has(currentSelection)) {
+                    dropdown.value = currentSelection;
+                } else {
+                    dropdown.value = ""; // Reset if current value no longer exists
+                }
+            });
+        }
     
         // Toggle Date Input
         function toggleDateInput(selectElement) {
