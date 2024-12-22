@@ -115,11 +115,17 @@
     .remove-button:hover {
       background-color: #CC0000;
     }
+
+    .table-container {
+    overflow-x: auto; /* Enables horizontal scrolling */
+    width: 100%; /* Ensures the container spans the screen width */
+    }
     
     table {
-    width: 100%;
+    /* width: 100%; */
+    width: max-content;
     border-collapse: collapse;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
     table-layout: auto;
     }
 
@@ -128,7 +134,8 @@
       padding: 8px;
       text-align: left;
       word-wrap: break-word;
-      max-width: 60px;
+      /* max-width: 60px; */
+      white-space: nowrap;
     }
 
     th {
@@ -262,57 +269,6 @@
       </table>
       <button type="button" id="add-environment" class="add-button">+ Add Environment</button>
     </div>
-    <!-- <button type="button" class="collapsible">Environments</button>
-    <div class="content" id="environment-fields">
-      <div class="environment-group" style="display: flex; gap: 20px; align-items: flex-start;">
-        <div class="form-group" style="display: flex; flex-direction: column;">
-          <label>Environment:</label>
-          <select name="environment-type[]" class="small-input" required>
-            <option value="" disabled selected>Select ENV type</option>
-            <option value="DEV">DEV</option>
-            <option value="TEST">TEST</option>
-            <option value="STAGE">STAGE</option>
-            <option value="PROD">PROD</option>
-            <option value="UTILITY">UTILITY</option>
-          </select>
-        </div>
-        <div class="form-group" style="display: flex; flex-direction: column;">
-          <label>Account Number:</label>
-          <input type="text" name="account-number[]" placeholder="Enter AWS Account #" class="small-input" maxlength="12" required>
-        </div>
-        <div class="form-group" style="display: flex; flex-direction: column;">
-            <label>Region:</label>
-            <select name="region[]" class="small-input" required>
-              <option value="" disabled selected>Select region</option>
-              <option value="us-east-1">us-east-1</option>
-              <option value="us-east-2">us-east-2</option>
-              <option value="us-west-1">us-west-2</option>
-              <option value="us-central-1">us-central-1</option>
-              <option value="us-central-2">us-central-2</option>
-            </select>
-          </div>
-          <div class="form-group" style="display: flex; flex-direction: column;">
-              <label>Existing:</label>
-              <select name="existing[]" class="small-input" required>
-                <option value="" disabled selected>Select existing</option>
-                <option value="New">New</option>
-                <option value="Existing">Existing</option>
-              </select>
-          </div>
-          <div class="form-group" style="display: flex; flex-direction: column;">
-              <label>SLA:</label>
-              <select name="sla[]" class="small-input" required>
-                <option value="" disabled selected>Select SLA</option>
-                <option value="Fully Managed">Fully Managed</option>
-                <option value="Semi Managed">Semi Managed</option>
-              </select>
-          </div>
-        <button type="button" class="remove-environment remove-button">Remove</button>
-      </div>
-      <div class="button-group">
-        <button type="button" id="add-environment" class="add-button">+ Add Environment</button>
-      </div>
-    </div> -->
 
     <!-- Tags Section -->
     <button type="button" class="collapsible">Tags</button>
