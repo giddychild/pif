@@ -600,9 +600,6 @@
     <button type="submit">Submit</button>
   </form>
 
-
-  
-
   <script>
     // Collapsible Sections
     document.querySelectorAll(".collapsible").forEach(button => {
@@ -612,9 +609,9 @@
         content.style.display = content.style.display === "block" ? "none" : "block";
       });
     });
-
+  
     // Add Document
-    document.getElementById("add-document").addEventListener("click", () => {
+    document.getElementById("add-document")?.addEventListener("click", () => {
       const documentFields = document.getElementById("document-fields");
       const newDocumentGroup = document.createElement("div");
       newDocumentGroup.classList.add("document-group");
@@ -637,64 +634,86 @@
       `;
       documentFields.insertBefore(newDocumentGroup, documentFields.querySelector(".button-group"));
     });
-
+  
     // Remove Document
     document.addEventListener("click", (event) => {
       if (event.target.classList.contains("remove-document")) {
         event.target.closest(".document-group").remove();
       }
     });
-
+  
     // Add Environment
-    document.getElementById("add-environment").addEventListener("click", () => {
-    const environmentTable = document.getElementById("environmentTable").querySelector("tbody");
-    const newRow = document.createElement("tr");
-    newRow.innerHTML = `
-        <td>
-        <select name="environment-type[]" class="small-input" required>
-            <option value="" disabled selected>Select ENV type</option>
-            <option value="DEV">DEV</option>
-            <option value="TEST">TEST</option>
-            <option value="STAGE">STAGE</option>
-            <option value="PROD">PROD</option>
-            <option value="UTILITY">UTILITY</option>
-        </select>
-        </td>
-        <td><input type="text" name="account-number[]" placeholder="Enter AWS Account #" class="small-input" maxlength="12" required></td>
-        <td>
-        <select name="region[]" class="small-input" required>
-            <option value="" disabled selected>Select region</option>
-            <option value="us-east-1">us-east-1</option>
-            <option value="us-east-2">us-east-2</option>
-            <option value="us-west-1">us-west-1</option>
-            <option value="us-west-2">us-west-2</option>
-        </select>
-        </td>
-        <td>
-        <select name="existing[]" class="small-input" required>
-            <option value="" disabled selected>Select existing</option>
-            <option value="New">New</option>
-            <option value="Existing">Existing</option>
-        </select>
-        </td>
-        <td>
-        <select name="sla[]" class="small-input" required>
-            <option value="" disabled selected>Select SLA</option>
-            <option value="Fully Managed">Fully Managed</option>
-            <option value="Semi Managed">Semi Managed</option>
-        </select>
-        </td>
-        <td><button type="button" class="remove-environment remove-button">Remove</button></td>
-    `;
-    environmentTable.appendChild(newRow);
+    document.getElementById("add-environment")?.addEventListener("click", () => {
+      const environmentTable = document.getElementById("environmentTable")?.querySelector("tbody");
+      if (environmentTable) {
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+          <td>
+            <select name="environment-type[]" class="small-input" required>
+              <option value="" disabled selected>Select ENV type</option>
+              <option value="DEV">DEV</option>
+              <option value="TEST">TEST</option>
+              <option value="STAGE">STAGE</option>
+              <option value="PROD">PROD</option>
+              <option value="UTILITY">UTILITY</option>
+            </select>
+          </td>
+          <td><input type="text" name="account-number[]" placeholder="Enter AWS Account #" class="small-input" maxlength="12" required></td>
+          <td>
+            <select name="region[]" class="small-input" required>
+              <option value="" disabled selected>Select region</option>
+              <option value="us-east-1">us-east-1</option>
+              <option value="us-east-2">us-east-2</option>
+              <option value="us-west-1">us-west-1</option>
+              <option value="us-west-2">us-west-2</option>
+            </select>
+          </td>
+          <td>
+            <select name="existing[]" class="small-input" required>
+              <option value="" disabled selected>Select existing</option>
+              <option value="New">New</option>
+              <option value="Existing">Existing</option>
+            </select>
+          </td>
+          <td>
+            <select name="sla[]" class="small-input" required>
+              <option value="" disabled selected>Select SLA</option>
+              <option value="Fully Managed">Fully Managed</option>
+              <option value="Semi Managed">Semi Managed</option>
+            </select>
+          </td>
+          <td><button type="button" class="remove-environment remove-button">Remove</button></td>
+        `;
+        environmentTable.appendChild(newRow);
+      }
     });
-
+  
+    // Remove Environment
     document.addEventListener("click", (event) => {
-    if (event.target.classList.contains("remove-environment")) {
+      if (event.target.classList.contains("remove-environment")) {
         event.target.closest("tr").remove();
-    }
+      }
     });
-
+  
+    // Reinitialize Select Dropdowns in Tags Section
+    document.addEventListener("DOMContentLoaded", () => {
+      const tagRows = document.querySelectorAll("table tbody tr");
+      tagRows.forEach(row => {
+        const select = row.querySelector("select");
+        if (select) {
+          // Set default placeholder if not set
+          if (!select.querySelector("option[selected]")) {
+            const placeholder = document.createElement("option");
+            placeholder.value = "";
+            placeholder.textContent = "Select";
+            placeholder.disabled = true;
+            placeholder.selected = true;
+            select.insertBefore(placeholder, select.firstChild);
+          }
+        }
+      });
+    });
   </script>
+  
 </body>
 </html>
