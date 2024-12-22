@@ -331,12 +331,17 @@
                     <td>PCM Build Template</td>
                     <td>no</td>
                     <td>
-                        <select name="pcm-sensitive_data_ferpa-dd">
+                        <select name="pcm-sensitive_data_ferpa-paas">
                             <option value="yes">Yes</option>
                             <option value="no" selected>No</option>
                         </select>
                     </td>
-                    <td></td>
+                    <td>
+                        <select name="pcm-sensitive_data_ferpa-ci-1">
+                            <option value="yes">Yes</option>
+                            <option value="no" selected>No</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td title="This tag is only applicable for services procured by customers through self-service environments/CSP consoles. For items built through RFS or the service catalog, select no.">pcm-self_service</td>
@@ -344,12 +349,17 @@
                     <td>PCM Build Template</td>
                     <td>no</td>
                     <td>
-                        <select name="pcm-self_service-dd">
+                        <select name="pcm-self_service-paas">
                             <option value="yes">Yes</option>
                             <option value="no" selected>No</option>
                         </select>
                     </td>
-                    <td></td>
+                    <td>
+                        <select name="pcm-self_service-ci-1">
+                            <option value="yes">Yes</option>
+                            <option value="no" selected>No</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td title="To identify why customers chose the Cloud Service Provider (CSP) they are using.">pcm-public_cloud_decision_criteria</td>
@@ -357,7 +367,22 @@
                     <td>PCM Build Template</td>
                     <td>empty</td>
                     <td>
-                        <select name="pcm-public_cloud_decision_criteria-dd">
+                        <select name="pcm-public_cloud_decision_criteria-paas">
+                            <option value="3rd_party_preference">3rd_party_preference</option>
+                            <option value="available_services">available_services</option>
+                            <option value="cloud_architecture">cloud_architecture</option>
+                            <option value="compliance_standards">compliance_standards</option>
+                            <option value="cost">cost</option>
+                            <option value="customer_knowledge">customer_knowledge</option>
+                            <option value="customer preference">customer preference</option>
+                            <option value="integration_with_existing_tools">integration_with_existing_tools</option>
+                            <option value="interoperability">interoperability</option>
+                            <option value="manageability">manageability</option>
+                            <option value="security">security</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="pcm-public_cloud_decision_criteria-ci-1">
                             <option value="3rd_party_preference">3rd_party_preference</option>
                             <option value="available_services">available_services</option>
                             <option value="cloud_architecture">cloud_architecture</option>
