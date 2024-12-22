@@ -43,8 +43,8 @@
       border-radius: 4px;
       text-align: left;
       font-size: 16px;
-      width: 100%; /* Full width */
-      margin-bottom: 5px; /* Space between buttons */
+      width: 100%;
+      margin-bottom: 5px;
     }
 
     .collapsible.active {
@@ -132,66 +132,62 @@
 
     <!-- Build Documents -->
     <button type="button" class="collapsible">Build Documents</button>
-    <div class="content">
-      <div id="document-fields" style="display: flex; flex-direction: column; gap: 20px;">
-        <div class="document-group" style="display: flex; gap: 20px; align-items: flex-start;">
-          <div class="form-group" style="display: flex; flex-direction: column;">
-            <label for="document-type">Document Type:</label>
-            <select name="document-type[]" class="small-input" required>
-              <option value="" disabled selected>Select document type</option>
-              <option value="AWS Calculator">AWS Calculator</option>
-              <option value="HLA">HLA</option>
-              <option value="Reference URL">Reference URL</option>
-            </select>
-          </div>
-          <div class="form-group" style="display: flex; flex-direction: column;">
-            <label for="link-location">Link Location:</label>
-            <input type="text" name="link-location[]" placeholder="Enter URL" class="wide-input" maxlength="250" required>
-          </div>
-          <button type="button" class="remove-document remove-button">Remove</button>
+    <div class="content" id="document-fields">
+      <div class="document-group" style="display: flex; gap: 20px; align-items: flex-start;">
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Document Type:</label>
+          <select name="document-type[]" class="small-input" required>
+            <option value="" disabled selected>Select document type</option>
+            <option value="AWS Calculator">AWS Calculator</option>
+            <option value="HLA">HLA</option>
+            <option value="Reference URL">Reference URL</option>
+          </select>
         </div>
-        <div class="button-group">
-          <button type="button" id="add-document" class="add-button">+ Add Another Document</button>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Link Location:</label>
+          <input type="text" name="link-location[]" placeholder="Enter URL" class="wide-input" maxlength="250" required>
         </div>
+        <button type="button" class="remove-document remove-button">Remove</button>
+      </div>
+      <div class="button-group">
+        <button type="button" id="add-document" class="add-button">+ Add Another Document</button>
       </div>
     </div>
 
     <!-- Environments -->
     <button type="button" class="collapsible">Environments</button>
-    <div class="content">
-      <div id="environment-fields" style="display: flex; flex-direction: column; gap: 20px;">
-        <div class="environment-group" style="display: flex; gap: 20px; align-items: flex-start;">
-          <div class="form-group" style="display: flex; flex-direction: column;">
-            <label for="environment-type-1">Environment:</label>
-            <select id="environment-type-1" name="environment-type[]" class="small-input" required>
-              <option value="" disabled selected>Select environment type</option>
-              <option value="DEV">DEV</option>
-              <option value="TEST">TEST</option>
-              <option value="STAGE">STAGE</option>
-              <option value="PROD">PROD</option>
-              <option value="UTILITY">UTILITY</option>
-            </select>
-          </div>
-          <div class="form-group" style="display: flex; flex-direction: column;">
-            <label for="account-number-1">Account Number:</label>
-            <input type="text" id="account-number-1" name="account-number[]" placeholder="Enter AWS Account Number" class="small-input" maxlength="12" required>
-          </div>
-          <div class="form-group" style="display: flex; flex-direction: column;">
-            <label for="region-1">Region:</label>
-            <select id="region-1" name="region[]" class="small-input" required>
-              <option value="" disabled selected>Select region</option>
-              <option value="us-east-1">us-east-1</option>
-              <option value="us-east-2">us-east-2</option>
-              <option value="us-west-1">us-west-2</option>
-              <option value="us-central-1">us-central-1</option>
-              <option value="us-central-2">us-central-2</option>
-            </select>
-          </div>
-          <button type="button" class="remove-environment remove-button">Remove</button>
+    <div class="content" id="environment-fields">
+      <div class="environment-group" style="display: flex; gap: 20px; align-items: flex-start;">
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Environment:</label>
+          <select name="environment-type[]" class="small-input" required>
+            <option value="" disabled selected>Select environment type</option>
+            <option value="DEV">DEV</option>
+            <option value="TEST">TEST</option>
+            <option value="STAGE">STAGE</option>
+            <option value="PROD">PROD</option>
+            <option value="UTILITY">UTILITY</option>
+          </select>
         </div>
-        <div class="button-group">
-          <button type="button" id="add-environment" class="add-button">+ Add Environment</button>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Account Number:</label>
+          <input type="text" name="account-number[]" placeholder="Enter AWS Account Number" class="small-input" maxlength="12" required>
         </div>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Region:</label>
+          <select name="region[]" class="small-input" required>
+            <option value="" disabled selected>Select region</option>
+            <option value="us-east-1">us-east-1</option>
+            <option value="us-east-2">us-east-2</option>
+            <option value="us-west-1">us-west-2</option>
+            <option value="us-central-1">us-central-1</option>
+            <option value="us-central-2">us-central-2</option>
+          </select>
+        </div>
+        <button type="button" class="remove-environment remove-button">Remove</button>
+      </div>
+      <div class="button-group">
+        <button type="button" id="add-environment" class="add-button">+ Add Environment</button>
       </div>
     </div>
 
@@ -207,6 +203,83 @@
         const content = button.nextElementSibling;
         content.style.display = content.style.display === "block" ? "none" : "block";
       });
+    });
+
+    // Add Document
+    document.getElementById("add-document").addEventListener("click", () => {
+      const documentFields = document.getElementById("document-fields");
+      const newDocumentGroup = document.createElement("div");
+      newDocumentGroup.classList.add("document-group");
+      newDocumentGroup.style.cssText = "display: flex; gap: 20px; align-items: flex-start;";
+      newDocumentGroup.innerHTML = `
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Document Type:</label>
+          <select name="document-type[]" class="small-input" required>
+            <option value="" disabled selected>Select document type</option>
+            <option value="AWS Calculator">AWS Calculator</option>
+            <option value="HLA">HLA</option>
+            <option value="Reference URL">Reference URL</option>
+          </select>
+        </div>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Link Location:</label>
+          <input type="text" name="link-location[]" placeholder="Enter URL" class="wide-input" maxlength="250" required>
+        </div>
+        <button type="button" class="remove-document remove-button">Remove</button>
+      `;
+      documentFields.insertBefore(newDocumentGroup, documentFields.querySelector(".button-group"));
+    });
+
+    // Remove Document
+    document.addEventListener("click", (event) => {
+      if (event.target.classList.contains("remove-document")) {
+        event.target.closest(".document-group").remove();
+      }
+    });
+
+    // Add Environment
+    document.getElementById("add-environment").addEventListener("click", () => {
+      const environmentFields = document.getElementById("environment-fields");
+      const newEnvironmentGroup = document.createElement("div");
+      newEnvironmentGroup.classList.add("environment-group");
+      newEnvironmentGroup.style.cssText = "display: flex; gap: 20px; align-items: flex-start;";
+      newEnvironmentGroup.innerHTML = `
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Environment:</label>
+          <select name="environment-type[]" class="small-input" required>
+            <option value="" disabled selected>Select environment type</option>
+            <option value="DEV">DEV</option>
+            <option value="TEST">TEST</option>
+            <option value="STAGE">STAGE</option>
+            <option value="PROD">PROD</option>
+            <option value="UTILITY">UTILITY</option>
+          </select>
+        </div>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Account Number:</label>
+          <input type="text" name="account-number[]" placeholder="Enter AWS Account Number" class="small-input" maxlength="12" required>
+        </div>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Region:</label>
+          <select name="region[]" class="small-input" required>
+            <option value="" disabled selected>Select region</option>
+            <option value="us-east-1">us-east-1</option>
+            <option value="us-east-2">us-east-2</option>
+            <option value="us-west-1">us-west-2</option>
+            <option value="us-central-1">us-central-1</option>
+            <option value="us-central-2">us-central-2</option>
+          </select>
+        </div>
+        <button type="button" class="remove-environment remove-button">Remove</button>
+      `;
+      environmentFields.insertBefore(newEnvironmentGroup, environmentFields.querySelector(".button-group"));
+    });
+
+    // Remove Environment
+    document.addEventListener("click", (event) => {
+      if (event.target.classList.contains("remove-environment")) {
+        event.target.closest(".environment-group").remove();
+      }
     });
   </script>
 </body>
