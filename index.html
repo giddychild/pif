@@ -282,7 +282,7 @@
         <button type="button" class="collapsible">Tags</button>
         <div class="content">
             <div class="table-container" style="overflow-x: auto;">
-                <table>
+                <table id="tags-table">
                     <thead>
                         <tr>
                             <th>Enterprise Tag Name</th>
@@ -290,7 +290,11 @@
                             <th>Input Source</th>
                             <th>Default Value</th>
                             <th>PaaS</th>
-                            <th>CI #1</th>
+                            <th>
+                                CI #1
+                                <button type="button" id="add-column" style="margin-left: 10px;">+ Add CI #2</button>
+                                <button type="button" id="remove-column" disabled>- Remove CI #2</button>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
