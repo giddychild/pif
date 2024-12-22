@@ -754,6 +754,8 @@
                         </tr>
                     </tbody>
                 </table>
+                <button type="button" id="add-column">+ Add CI #2</button>
+                <button type="button" id="remove-column" disabled>- Remove CI #2</button>
             </div>
         </div>
 
@@ -854,6 +856,56 @@
         document.addEventListener("click", (event) => {
             if (event.target.classList.contains("remove-environment")) {
                 event.target.closest("tr").remove();
+            }
+        });
+
+        // New Script for Add/Remove CI #2 column
+        document.getElementById("add-column").addEventListener("click", () => {
+            const table = document.getElementById("tags-table");
+            const headerRow = table.querySelector("thead tr");
+            const rows = table.querySelectorAll("tbody tr");
+
+            // Check if CI #2 already exists
+            if (headerRow.querySelector("th:last-child").textContent === "CI #2") return;
+
+            // Add CI #2 to header
+            const newHeader = document.createElement("th");
+            newHeader.textContent = "CI #2";
+            headerRow.appendChild(newHeader);
+
+            // Add CI #2 cells to each row
+            rows.forEach((row) => {
+                const newCell = document.createElement("td");
+                newCell.innerHTML = `
+                    <select name="ci-2">
+                        <option value="" disabled selected>Select</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                `;
+                row.appendChild(newCell);
+            });
+
+            // Enable the "Remove CI #2" button
+            document.getElementById("remove-column").disabled = false;
+        });
+
+        document.getElementById("remove-column").addEventListener("click", () => {
+            const table = document.getElementById("tags-table");
+            const headerRow = table.querySelector("thead tr");
+            const rows = table.querySelectorAll("tbody tr");
+
+            // Remove CI #2 column from header
+            if (headerRow.querySelector("th:last-child").textContent === "CI #2") {
+                headerRow.querySelector("th:last-child").remove();
+
+                // Remove CI #2 cells from each row
+                rows.forEach((row) => {
+                    row.querySelector("td:last-child").remove();
+                });
+
+                // Disable the "Remove CI #2" button if the column is removed
+                document.getElementById("remove-column").disabled = true;
             }
         });
     
