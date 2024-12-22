@@ -661,7 +661,17 @@
                             <td>PCM Build Template</td>
                             <td>class_e</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
+                            <td>
+                                <select name="pcm-backup_product-ci-1">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="class_a">class_a</option>
+                                    <option value="class_b">class_b</option>
+                                    <option value="class_c">class_c</option>
+                                    <option value="class_d">class_d</option>
+                                    <option value="class_e">class_e</option>
+                                    <option value="customer_opt_out">customer_opt_out</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td title="Name of the patch group associated with this resource.">pcm-patching_group</td>
@@ -669,7 +679,9 @@
                             <td>PCM Build Template</td>
                             <td>empty</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
+                            <td>
+                                <input type="text" name="pcm-patching_group" placeholder="Enter patch group" style="width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 8px;" />
+                            </td>
                         </tr>
                         <tr>
                             <td title="Date and time the resource was last put through a successful patching sequence.">pcm-patching_last_updated</td>
