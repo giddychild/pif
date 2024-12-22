@@ -219,9 +219,61 @@
       </div>
     </div>
 
+    <!-- Tags Section -->
+    <button type="button" class="collapsible">Tags</button>
+    <div class="content">
+        <table>
+        <thead>
+            <tr>
+            <th>Enterprise Tag Name (ServiceNow)</th>
+            <th>Functional Purpose</th>
+            <th>Input Required from Customer</th>
+            <th>Input Source</th>
+            <th>Default Value</th>
+            <th>PaaS</th>
+            <th>CI #1</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <td>pcm-project_number</td>
+            <td>ServiceNow Project Number. Used to identify which project(s) each cloud resource is being used to support.</td>
+            <td>No</td>
+            <td>PCM Build Template</td>
+            <td>empty</td>
+            <td></td>
+            <td></td>
+            </tr>
+            <tr>
+            <td>pcm-business_service_sysid</td>
+            <td>ServiceNow Application Portfolio Management (APM) - Business Service Sysid. Used to identify which Business Service(s) each cloud resource is being used to support.</td>
+            <td>Yes</td>
+            <td>PCM Build Template</td>
+            <td>empty</td>
+            <td></td>
+            <td></td>
+            </tr>
+            <tr>
+            <td>pcm-application_name_sysid</td>
+            <td>ServiceNow Application Portfolio Management (APM) - Application Name sysid. Used to identify which Application Name(s) each cloud resource is being used to support. Refer to Application Portfolio Management (APM).</td>
+            <td>Yes</td>
+            <td>PCM Build Template</td>
+            <td>empty</td>
+            <td></td>
+            <td></td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+        </table>
+    </div>
+
+
     <br>
     <button type="submit">Submit</button>
   </form>
+
+
+  
 
   <script>
     // Collapsible Sections
