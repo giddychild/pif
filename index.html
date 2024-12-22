@@ -184,6 +184,22 @@
             <option value="us-central-2">us-central-2</option>
           </select>
         </div>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+            <label>Existing:</label>
+            <select name="existing[]" class="small-input" required>
+              <option value="" disabled selected>Select existing</option>
+              <option value="New">New</option>
+              <option value="Existing">Existing</option>
+            </select>
+        </div>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+            <label>SLA:</label>
+            <select name="sla[]" class="small-input" required>
+              <option value="" disabled selected>Select SLA</option>
+              <option value="Fully Managed">Fully Managed</option>
+              <option value="Semi Managed">Semi Managed</option>
+            </select>
+        </div>
         <button type="button" class="remove-environment remove-button">Remove</button>
       </div>
       <div class="button-group">
