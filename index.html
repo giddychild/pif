@@ -1105,6 +1105,84 @@
         document.addEventListener('DOMContentLoaded', () => {
             updateEnvironmentDropdown();
         });
+
+        // Sync Environment Options for SSL
+        function updateSSLEnvironmentDropdown() {
+            const selectedEnvironments = new Set();
+            const environmentDropdowns = document.querySelectorAll('select[name="environment-type[]"]');
+            const sslDropdowns = document.querySelectorAll('.environment-dropdown');
+
+            // Collect selected environments
+            environmentDropdowns.forEach((dropdown) => {
+                if (dropdown.value) {
+                    selectedEnvironments.add(dropdown.value);
+                }
+            });
+
+            // Update SSL dropdown options
+            sslDropdowns.forEach((sslDropdown) => {
+                const currentSelection = sslDropdown.value;
+                sslDropdown.innerHTML = '<option value="" disabled>Select Environment</option>';
+
+                selectedEnvironments.forEach((env) => {
+                    const option = document.createElement('option');
+                    option.value = env;
+                    option.textContent = env;
+                    sslDropdown.appendChild(option);
+                });
+
+                // Restore previously selected value if it still exists
+                if (currentSelection && selectedEnvironments.has(currentSelection)) {
+                    sslDropdown.value = currentSelection;
+                }
+            });
+        }
+
+        // Add New SSL Row
+        document.getElementById('add-ssl-row').addEventListener('click', () => {
+            const sslTable = document.getElementById('ssl-table').querySelector('tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>
+                    <select name="ssl-environment[]" class="small-input environment-dropdown" required>
+                        <option value="" disabled selected>Select Environment</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="ssl-domains[]" placeholder="Enter domains (comma-separated)" class="wide-input" required>
+                </td>
+                <td>
+                    <select name="ssl-source[]" class="small-input" required>
+                        <option value="" disabled selected>Select Source</option>
+                        <option value="Imported">Imported</option>
+                        <option value="ACM">ACM</option>
+                        <option value="Self Signed">Self Signed</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="ssl-arn[]" placeholder="Enter ARN" class="medium-input" required>
+                </td>
+                <td>
+                    <input type="email" name="ssl-contact[]" placeholder="Enter contact email" class="medium-input" required>
+                </td>
+            `;
+            sslTable.appendChild(newRow);
+
+            // Update the environment dropdown for the new row
+            updateSSLEnvironmentDropdown();
+        });
+
+        // Listen for changes in the environment section
+        document.addEventListener('change', (event) => {
+            if (event.target.name === 'environment-type[]') {
+                updateSSLEnvironmentDropdown();
+            }
+        });
+
+        // Initialize SSL dropdowns on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSSLEnvironmentDropdown();
+        });
     
         // Toggle Date Input
         function toggleDateInput(selectElement) {
