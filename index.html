@@ -870,7 +870,7 @@
             const rows = table.querySelectorAll("tbody tr");
 
             // Check if CI #2 already exists
-            if (headerRow.querySelector("th:last-child").textContent === "CI #2") return;
+            if (Array.from(headerRow.children).some(th => th.textContent.trim() === "CI #2")) return;
 
             // Add CI #2 to header
             const newHeader = document.createElement("th");
@@ -900,12 +900,14 @@
             const rows = table.querySelectorAll("tbody tr");
 
             // Remove CI #2 column from header
-            if (headerRow.querySelector("th:last-child").textContent === "CI #2") {
-                headerRow.querySelector("th:last-child").remove();
+            const lastHeader = headerRow.querySelector("th:last-child");
+            if (lastHeader && lastHeader.textContent.trim() === "CI #2") {
+                lastHeader.remove();
 
                 // Remove CI #2 cells from each row
                 rows.forEach((row) => {
-                    row.querySelector("td:last-child").remove();
+                    const lastCell = row.querySelector("td:last-child");
+                    if (lastCell) lastCell.remove();
                 });
 
                 // Disable the "Remove CI #2" button if the column is removed
