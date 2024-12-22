@@ -651,12 +651,12 @@
                             <td>empty</td>
                             <td style="background-color: black;"></td>
                             <td>
-                                <select name="pcm-backup_last_updated-option" onchange="toggleDateInput(this)">
+                                <select name="pcm-backup_last_updated-cs-1" onchange="toggleDateInput(this)">
                                     <option value="" disabled selected>Select</option>
                                     <option value="empty">empty</option>
                                     <option value="date">Date</option>
                                 </select>
-                                <input type="date" name="pcm-backup_last_updated-date" style="display: none; margin-top: 5px;">
+                                <input type="date" name="pcm-backup_last_updated-cs-1" style="display: none; margin-top: 5px;">
                             </td>
                             </td>
                         </tr>
@@ -696,7 +696,14 @@
                             <td>Mulesoft Daily Automation</td>
                             <td>empty</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
+                            <td>
+                                <select name="pcm-patching_last_updated-cs-1" onchange="toggleDateInput(this)">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="empty">empty</option>
+                                    <option value="date">Date</option>
+                                </select>
+                                <input type="date" name="pcm-patching_last_updated-cs-1" style="display: none; margin-top: 5px;">
+                            </td>
                         </tr>
                         <tr>
                             <td
