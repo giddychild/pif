@@ -879,7 +879,21 @@
             // Add new cells for the new CI column
             rows.forEach((row) => {
                 const lastCell = row.querySelector("td:last-child"); // Find the last cell
-                const newCell = lastCell.cloneNode(true); // Clone the last cell's content
+                const newCell = lastCell.cloneNode(true); // Clone the last cell's structure
+                const lastSelect = lastCell.querySelector("select"); // Check for select dropdown
+                const newSelect = newCell.querySelector("select");
+
+                // If the last cell has a select element, copy its value
+                if (lastSelect && newSelect) {
+                    newSelect.value = lastSelect.value; // Copy the selected value
+                }
+
+                // If the last cell has an input element, copy its value
+                const lastInput = lastCell.querySelector("input[type='text']");
+                const newInput = newCell.querySelector("input[type='text']");
+                if (lastInput && newInput) {
+                    newInput.value = lastInput.value; // Copy the text input value
+                }
                 row.appendChild(newCell); // Append the cloned cell to the row
             });
 
