@@ -205,6 +205,72 @@
         content.style.display = content.style.display === "block" ? "none" : "block";
       });
     });
+
+    // Add Document
+    document.getElementById("add-document").addEventListener("click", () => {
+      const documentFields = document.getElementById("document-fields");
+      const newDocumentGroup = document.createElement("div");
+      newDocumentGroup.classList.add("document-group");
+      newDocumentGroup.style.cssText = "display: flex; gap: 20px; align-items: flex-start;";
+      newDocumentGroup.innerHTML = `
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Document Type:</label>
+          <select name="document-type[]" class="small-input" required>
+            <option value="" disabled selected>Select document type</option>
+            <option value="AWS Calculator">AWS Calculator</option>
+            <option value="HLA">HLA</option>
+            <option value="Reference URL">Reference URL</option>
+          </select>
+        </div>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Link Location:</label>
+          <input type="text" name="link-location[]" placeholder="Enter URL" class="wide-input" maxlength="250" required>
+        </div>
+        <button type="button" class="remove-document remove-button">Remove</button>
+      `;
+      documentFields.insertBefore(newDocumentGroup, documentFields.querySelector(".button-group"));
+    });
+
+    // Remove Document
+    document.addEventListener("click", (event) => {
+      if (event.target.classList.contains("remove-document")) {
+        event.target.closest(".document-group").remove();
+      }
+    });
+
+    // Add Environment
+    document.getElementById("add-environment").addEventListener("click", () => {
+      const environmentFields = document.getElementById("environment-fields");
+      const newEnvironmentGroup = document.createElement("div");
+      newEnvironmentGroup.classList.add("environment-group");
+      newEnvironmentGroup.style.cssText = "display: flex; gap: 20px; align-items: flex-start;";
+      newEnvironmentGroup.innerHTML = `
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Environment:</label>
+          <select name="environment-type[]" class="small-input" required>
+            <option value="" disabled selected>Select environment type</option>
+            <option value="DEV">DEV</option>
+            <option value="TEST">TEST</option>
+            <option value="STAGE">STAGE</option>
+            <option value="PROD">PROD</option>
+            <option value="UTILITY">UTILITY</option>
+          </select>
+        </div>
+        <div class="form-group" style="display: flex; flex-direction: column;">
+          <label>Account Number:</label>
+          <input type="text" name="account-number[]" placeholder="Enter AWS Account Number" class="medium-input" maxlength="12" required>
+        </div>
+        <button type="button" class="remove-environment remove-button">Remove</button>
+      `;
+      environmentFields.insertBefore(newEnvironmentGroup, environmentFields.querySelector(".button-group"));
+    });
+
+    // Remove Environment
+    document.addEventListener("click", (event) => {
+      if (event.target.classList.contains("remove-environment")) {
+        event.target.closest(".environment-group").remove();
+      }
+    });
   </script>
 </body>
 </html>
