@@ -860,7 +860,7 @@
             });
         });
     
-        // Add Document
+        // Add/Remove Document
         document.getElementById("add-document")?.addEventListener("click", () => {
             const documentFields = document.getElementById("document-fields");
             const newDocumentGroup = document.createElement("div");
@@ -885,14 +885,13 @@
             documentFields.insertBefore(newDocumentGroup, documentFields.querySelector(".button-group"));
         });
     
-        // Remove Document
         document.addEventListener("click", (event) => {
             if (event.target.classList.contains("remove-document")) {
                 event.target.closest(".document-group").remove();
             }
         });
     
-        // Add Environment
+        // Add/Remove Environment
         document.getElementById("add-environment")?.addEventListener("click", () => {
             const environmentTable = document.getElementById("environmentTable")?.querySelector("tbody");
             if (environmentTable) {
@@ -938,7 +937,6 @@
             }
         });
     
-        // Remove Environment
         document.addEventListener("click", (event) => {
             if (event.target.classList.contains("remove-environment")) {
                 event.target.closest("tr").remove();
