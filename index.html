@@ -782,14 +782,12 @@
                                     <!-- Dynamic options will be added here -->
                                 </select>
                             </td>
-                            <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="small-input" required></td>
+                            <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="wide-input" required></td>
                             <td>
                                 <select name="dns-type[]" class="small-input" required>
                                     <option value="" disabled selected>Select Type</option>
-                                    <option value="A">A</option>
-                                    <option value="CNAME">CNAME</option>
-                                    <option value="MX">MX</option>
-                                    <option value="TXT">TXT</option>
+                                    <option value="private">private</option>
+                                    <option value="public">public</option>
                                 </select>
                             </td>
                             <td><input type="date" name="dns-ticket[]" class="small-input" required></td>
@@ -1034,14 +1032,12 @@
                         <option value="" disabled selected>Select Environment</option>
                     </select>
                 </td>
-                <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="small-input" required></td>
+                <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="wide-input" required></td>
                 <td>
                     <select name="dns-type[]" class="small-input" required>
                         <option value="" disabled selected>Select Type</option>
-                        <option value="A">A</option>
-                        <option value="CNAME">CNAME</option>
-                        <option value="MX">MX</option>
-                        <option value="TXT">TXT</option>
+                        <option value="private">private</option>
+                        <option value="public">public</option>
                     </select>
                 </td>
                 <td><input type="date" name="dns-ticket[]" class="small-input" required></td>
