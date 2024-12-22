@@ -313,7 +313,7 @@
                     <td>PCM Build Template</td>
                     <td>no</td>
                     <td>
-                        <select name="pcm-sensitive_data_cjis-paas">
+                        <select name="pcm-sensitive_data_cjis-dd">
                             <option value="yes">Yes</option>
                             <option value="no" selected>No</option>
                         </select>
@@ -326,7 +326,7 @@
                     <td>PCM Build Template</td>
                     <td>no</td>
                     <td>
-                        <select name="pcm-sensitive_data_ferpa-paas">
+                        <select name="pcm-sensitive_data_ferpa-dd">
                             <option value="yes">Yes</option>
                             <option value="no" selected>No</option>
                         </select>
@@ -339,7 +339,7 @@
                     <td>PCM Build Template</td>
                     <td>no</td>
                     <td>
-                        <select name="pcm-self_service-paas">
+                        <select name="pcm-self_service-dd">
                             <option value="yes">Yes</option>
                             <option value="no" selected>No</option>
                         </select>
@@ -352,9 +352,18 @@
                     <td>PCM Build Template</td>
                     <td>empty</td>
                     <td>
-                        <select name="pcm-public_cloud_decision_criteria-paas">
-                            <option value="yes">Yes</option>
-                            <option value="no" selected>No</option>
+                        <select name="pcm-public_cloud_decision_criteria-dd">
+                            <option value="3rd_party_preference">3rd_party_preference</option>
+                            <option value="available_services">available_services</option>
+                            <option value="cloud_architecture">cloud_architecture</option>
+                            <option value="compliance_standards">compliance_standards</option>
+                            <option value="cost">cost</option>
+                            <option value="customer_knowledge">customer_knowledge</option>
+                            <option value="customer preference">customer preference</option>
+                            <option value="integration_with_existing_tools">integration_with_existing_tools</option>
+                            <option value="interoperability">interoperability</option>
+                            <option value="manageability">manageability</option>
+                            <option value="security">security</option>
                         </select>
                     </td>
                     <td></td>
@@ -511,7 +520,6 @@
                     <td style="background-color: black;"></td>
                     <td></td>
                 </tr>  
-                <!-- Add more rows as needed -->
             </tbody>
             </table>
         </div>
