@@ -325,8 +325,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td title="Indicates that this resource processes sensitive CJIS data.">
-                                pcm-sensitive_data_cjis</td>
+                            <td title="Indicates that this resource processes sensitive CJIS data.">pcm-sensitive_data_cjis</td>
                             <td>Yes</td>
                             <td>PCM Build Template</td>
                             <td>no</td>
@@ -346,8 +345,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td title="Indicates that this resource processes sensitive FERPA data.">
-                                pcm-sensitive_data_ferpa</td>
+                            <td title="Indicates that this resource processes sensitive FERPA data.">pcm-sensitive_data_ferpa</td>
                             <td>Yes</td>
                             <td>PCM Build Template</td>
                             <td>no</td>
@@ -431,8 +429,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td title="Identifies the lifecycle of the environment (ie., dev, test, prod).">
-                                pcm-environment</td>
+                            <td title="Identifies the lifecycle of the environment (ie., dev, test, prod).">pcm-environment</td>
                             <td>Yes</td>
                             <td>PCM Build Template</td>
                             <td>empty</td>
@@ -448,8 +445,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td title="Used to categorize the primary capability associated with end point.">
-                                pcm-primary_capability</td>
+                            <td title="Used to categorize the primary capability associated with end point.">pcm-primary_capability</td>
                             <td>Yes</td>
                             <td>PCM Build Template</td>
                             <td>application_other</td>
@@ -520,25 +516,47 @@
                             <td>Mulesoft Daily Automation</td>
                             <td>yes</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td title="This is a vulnerability management and detection tool.">
-                                pcm-tools_security_vulnerability</td>
-                            <td>No</td>
-                            <td>Mulesoft Daily Automation</td>
-                            <td>yes</td>
-                            <td style="background-color: black;"></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td title="This is a endpoint anti-virus protection tool.">pcm-tools_endpoint_security_av
+                            <td>
+                                <select name="pcm-tools_bigfix-ci-1">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="exception">exception</option>
+                                    <option value="n/a">n/a</option>
+                                    <option value="no">no</option>
+                                    <option value="yes">yes</option>
+                                </select>
                             </td>
+                        </tr>
+                        <tr>
+                            <td title="This is a vulnerability management and detection tool.">pcm-tools_security_vulnerability</td>
                             <td>No</td>
                             <td>Mulesoft Daily Automation</td>
                             <td>yes</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
+                            <td>
+                                <select name="pcm-tools_security_vulnerability-ci-1">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="exception">exception</option>
+                                    <option value="n/a">n/a</option>
+                                    <option value="no">no</option>
+                                    <option value="yes">yes</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td title="This is a endpoint anti-virus protection tool.">pcm-tools_endpoint_security_av</td>
+                            <td>No</td>
+                            <td>Mulesoft Daily Automation</td>
+                            <td>yes</td>
+                            <td style="background-color: black;"></td>
+                            <td>
+                                <select name="pcm-tools_security_vulnerability_av-ci-1">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="exception">exception</option>
+                                    <option value="n/a">n/a</option>
+                                    <option value="no">no</option>
+                                    <option value="yes">yes</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td title="This is an enterprise SIEM solution.">pcm-tools_splunk</td>
@@ -546,7 +564,15 @@
                             <td>Mulesoft Daily Automation</td>
                             <td>yes</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
+                            <td>
+                                <select name="pcm-tools_splunk-ci-1">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="exception">exception</option>
+                                    <option value="n/a">n/a</option>
+                                    <option value="no">no</option>
+                                    <option value="yes">yes</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td title="This is a forensics tool.">pcm-tools_forensics</td>
@@ -554,7 +580,15 @@
                             <td>Mulesoft Daily Automation</td>
                             <td>yes</td>
                             <td style="background-color: black;"></td>
-                            <td></td>
+                            <td>
+                                <select name="pcm-tools_forensics-ci-1">
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="exception">exception</option>
+                                    <option value="n/a">n/a</option>
+                                    <option value="no">no</option>
+                                    <option value="yes">yes</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td title="This is an enterprise public cloud edge security platform.">pcm-tools_pcess</td>
@@ -573,8 +607,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td title="Name of backup service or product used to backup this resource.">
-                                pcm-backup_product</td>
+                            <td title="Name of backup service or product used to backup this resource.">pcm-backup_product</td>
                             <td>No</td>
                             <td>PCM Build Template</td>
                             <td>backup service</td>
@@ -582,8 +615,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td title="Date and time of last successful backup for continuity purposes.">
-                                pcm-backup_last_updated</td>
+                            <td title="Date and time of last successful backup for continuity purposes.">pcm-backup_last_updated</td>
                             <td>No</td>
                             <td>Mulesoft Daily Automation</td>
                             <td>empty</td>
@@ -609,8 +641,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td title="Date and time the resource was last put through a successful patching sequence.">
-                                pcm-patching_last_updated</td>
+                            <td title="Date and time the resource was last put through a successful patching sequence.">pcm-patching_last_updated</td>
                             <td>No</td>
                             <td>Mulesoft Daily Automation</td>
                             <td>empty</td>
@@ -628,8 +659,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td title="Date and time the resource last had its anti-virus system updated.">
-                                pcm-av_last_updated</td>
+                            <td title="Date and time the resource last had its anti-virus system updated.">pcm-av_last_updated</td>
                             <td>No</td>
                             <td>Mulesoft Daily Automation</td>
                             <td>empty</td>
@@ -637,8 +667,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td title="Required by AWS to receive Migration Acceleration Program (MAP) credits.">
-                                map-migrated</td>
+                            <td title="Required by AWS to receive Migration Acceleration Program (MAP) credits.">map-migrated</td>
                             <td>No</td>
                             <td>PCM Build Template</td>
                             <td>empty</td>
