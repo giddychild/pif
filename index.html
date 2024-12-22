@@ -117,10 +117,10 @@
     }
     
     table {
-    width: 100%; /* Allows the table to occupy the full container width */
+    width: 100%;
     border-collapse: collapse;
     margin-bottom: 15px;
-    table-layout: auto; /* Allows columns to size based on their content */
+    table-layout: auto;
     }
 
     th, td {
@@ -128,12 +128,16 @@
       padding: 8px;
       text-align: left;
       word-wrap: break-word;
-      word-break: break-word;
       max-width: 60px;
     }
 
     th {
       background-color: #f9f9f9;
+    }
+
+    td {
+    max-width: 1px; /* Forces columns to shrink to fit content */
+    white-space: nowrap; /* Ensures text does not wrap to the next line */
     }
 
     td[title] {
