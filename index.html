@@ -359,6 +359,158 @@
                     </td>
                     <td></td>
                 </tr>
+                <tr>
+                    <td title="Identifies the lifecycle of the environment (ie., dev, test, prod).">pcm-environment</td>
+                    <td>Yes</td>
+                    <td>PCM Build Template</td>
+                    <td>empty</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Used to categorize the primary capability associated with end point.">pcm-primary_capability</td>
+                    <td>Yes</td>
+                    <td>PCM Build Template</td>
+                    <td>application_other</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Identifies that customer is entitled to receive Database Administration Support as defined in the contract. This tag is required if the primary capability is Application - Database.">pcm-dba_support</td>
+                    <td>Yes</td>
+                    <td>PCM Build Template</td>
+                    <td>none</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Identifies that customer is entitled to receive Middleware Support as defined in the contract. This tag is required if the primary capability is Application - Middleware.">pcm-middleware_support</td>
+                    <td>Yes</td>
+                    <td>PCM Build Template</td>
+                    <td>no</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="This is a PCM configuration management tool.">pcm-tools_bigfix</td>
+                    <td>No</td>
+                    <td>Mulesoft Daily Automation</td>
+                    <td>yes</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="This is a vulnerability management and detection tool.">pcm-tools_security_vulnerability</td>
+                    <td>No</td>
+                    <td>Mulesoft Daily Automation</td>
+                    <td>yes</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="This is a endpoint anti-virus protection tool.">pcm-tools_endpoint_security_av</td>
+                    <td>No</td>
+                    <td>Mulesoft Daily Automation</td>
+                    <td>yes</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="This is an enterprise SIEM solution.">pcm-tools_splunk</td>
+                    <td>No</td>
+                    <td>Mulesoft Daily Automation</td>
+                    <td>yes</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="This is a forensics tool.">pcm-tools_forensics</td>
+                    <td>No</td>
+                    <td>Mulesoft Daily Automation</td>
+                    <td>yes</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="This is an enterprise public cloud edge security platform.">pcm-tools_pcess</td>
+                    <td>No</td>
+                    <td>PCM Build Template</td>
+                    <td>no</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Backup services and/or configuration details.">pcm-backup_enabled</td>
+                    <td>No</td>
+                    <td>PCM Build Template</td>
+                    <td>True</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Name of backup service or product used to backup this resource.">pcm-backup_product</td>
+                    <td>No</td>
+                    <td>PCM Build Template</td>
+                    <td>backup service</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Date and time of last successful backup for continuity purposes.">pcm-backup_last_updated</td>
+                    <td>No</td>
+                    <td>Mulesoft Daily Automation</td>
+                    <td>empty</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Disaster Recovery capability associated with the resource. For older builds, CIs must go through a DR entitlement assessment before a DR class is assigned.">pcm-dr_capability</td>
+                    <td>Yes</td>
+                    <td>PCM Build Template</td>
+                    <td>class_e</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Name of the patch group associated with this resource.">pcm-patching_group</td>
+                    <td>Yes</td>
+                    <td>PCM Build Template</td>
+                    <td>empty</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Date and time the resource was last put through a successful patching sequence.">pcm-patching_last_updated</td>
+                    <td>No</td>
+                    <td>Mulesoft Daily Automation</td>
+                    <td>empty</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Indicates that this resource is contained in the public portion of the customer’s environment. If the value for this is yes, PCESS should also be yes.">pcm-dmz</td>
+                    <td>Yes</td>
+                    <td>PCM Build Template</td>
+                    <td>empty</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Date and time the resource last had its anti-virus system updated.">pcm-av_last_updated</td>
+                    <td>No</td>
+                    <td>Mulesoft Daily Automation</td>
+                    <td>empty</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title="Required by AWS to receive Migration Acceleration Program (MAP) credits.">map-migrated</td>
+                    <td>No</td>
+                    <td>PCM Build Template</td>
+                    <td>empty</td>
+                    <td style="background-color: black;"></td>
+                    <td></td>
+                </tr>  
                 <!-- Add more rows as needed -->
             </tbody>
             </table>
