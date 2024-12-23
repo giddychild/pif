@@ -1111,6 +1111,7 @@
     
         // Add/Remove Environment Rows
         const environmentTable = document.getElementById("environmentTable");
+
         document.getElementById("add-environment").addEventListener("click", () => {
             const newRow = document.createElement("tr");
             newRow.innerHTML = `
@@ -1149,15 +1150,19 @@
                     </select>
                 </td>
                 <td>
-                <button type="button" class="remove-environment remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                    <button type="button" class="remove-environment remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
                 </td>
             `;
             environmentTable.querySelector("tbody").appendChild(newRow);
+
+            // Add change listener for the new dropdown
+            newRow.querySelector('select[name="environment-type[]"]').addEventListener("change", updateEnvironmentDropdowns);
+
             updateEnvironmentDropdowns();
         });
-    
+
         // Removes an environment row when the "Remove" button is clicked.
-        document.addEventListener("click", event => {
+        document.addEventListener("click", (event) => {
             if (event.target.classList.contains("remove-environment")) {
                 event.target.closest("tr").remove();
                 updateEnvironmentDropdowns();
@@ -1371,18 +1376,25 @@
             }
         });
 
+        // Update environment dropdowns whenever an environment dropdown value changes
+        document.addEventListener("change", (event) => {
+            if (event.target.name === "environment-type[]") {
+                updateEnvironmentDropdowns();
+            }
+        });
+
         // Environment Dropdown Synchronization
         function updateEnvironmentDropdowns() {
             const selectedEnvironments = Array.from(
                 document.querySelectorAll('select[name="environment-type[]"]')
             )
-                .map(dropdown => dropdown.value)
-                .filter(value => value);
-    
-            document.querySelectorAll(".environment-dropdown").forEach(dropdown => {
+                .map((dropdown) => dropdown.value)
+                .filter((value) => value);
+
+            document.querySelectorAll(".environment-dropdown").forEach((dropdown) => {
                 const currentSelection = dropdown.value;
                 dropdown.innerHTML = '<option value="" disabled selected>Select Environment</option>';
-                selectedEnvironments.forEach(env => {
+                selectedEnvironments.forEach((env) => {
                     const option = document.createElement("option");
                     option.value = env;
                     option.textContent = env;
