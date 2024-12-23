@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.2</title>
+    <title>Project Intake Form 0.3</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -902,7 +902,7 @@
             const documentFields = document.getElementById("document-fields");
             const newDocumentGroup = document.createElement("div");
             newDocumentGroup.classList.add("document-group");
-            newDocumentGroup.style.cssText = "display: flex; gap: 20px; align-items: center;"; // Adjust alignment to center
+            newDocumentGroup.style.cssText = "display: flex; gap: 20px; align-items: flex-start;";
             newDocumentGroup.innerHTML = `
                 <div class="form-group" style="display: flex; flex-direction: column;">
                     <label>Document Type:</label>
@@ -917,9 +917,7 @@
                     <label>Link Location:</label>
                     <input type="text" name="link-location[]" placeholder="Enter URL" class="wide-input" maxlength="250" required>
                 </div>
-                <div class="form-group" style="display: flex; align-items: center; margin-left: 10px;">
-                    <button type="button" class="remove-document remove-button" style="padding: 5px 10px;">Remove</button>
-                </div>
+                <button type="button" class="remove-document remove-button">Remove</button>
             `;
             documentFields.insertBefore(newDocumentGroup, documentFields.querySelector(".button-group"));
         });
