@@ -1161,8 +1161,13 @@
                 const author = group.querySelector('input[name="author"]')?.value || "";
                 const comments = group.querySelector('input[name="comments"]')?.value || "";
                 const date = group.querySelector('input[name="date"]')?.value || "";
-                combinedData.push([version, author, comments, date]);
+               
+                // Add the retrieved values to the Excel sheet
+                if (version || author || comments || date) {
+                    combinedData.push([version, author, comments, date]);
+                }
             });
+
             combinedData.push([]); // Blank row
 
             // Build Documents
@@ -1177,10 +1182,10 @@
 
             // Account Section
             combinedData.push(["Account"]);
-            combinedData.push(["Customer", "Customer Name"]);
+            combinedData.push(["Customer"]);
 
             const customerName = document.querySelector('#customer-section select[name="customer-name[]"]')?.value || "";
-            combinedData.push(["", customerName]); // Include the selected customer name in the same row as "Customer Name"
+            combinedData.push(["Customer Name", customerName]); 
             combinedData.push([]); // Blank row
 
             // Environments
@@ -1221,7 +1226,15 @@
                 // Collect values for dynamic CI columns
                 const ciValues = [];
                 row.querySelectorAll("td:nth-child(n+7)").forEach(cell => {
-                    const value = cell.querySelector("input, select")?.value || ""; // Extract value from inputs/selects
+                    const inputElement = cell.querySelector("input, select");
+                    let value = "";
+
+                    // Check if the input is a date type
+                    if (inputElement?.type === "date") {
+                        value = inputElement.value || ""; // Get the selected date
+                    } else {
+                        value = inputElement?.value || ""; // Get the value from other inputs/selects
+                    }
                     ciValues.push(value);
                 });
 
