@@ -454,8 +454,7 @@
                                     <option value="cost">cost</option>
                                     <option value="customer_knowledge">customer_knowledge</option>
                                     <option value="customer preference">customer preference</option>
-                                    <option value="integration_with_existing_tools">integration_with_existing_tools
-                                    </option>
+                                    <option value="integration_with_existing_tools">integration_with_existing_tools</option>
                                     <option value="interoperability">interoperability</option>
                                     <option value="manageability">manageability</option>
                                     <option value="security">security</option>
@@ -471,8 +470,7 @@
                                     <option value="cost">cost</option>
                                     <option value="customer_knowledge">customer_knowledge</option>
                                     <option value="customer preference">customer preference</option>
-                                    <option value="integration_with_existing_tools">integration_with_existing_tools
-                                    </option>
+                                    <option value="integration_with_existing_tools">integration_with_existing_tools</option>
                                     <option value="interoperability">interoperability</option>
                                     <option value="manageability">manageability</option>
                                     <option value="security">security</option>
@@ -1035,10 +1033,8 @@
                 const lastElement = lastCell.querySelector("input, select");
                 const newElement = newCell.querySelector("input, select");
                 if (lastElement && newElement) {
-                    // newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
-                    // newElement.value = lastElement.value; // Copy value from last column
                     newElement.name = `ci-${ciCount}`;
-                    newElement.value = lastElement.value; // Reset value
+                    newElement.value = lastElement.value;
                 }
                 row.appendChild(newCell);
             });
@@ -1237,7 +1233,7 @@
                 const purpose = row.cells[1]?.textContent.trim() || "";
                 const required = row.cells[2]?.textContent.trim() || "";
                 const source = row.cells[3]?.textContent.trim() || "";
-                const defaultValue = row.cells[4]?.textContent.trim() || "";
+                const defaultValue = row.cells[4]?.querySelector("select")?.value || "";
                 const paas = row.cells[5]?.querySelector("input, select")?.value || "";
 
                 // Collect values for dynamic CI columns
