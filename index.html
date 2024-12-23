@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.3</title>
+    <title>Project Intake Form 0.4</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -1219,9 +1219,9 @@
                 let backupLastUpdated = backupLastUpdatedCell?.value || ""; // Default to the selected value (e.g., 'date', 'empty')
 
                 // If "Date" is selected, get the value from the adjacent <input>
-                if (backupLastUpdated === "date") {
+                if (backupLastUpdated === "Date") {
                     const dateInput = backupLastUpdatedCell.nextElementSibling; // Adjacent <input>
-                    if (dateInput && dateInput.type === "date") {
+                    if (dateInput && dateInput.type === "Date") {
                         backupLastUpdated = dateInput.value; // Set to the actual selected date
                     }
                 }
