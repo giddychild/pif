@@ -885,16 +885,16 @@
             documentFields.insertBefore(newDocumentGroup, documentFields.querySelector(".button-group"));
         });
     
-        document.addEventListener("click", (event) => {
+        document.addEventListener("click", event => {
             if (event.target.classList.contains("remove-document")) {
                 event.target.closest(".document-group").remove();
             }
         });
     
         // Add/Remove Environment Row
-        document.getElementById('add-environment').addEventListener('click', () => {
-            const environmentTable = document.getElementById('environmentTable').querySelector('tbody');
-            const newRow = document.createElement('tr');
+        const environmentTable = document.getElementById("environmentTable");
+        document.getElementById("add-environment").addEventListener("click", () => {
+            const newRow = document.createElement("tr");
             newRow.innerHTML = `
                 <td>
                     <select name="environment-type[]" class="small-input" required>
@@ -932,163 +932,85 @@
                 </td>
                 <td><button type="button" class="remove-environment remove-button">Remove</button></td>
             `;
-            environmentTable.appendChild(newRow);
-
-            // Update all environment-dependent dropdowns
+            environmentTable.querySelector("tbody").appendChild(newRow);
             updateEnvironmentDropdowns();
         });
-
-        document.addEventListener('click', (event) => {
-            if (event.target.classList.contains('remove-environment')) {
-                event.target.closest('tr').remove();
-
-                // Update all environment-dependent dropdowns after removal
+    
+        document.addEventListener("click", event => {
+            if (event.target.classList.contains("remove-environment")) {
+                event.target.closest("tr").remove();
                 updateEnvironmentDropdowns();
-            }
-        });
-
-        // Listen for changes in the environment section
-        document.addEventListener('change', (event) => {
-            if (event.target.name === 'environment-type[]') {
-                updateEnvironmentDropdowns();
-            }
-        });
-
-        //Script to add additional CI column
-        let ciCount = 1; // Initialize the counter for CI columns
-
-        document.getElementById("add-column").addEventListener("click", () => {
-            const table = document.getElementById("tags-table");
-            const headerRow = table.querySelector("thead tr");
-            const rows = table.querySelectorAll("tbody tr");
-
-            // Increment the CI column counter
-            ciCount++;
-
-            // Add new CI column to the header
-            const newHeader = document.createElement("th");
-            newHeader.textContent = `CI #${ciCount}`;
-            headerRow.appendChild(newHeader);
-
-            // Add new cells for the new CI column
-            rows.forEach((row) => {
-                const lastCell = row.querySelector("td:last-child"); // Find the last cell
-                const newCell = lastCell.cloneNode(true); // Clone the last cell's structure
-                const lastSelect = lastCell.querySelector("select"); // Check for select dropdown
-                const newSelect = newCell.querySelector("select");
-
-                // If the last cell has a select element, copy its value
-                if (lastSelect && newSelect) {
-                    newSelect.value = lastSelect.value; // Copy the selected value
-                }
-
-                // If the last cell has an input element, copy its value
-                const lastInput = lastCell.querySelector("input[type='text']");
-                const newInput = newCell.querySelector("input[type='text']");
-                if (lastInput && newInput) {
-                    newInput.value = lastInput.value; // Copy the text input value
-                }
-                row.appendChild(newCell); // Append the cloned cell to the row
-            });
-
-            // Enable the "Remove CI" button if not already enabled
-            document.getElementById("remove-column").disabled = false;
-
-            // Limit to CI #20
-            if (ciCount === 20) {
-                document.getElementById("add-column").disabled = true;
-            }
-        });
-
-        // Script to remove additional CI column       
-        document.getElementById("remove-column").addEventListener("click", () => {
-            const table = document.getElementById("tags-table");
-            const headerRow = table.querySelector("thead tr");
-            const rows = table.querySelectorAll("tbody tr");
-
-            if (ciCount > 1) {
-                // Remove the last CI column header
-                headerRow.querySelector("th:last-child").remove();
-
-                // Remove the last CI cell in each row
-                rows.forEach((row) => {
-                    row.querySelector("td:last-child").remove();
-                });
-
-                // Decrement the CI column counter
-                ciCount--;
-
-                // Re-enable the "Add CI" button if it was disabled
-                if (ciCount < 20) {
-                    document.getElementById("add-column").disabled = false;
-                }
-
-                // Disable the "Remove CI" button if all CI columns are removed
-                if (ciCount === 1) {
-                    document.getElementById("remove-column").disabled = true;
-                }
             }
         });
     
-        // Initialize Select Dropdowns in Tags Section
-        document.addEventListener("DOMContentLoaded", () => {
-            const tagRows = document.querySelectorAll("table tbody tr");
-            tagRows.forEach(row => {
-                const selects = row.querySelectorAll("select");
-                selects.forEach(select => {
-                    if (!Array.from(select.options).some(option => option.selected)) {
-                        const placeholder = document.createElement("option");
-                        placeholder.value = "";
-                        placeholder.textContent = "Select";
-                        placeholder.disabled = true;
-                        placeholder.selected = true;
-                        select.insertBefore(placeholder, select.firstChild);
-                    }
-                });
+        // Add/Remove CI Columns
+        let ciCount = 1;
+        const tagsTable = document.getElementById("tags-table");
+    
+        document.getElementById("add-column").addEventListener("click", () => {
+            if (ciCount >= 20) return;
+    
+            ciCount++;
+            const headerRow = tagsTable.querySelector("thead tr");
+            const rows = tagsTable.querySelectorAll("tbody tr");
+    
+            const newHeader = document.createElement("th");
+            newHeader.textContent = `CI #${ciCount}`;
+            headerRow.appendChild(newHeader);
+    
+            rows.forEach(row => {
+                const lastCell = row.querySelector("td:last-child").cloneNode(true);
+                const lastSelect = lastCell.querySelector("select");
+                const newSelect = lastCell.querySelector("select");
+                if (lastSelect && newSelect) newSelect.value = lastSelect.value;
+                row.appendChild(lastCell);
             });
+    
+            document.getElementById("remove-column").disabled = ciCount === 1;
+            document.getElementById("add-column").disabled = ciCount === 20;
         });
-
-        // Update Environment Options in other sections
-        function updateEnvironmentDropdown() {
-            const selectedEnvironments = new Set();
-            const environmentDropdowns = document.querySelectorAll('select[name="environment-type[]"]');
-            const dnsDropdowns = document.querySelectorAll('.environment-dropdown');
-
-            // Collect selected environments
-            environmentDropdowns.forEach((dropdown) => {
-                if (dropdown.value) {
-                    selectedEnvironments.add(dropdown.value);
-                }
-            });
-
-            // Update DNS dropdown options
-            dnsDropdowns.forEach((dnsDropdown) => {
-                const currentSelection = dnsDropdown.value;
-                dnsDropdown.innerHTML = '<option value="" disabled>Select Environment</option>';
-
-                selectedEnvironments.forEach((env) => {
-                    const option = document.createElement('option');
+    
+        document.getElementById("remove-column").addEventListener("click", () => {
+            if (ciCount <= 1) return;
+    
+            ciCount--;
+            const headerRow = tagsTable.querySelector("thead tr");
+            const rows = tagsTable.querySelectorAll("tbody tr");
+    
+            headerRow.querySelector("th:last-child").remove();
+            rows.forEach(row => row.querySelector("td:last-child").remove());
+    
+            document.getElementById("remove-column").disabled = ciCount === 1;
+            document.getElementById("add-column").disabled = false;
+        });
+    
+        // Environment Dropdown Synchronization
+        function updateEnvironmentDropdowns() {
+            const selectedEnvironments = Array.from(
+                document.querySelectorAll('select[name="environment-type[]"]')
+            ).map(dropdown => dropdown.value).filter(value => value);
+    
+            document.querySelectorAll(".environment-dropdown").forEach(dropdown => {
+                const currentSelection = dropdown.value;
+                dropdown.innerHTML = '<option value="" disabled>Select Environment</option>';
+                selectedEnvironments.forEach(env => {
+                    const option = document.createElement("option");
                     option.value = env;
                     option.textContent = env;
-                    dnsDropdown.appendChild(option);
+                    dropdown.appendChild(option);
                 });
-
-                // Restore previously selected value if it still exists
-                if (currentSelection && selectedEnvironments.has(currentSelection)) {
-                    dnsDropdown.value = currentSelection;
-                }
+                dropdown.value = currentSelection;
             });
         }
-
-        // Add/Remove DNS Row
-        document.getElementById('add-dns-row').addEventListener('click', () => {
-            const dnsTable = document.getElementById('dns-table').querySelector('tbody');
-            const newRow = document.createElement('tr');
+    
+        // Add/Remove DNS Rows
+        document.getElementById("add-dns-row").addEventListener("click", () => {
+            const dnsTable = document.getElementById("dns-table").querySelector("tbody");
+            const newRow = document.createElement("tr");
             newRow.innerHTML = `
                 <td>
                     <select name="dns-environment[]" class="small-input environment-dropdown" required>
                         <option value="" disabled selected>Select Environment</option>
-                        <!-- Dynamic options will be added here -->
                     </select>
                 </td>
                 <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="wide-input" required></td>
@@ -1103,61 +1025,26 @@
                 <td><button type="button" class="remove-dns remove-button">Remove</button></td>
             `;
             dnsTable.appendChild(newRow);
-
-            // Update the environment dropdown for the new row
-            updateEnvironmentDropdown();
+            updateEnvironmentDropdowns();
         });
-
-        // Initialize DNS dropdowns on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            updateEnvironmentDropdown();
+    
+        document.addEventListener("click", event => {
+            if (event.target.classList.contains("remove-dns")) {
+                event.target.closest("tr").remove();
+            }
         });
-
-        // Sync Environment Options for SSL
-        function updateSSLEnvironmentDropdown() {
-            const selectedEnvironments = new Set();
-            const environmentDropdowns = document.querySelectorAll('select[name="environment-type[]"]');
-            const sslDropdowns = document.querySelectorAll('.environment-dropdown');
-
-            // Collect selected environments
-            environmentDropdowns.forEach((dropdown) => {
-                if (dropdown.value) {
-                    selectedEnvironments.add(dropdown.value);
-                }
-            });
-
-            // Update SSL dropdown options
-            sslDropdowns.forEach((sslDropdown) => {
-                const currentSelection = sslDropdown.value;
-                sslDropdown.innerHTML = '<option value="" disabled>Select Environment</option>';
-
-                selectedEnvironments.forEach((env) => {
-                    const option = document.createElement('option');
-                    option.value = env;
-                    option.textContent = env;
-                    sslDropdown.appendChild(option);
-                });
-
-                // Restore previously selected value if it still exists
-                if (currentSelection && selectedEnvironments.has(currentSelection)) {
-                    sslDropdown.value = currentSelection;
-                }
-            });
-        }
-
-        // Add New SSL Row
-        document.getElementById('add-ssl-row').addEventListener('click', () => {
-            const sslTable = document.getElementById('ssl-table').querySelector('tbody');
-            const newRow = document.createElement('tr');
+    
+        // Add/Remove SSL Rows
+        document.getElementById("add-ssl-row").addEventListener("click", () => {
+            const sslTable = document.getElementById("ssl-table").querySelector("tbody");
+            const newRow = document.createElement("tr");
             newRow.innerHTML = `
                 <td>
                     <select name="ssl-environment[]" class="small-input environment-dropdown" required>
                         <option value="" disabled selected>Select Environment</option>
                     </select>
                 </td>
-                <td>
-                    <input type="text" name="ssl-domains[]" placeholder="Enter domains (comma-separated)" class="medium-input" required>
-                </td>
+                <td><input type="text" name="ssl-domains[]" placeholder="Enter domains (comma-separated)" class="medium-input" required></td>
                 <td>
                     <select name="ssl-source[]" class="small-input" required>
                         <option value="" disabled selected>Select Source</option>
@@ -1166,64 +1053,16 @@
                         <option value="Self Signed">Self Signed</option>
                     </select>
                 </td>
-                <td>
-                    <input type="text" name="ssl-arn[]" placeholder="Enter ARN" class="medium-input" required>
-                </td>
-                <td>
-                    <input type="email" name="ssl-contact[]" placeholder="Enter contact email" class="medium-input" required>
-                </td>
+                <td><input type="text" name="ssl-arn[]" placeholder="Enter ARN" class="medium-input" required></td>
+                <td><input type="email" name="ssl-contact[]" placeholder="Enter contact email" class="medium-input" required></td>
             `;
             sslTable.appendChild(newRow);
-
-            // Update the environment dropdown for the new row
-            updateSSLEnvironmentDropdown();
+            updateEnvironmentDropdowns();
         });
-
-        // Listen for changes in the environment section
-        document.addEventListener('change', (event) => {
-            if (event.target.name === 'environment-type[]') {
-                updateSSLEnvironmentDropdown();
-            }
+    
+        document.addEventListener("DOMContentLoaded", () => {
+            updateEnvironmentDropdowns();
         });
-
-        // Initialize SSL dropdowns on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            updateSSLEnvironmentDropdown();
-        });
-
-        // Sync Environment Options Across Sections
-        function updateEnvironmentDropdowns() {
-            const selectedEnvironments = new Set();
-            const environmentDropdowns = document.querySelectorAll('select[name="environment-type[]"]');
-            const targetDropdowns = document.querySelectorAll('.environment-dropdown');
-
-            // Collect selected environments
-            environmentDropdowns.forEach((dropdown) => {
-                if (dropdown.value) {
-                    selectedEnvironments.add(dropdown.value);
-                }
-            });
-
-            // Update all target dropdowns (DNS and SSL)
-            targetDropdowns.forEach((dropdown) => {
-                const currentSelection = dropdown.value;
-                dropdown.innerHTML = '<option value="" disabled>Select Environment</option>';
-
-                selectedEnvironments.forEach((env) => {
-                    const option = document.createElement('option');
-                    option.value = env;
-                    option.textContent = env;
-                    dropdown.appendChild(option);
-                });
-
-                // Restore previously selected value if it still exists
-                if (currentSelection && selectedEnvironments.has(currentSelection)) {
-                    dropdown.value = currentSelection;
-                } else {
-                    dropdown.value = ""; // Reset if current value no longer exists
-                }
-            });
-        }
     
         // Toggle Date Input
         function toggleDateInput(selectElement) {
@@ -1237,6 +1076,6 @@
                 dateInput.value = "";
             }
         }
-    </script>
+    </script>    
 </body>
 </html>
