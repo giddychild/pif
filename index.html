@@ -967,6 +967,68 @@
                 }
             });
         }
+
+        // Script to manage CI columns
+        let ciCount = 1;
+
+        document.getElementById("add-column").addEventListener("click", () => {
+            const table = document.getElementById("tags-table");
+            const headerRow = table.querySelector("thead tr");
+            const rows = table.querySelectorAll("tbody tr");
+
+            // Increment the CI column counter
+            ciCount++;
+
+            // Add new column header
+            const newHeader = document.createElement("th");
+            newHeader.textContent = `CI #${ciCount}`;
+            headerRow.appendChild(newHeader);
+
+            // Add new cell to each row
+            rows.forEach(row => {
+                const newCell = document.createElement("td");
+                const baseInput = row.querySelector("td:last-child input, td:last-child select");
+                if (baseInput) {
+                    // Clone the input or select element from the last cell
+                    const newElement = baseInput.cloneNode(true);
+                    newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
+                    newElement.value = ""; // Clear the cloned value
+                    newCell.appendChild(newElement);
+                }
+                row.appendChild(newCell);
+            });
+
+            // Enable "Remove CI" button
+            document.getElementById("remove-column").disabled = false;
+
+            // Disable "Add CI" button after reaching limit
+            if (ciCount === 20) {
+                document.getElementById("add-column").disabled = true;
+            }
+        });
+
+        document.getElementById("remove-column").addEventListener("click", () => {
+            if (ciCount > 1) {
+                const table = document.getElementById("tags-table");
+                const headerRow = table.querySelector("thead tr");
+                const rows = table.querySelectorAll("tbody tr");
+
+                // Remove last header and column
+                headerRow.querySelector("th:last-child").remove();
+                rows.forEach(row => row.querySelector("td:last-child").remove());
+
+                // Decrement the CI column counter
+                ciCount--;
+
+                // Disable "Remove CI" button if only one column remains
+                if (ciCount === 1) {
+                    document.getElementById("remove-column").disabled = true;
+                }
+
+                // Enable "Add CI" button
+                document.getElementById("add-column").disabled = false;
+            }
+        });
     
         // Add/Remove DNS Rows
         document.getElementById("add-dns-row").addEventListener("click", () => {
