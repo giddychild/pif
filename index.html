@@ -175,7 +175,7 @@
 
         <!-- Revision History -->
         <button type="button" class="collapsible">Revision History</button>
-        <div class="content">
+        <!-- <div class="content">
             <div class="form-group">
                 <label for="version">Version:</label>
                 <input type="number" id="version" name="version" placeholder="Enter the version #" class="small-input"
@@ -190,6 +190,25 @@
                 <label for="comments">Comments:</label>
                 <input type="text" id="comments" name="comments" placeholder="Enter comments" class="wide-input"
                     maxlength="250" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" class="small-input" required>
+            </div>
+        </div> -->
+
+        <div id="revision-history" class="content">
+            <div class="form-group">
+                <label for="version">Version:</label>
+                <input type="number" id="version" name="version" placeholder="Enter the version #" class="small-input" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" placeholder="Enter author name" class="medium-input" maxlength="50" required>
+            </div>
+            <div class="form-group">
+                <label for="comments">Comments:</label>
+                <input type="text" id="comments" name="comments" placeholder="Enter comments" class="wide-input" maxlength="250" required>
             </div>
             <div class="form-group">
                 <label for="date">Date:</label>
@@ -1153,21 +1172,35 @@
             combinedData.push([]); // Blank row
 
             // Revision History
+            // combinedData.push(["Revision History"]);
+            // combinedData.push(["Version", "Author", "Comments", "Date"]);
+
+            // document.querySelectorAll("#revision-history .form-group").forEach(group => {
+            //     const version = group.querySelector('input[name="version"]')?.value || "";
+            //     const author = group.querySelector('input[name="author"]')?.value || "";
+            //     const comments = group.querySelector('input[name="comments"]')?.value || "";
+            //     const date = group.querySelector('input[name="date"]')?.value || "";
+               
+            //     // Add the retrieved values to the Excel sheet
+            //     if (version || author || comments || date) {
+            //         combinedData.push([version, author, comments, date]);
+            //     }
+            // });
+
+            // combinedData.push([]); // Blank row
+
+            // Revision History
             combinedData.push(["Revision History"]);
             combinedData.push(["Version", "Author", "Comments", "Date"]);
 
-            document.querySelectorAll("#revision-history .form-group").forEach(group => {
-                const version = group.querySelector('input[name="version"]')?.value || "";
-                const author = group.querySelector('input[name="author"]')?.value || "";
-                const comments = group.querySelector('input[name="comments"]')?.value || "";
-                const date = group.querySelector('input[name="date"]')?.value || "";
-               
-                // Add the retrieved values to the Excel sheet
-                if (version || author || comments || date) {
-                    combinedData.push([version, author, comments, date]);
-                }
-            });
+            // Correctly target each input field by its ID
+            const version = document.querySelector('#revision-history #version')?.value || "";
+            const author = document.querySelector('#revision-history #author')?.value || "";
+            const comments = document.querySelector('#revision-history #comments')?.value || "";
+            const date = document.querySelector('#revision-history #date')?.value || "";
 
+            // Add the values to the sheet
+            combinedData.push([version, author, comments, date]);
             combinedData.push([]); // Blank row
 
             // Build Documents
