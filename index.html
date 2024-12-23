@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.1</title>
+    <title>Project Intake Form 0.2</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -866,7 +866,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button type="button" id="add-ssl-row" class="add-button">+ Add SSL Entry</button>
+                <button type="button" id="add-ssl" class="add-button">+ Add SSL Entry</button>
             </div>
         </div>
         <br>
@@ -1013,7 +1013,7 @@
 
         // Add/Remove SSL Rows
         const sslTable = document.getElementById("sslTable");
-        document.getElementById("add-dns").addEventListener("click", () => {
+        document.getElementById("add-ssl").addEventListener("click", () => {
             const newRow = document.createElement("tr");
             newRow.innerHTML = `
                 <td>
