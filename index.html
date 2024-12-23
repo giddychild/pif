@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.2</title>
+    <title>Project Intake Form 0.3</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -1212,7 +1212,7 @@
                 const inputSource = row.cells[2]?.textContent.trim() || "";
                 const defaultValue = row.cells[3]?.textContent.trim() || "";
                 const paas = row.cells[4]?.querySelector("input, select")?.value || "";
-                const ci1 = row.cells[5]?.querySelector("input, select")?.value || "";
+                // const ci1 = row.cells[5]?.querySelector("input, select")?.value || "";
 
                 // Handle date fields for columns like pcm-backup_last_updated
                 const backupLastUpdatedCell = row.querySelector("select[name='pcm-backup_last_updated-cs-1']");
@@ -1225,6 +1225,8 @@
                         backupLastUpdated = dateInput.value; // Set to the actual selected date
                     }
                 }
+
+                const ci1 = row.cells[5]?.querySelector("input, select")?.value || "";
                 
                 // Collect values for dynamic CI columns
                 const ciValues = Array.from(row.querySelectorAll("td:nth-child(n+7)")).map(cell => {
