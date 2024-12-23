@@ -1155,11 +1155,14 @@
             // Revision History
             combinedData.push(["Revision History"]);
             combinedData.push(["Version", "Author", "Comments", "Date"]);
-            const version = document.querySelector('#dataInputForm input[name="version"]')?.value || "";
-            const author = document.querySelector('#dataInputForm input[name="author"]')?.value || "";
-            const comments = document.querySelector('#dataInputForm input[name="comments"]')?.value || "";
-            const date = document.querySelector('#dataInputForm input[name="date"]')?.value || "";
-            combinedData.push([version, author, comments, date]);
+
+            document.querySelectorAll("#revision-history .form-group").forEach(group => {
+                const version = group.querySelector('input[name="version"]')?.value || "";
+                const author = group.querySelector('input[name="author"]')?.value || "";
+                const comments = group.querySelector('input[name="comments"]')?.value || "";
+                const date = group.querySelector('input[name="date"]')?.value || "";
+                combinedData.push([version, author, comments, date]);
+            });
             combinedData.push([]); // Blank row
 
             // Build Documents
@@ -1173,16 +1176,12 @@
             combinedData.push([]); // Blank row
 
             // Account Section
-            // combinedData.push(["Account"]);
-            // combinedData.push(["Customer"]);
-            // combinedData.push(["Customer Name"]);
-            // document.querySelectorAll('#customer-section select[name="customer-name[]"]').forEach(select => {
-            //     combinedData.push([select.value]);
-            // });
-            // combinedData.push([]);
             combinedData.push(["Account"]);
             combinedData.push(["Customer"]);
-            combinedData.push(["Customer Name", document.querySelector('#customer-section select[name="customer-name[]"]')?.value || ""]);
+            combinedData.push(["Customer Name"]);
+
+            const customerName = document.querySelector('#customer-section select[name="customer-name[]"]').value || "";
+            combinedData.push(["", customerName]); // Include the selected customer name
             combinedData.push([]); // Blank row
 
             // Environments
@@ -1210,6 +1209,7 @@
                 tagHeaders.push(`CI #${i}`);
             }
             combinedData.push(tagHeaders);
+
             document.querySelectorAll("#tags-table tbody tr").forEach(row => {
                 const tagName = row.cells[0]?.textContent.trim() || "";
                 const purpose = row.cells[1]?.textContent.trim() || "";
@@ -1217,11 +1217,14 @@
                 const source = row.cells[3]?.textContent.trim() || "";
                 const defaultValue = row.cells[4]?.textContent.trim() || "";
                 const paas = row.cells[5]?.querySelector("input, select")?.value || "";
+                
+                // Collect values for dynamic CI columns
                 const ciValues = [];
-                row.querySelectorAll("td:nth-child(n+6)").forEach(cell => {
+                row.querySelectorAll("td:nth-child(n+7)").forEach(cell => {
                     const value = cell.querySelector("input, select")?.value || ""; // Extract value from inputs/selects
                     ciValues.push(value);
                 });
+
                 combinedData.push([tagName, purpose, required, source, defaultValue, paas, ...ciValues]);
             });
             combinedData.push([]); // Blank row
