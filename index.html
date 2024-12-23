@@ -792,7 +792,7 @@
                                 </select>
                             </td>
                             <td><input type="date" name="dns-ticket[]" class="small-input" required></td>
-                            <td><button type="button" class="remove-environment remove-button">Remove</button></td>
+                            <td><button type="button" class="remove-dns remove-button">Remove</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -891,7 +891,7 @@
             }
         });
     
-        // Add Environment Row
+        // Add/Remove Environment Row
         document.getElementById('add-environment').addEventListener('click', () => {
             const environmentTable = document.getElementById('environmentTable').querySelector('tbody');
             const newRow = document.createElement('tr');
@@ -938,7 +938,6 @@
             updateEnvironmentDropdowns();
         });
 
-        // Remove Environment Row
         document.addEventListener('click', (event) => {
             if (event.target.classList.contains('remove-environment')) {
                 event.target.closest('tr').remove();
@@ -955,7 +954,7 @@
             }
         });
 
-        // New Script for Add/Remove CI #2 column
+        //Script to add additional CI column
         let ciCount = 1; // Initialize the counter for CI columns
 
         document.getElementById("add-column").addEventListener("click", () => {
@@ -1001,6 +1000,7 @@
             }
         });
 
+        // Script to remove additional CI column       
         document.getElementById("remove-column").addEventListener("click", () => {
             const table = document.getElementById("tags-table");
             const headerRow = table.querySelector("thead tr");
@@ -1048,7 +1048,7 @@
             });
         });
 
-        // Sync Environment Options
+        // Update Environment Options in other sections
         function updateEnvironmentDropdown() {
             const selectedEnvironments = new Set();
             const environmentDropdowns = document.querySelectorAll('select[name="environment-type[]"]');
@@ -1104,13 +1104,6 @@
 
             // Update the environment dropdown for the new row
             updateEnvironmentDropdown();
-        });
-
-        // Listen for changes in the environment section
-        document.addEventListener('change', (event) => {
-            if (event.target.name === 'environment-type[]') {
-                updateEnvironmentDropdown();
-            }
         });
 
         // Initialize DNS dropdowns on page load
