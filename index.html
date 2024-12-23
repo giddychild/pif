@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.2</title>
+    <title>Project Intake Form 0.1</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -898,6 +898,8 @@
 
         <!-- Networking Section -->
         <h2>NETWORKING</h2>
+
+        <!-- VPC Section -->
         <button type="button" class="collapsible">VPC</button>
         <div class="content">
             <div class="table-container" style="overflow-x: auto;">
@@ -974,6 +976,7 @@
             </div>
         </div>
         
+        <!-- Subnet Section -->
         <button type="button" class="collapsible">Subnets</button>
         <div class="content">
             <div class="table-container" style="overflow-x: auto;">
@@ -1038,7 +1041,76 @@
                 </table>
                 <button type="button" id="add-subnet" class="add-button">+ Add Subnet</button>
             </div>
-        </div>    
+        </div>   
+        
+        <!-- VPCEndpoints Section -->
+        <button type="button" class="collapsible">Subnets</button>
+        <div class="content">
+            <div class="table-container" style="overflow-x: auto;">
+                <table id="endpointsTable">
+                    <thead>
+                        <tr>
+                            <th>Environment</th>
+                            <th>VPC Name</th>
+                            <th>Enable Private DNS</th>
+                            <th>Endpoint</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select name="endpoint-environment[]" class="small-input environment-dropdown" required>
+                                    <option value="" disabled selected>Select Environment</option>
+                                    <!-- Dynamic options will be added here -->
+                                </select>
+                            </td>
+                            <td>
+                                <select name="environment-vpc-name[]" class="small-input vpc-dropdown" required>
+                                    <option value="" disabled selected>Select VPC Name</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="subnet-name[]" placeholder="Enter Subnet name" class="medium-input" required>
+                            </td>
+                            <td>
+                                <select name="enableprivatedns[]" class="small-input" required>
+                                    <option value="" disabled selected>Select Option</option>
+                                    <option value="true">true</option>
+                                    <option value="false">false</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="endpoint[]" class="small-input" required>
+                                    <option value="" disabled selected>Select Option</option>
+                                    <option value="s3">s3</option>
+                                    <option value="dynamodb">dynamodb</option>
+                                    <option value="ssm">ssm</option>
+                                    <option value="ec2">ec2</option>
+                                    <option value="ec2messages">ec2messages</option>
+                                    <option value="elasticloadbalancing">elasticloadbalancing</option>
+                                    <option value="events">events</option>
+                                    <option value="execute-api">execute-api</option>
+                                    <option value="kinesis-streams">kinesis-streams</option>
+                                    <option value="kms">kms</option>
+                                    <option value="logs">logs</option>
+                                    <option value="monitoring">monitoring</option>
+                                    <option value="sagemaker.runtime">sagemaker.runtime</option>
+                                    <option value="secretsmanager">secretsmanager</option>
+                                    <option value="servicecatalog">servicecatalog</option>
+                                    <option value="sms">sms</option>
+                                    <option value="sqs">sqs</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="button" class="remove-endpoint remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" id="add-endpoint" class="add-button">+ Add Endpoint</button>
+            </div>
+        </div>   
         
         <br>
         <button type="submit">Submit</button>
@@ -1375,6 +1447,72 @@
             if (event.target.classList.contains("remove-subnet")) {
                 event.target.closest("tr").remove();
                 updateSubnetDropdowns();
+            }
+        });
+
+        // Add/Remove Endpoint Rows
+        const endpointsTable = document.getElementById("endpointsTable");
+        document.getElementById("add-endpoint").addEventListener("click", () => {
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>
+                    <select name="endpoint-environment[]" class="small-input environment-dropdown" required>
+                        <option value="" disabled selected>Select Environment</option>
+                        <!-- Dynamic options will be added here -->
+                    </select>
+                </td>
+                <td>
+                    <select name="environment-vpc-name[]" class="small-input vpc-dropdown" required>
+                        <option value="" disabled selected>Select VPC Name</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="subnet-name[]" placeholder="Enter Subnet name" class="medium-input" required>
+                </td>
+                <td>
+                    <select name="enableprivatedns[]" class="small-input" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="true">true</option>
+                        <option value="false">false</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="endpoint[]" class="small-input" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="s3">s3</option>
+                        <option value="dynamodb">dynamodb</option>
+                        <option value="ssm">ssm</option>
+                        <option value="ec2">ec2</option>
+                        <option value="ec2messages">ec2messages</option>
+                        <option value="elasticloadbalancing">elasticloadbalancing</option>
+                        <option value="events">events</option>
+                        <option value="execute-api">execute-api</option>
+                        <option value="kinesis-streams">kinesis-streams</option>
+                        <option value="kms">kms</option>
+                        <option value="logs">logs</option>
+                        <option value="monitoring">monitoring</option>
+                        <option value="sagemaker.runtime">sagemaker.runtime</option>
+                        <option value="secretsmanager">secretsmanager</option>
+                        <option value="servicecatalog">servicecatalog</option>
+                        <option value="sms">sms</option>
+                        <option value="sqs">sqs</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="button" class="remove-endpoint remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                </td>
+            `;
+            endpointsTable.querySelector("tbody").appendChild(newRow);
+
+            // Immediately update the VPC dropdown for all rows
+            updateEndpointsDropdowns();
+        });
+
+        // Removes an Endpoint row when the "Remove" button is clicked.
+        document.addEventListener("click", event => {
+            if (event.target.classList.contains("remove-endpoint")) {
+                event.target.closest("tr").remove();
+                updateEndpointsDropdowns();
             }
         });
 
