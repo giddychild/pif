@@ -1564,28 +1564,23 @@
         let ciCount = document.querySelectorAll("#tags-table thead th").length - 5;
 
         // Update VPC Lists dropdown
-        // document.addEventListener("input", (event) => {
-        //     if (event.target.classList.contains("vpc-name-input")) {
-        //         const vpcNames = Array.from(document.querySelectorAll(".vpc-name-input"))
-        //             .map(input => input.value.trim())
-        //             .filter(name => name);
+        document.addEventListener("input", (event) => {
+            if (event.target.classList.contains("vpc-name-input")) {
+                const vpcNames = Array.from(document.querySelectorAll(".vpc-name-input"))
+                    .map(input => input.value.trim())
+                    .filter(name => name);
 
-        //         document.querySelectorAll(".vpc-dropdown").forEach(dropdown => {
-        //             const currentValue = dropdown.value;
-        //             dropdown.innerHTML = '<option value="" disabled selected>Select VPC Name</option>';
-        //             vpcNames.forEach(name => {
-        //                 const option = document.createElement("option");
-        //                 option.value = name;
-        //                 option.textContent = name;
-        //                 dropdown.appendChild(option);
-        //             });
-        //             dropdown.value = currentValue || "";
-        //         });
-        //     }
-        // });
-        document.addEventListener("input", event => {
-            if (event.target.name === "vpc-name[]") {
-                updateVpcDropdowns();
+                document.querySelectorAll(".vpc-dropdown").forEach(dropdown => {
+                    const currentValue = dropdown.value;
+                    dropdown.innerHTML = '<option value="" disabled selected>Select VPC Name</option>';
+                    vpcNames.forEach(name => {
+                        const option = document.createElement("option");
+                        option.value = name;
+                        option.textContent = name;
+                        dropdown.appendChild(option);
+                    });
+                    dropdown.value = currentValue || "";
+                });
             }
         });
     
