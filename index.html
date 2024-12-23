@@ -1230,11 +1230,10 @@
 
             document.querySelectorAll("#tags-table tbody tr").forEach(row => {
                 const tagName = row.cells[0]?.textContent.trim() || "";
-                // const purpose = row.cells[1]?.textContent.trim() || "";
-                const required = row.cells[1]?.textContent.trim() || "";
-                const source = row.cells[2]?.textContent.trim() || "";
+                const customerInput = row.cells[1]?.textContent.trim() || "";
+                const inputSource = row.cells[2]?.textContent.trim() || "";
                 const defaultValue = row.cells[3]?.textContent.trim() || "";
-                const paas = row.cells[5]?.querySelector("input, select")?.value || "";
+                const paas = row.cells[4]?.querySelector("input, select")?.value || "";
 
                 // Collect values for dynamic CI columns
                 const ciValues = Array.from(row.querySelectorAll("td:nth-child(n+7)")).map(cell => {
@@ -1242,7 +1241,7 @@
                     return inputElement?.value || ""; // Get the value from inputs/selects
                 });
 
-                combinedData.push([tagName, purpose, required, source, defaultValue, paas, ...ciValues]);
+                combinedData.push([tagName, customerInput, inputSource, defaultValue, paas, ...ciValues]);
             });
 
             combinedData.push([]); // Blank row
