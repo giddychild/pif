@@ -985,24 +985,35 @@
             headerRow.appendChild(newHeader);
 
             // Add new cell to each row
+            // rows.forEach(row => {
+            //     const newCell = document.createElement("td");
+            //     const baseInput = row.querySelector("td:last-child input, td:last-child select");
+            //     if (baseInput) {
+            //         // Clone the input or select element from the last cell
+            //         const newElement = baseInput.cloneNode(true);
+            //         newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
+            //         newElement.value = ""; // Clear the cloned value
+            //         newCell.appendChild(newElement);
+            //     }
+            //     row.appendChild(newCell);
             rows.forEach(row => {
-                const newCell = document.createElement("td");
-                const baseInput = row.querySelector("td:last-child input, td:last-child select");
-                if (baseInput) {
-                    // Clone the input or select element from the last cell
-                    const newElement = baseInput.cloneNode(true);
-                    newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
-                    newElement.value = ""; // Clear the cloned value
-                    newCell.appendChild(newElement);
-                }
-                row.appendChild(newCell);
+            const lastCell = row.querySelector("td:last-child");
+            const newCell = lastCell.cloneNode(true);
+
+            // Adjust the name attribute in the cloned element
+            const input = newCell.querySelector("input, select");
+            if (input) {
+                input.name = input.name.replace(/ci-\d+/, `ci-${ciCount}`);
+            }
+
+            row.appendChild(newCell);
             });
 
             // Enable "Remove CI" button
             document.getElementById("remove-column").disabled = false;
 
             // Disable "Add CI" button after reaching limit
-            if (ciCount === 20) {
+            if (ciCount === 25) {
                 document.getElementById("add-column").disabled = true;
             }
         });
