@@ -943,63 +943,28 @@
             }
         });
     
-        // Add/Remove CI Columns
-        let ciCount = 1;
-        const tagsTable = document.getElementById("tags-table");
-    
-        document.getElementById("add-column").addEventListener("click", () => {
-            if (ciCount >= 20) return;
-    
-            ciCount++;
-            const headerRow = tagsTable.querySelector("thead tr");
-            const rows = tagsTable.querySelectorAll("tbody tr");
-    
-            const newHeader = document.createElement("th");
-            newHeader.textContent = `CI #${ciCount}`;
-            headerRow.appendChild(newHeader);
-    
-            rows.forEach(row => {
-                const lastCell = row.querySelector("td:last-child").cloneNode(true);
-                const lastSelect = lastCell.querySelector("select");
-                const newSelect = lastCell.querySelector("select");
-                if (lastSelect && newSelect) newSelect.value = lastSelect.value;
-                row.appendChild(lastCell);
-            });
-    
-            document.getElementById("remove-column").disabled = ciCount === 1;
-            document.getElementById("add-column").disabled = ciCount === 20;
-        });
-    
-        document.getElementById("remove-column").addEventListener("click", () => {
-            if (ciCount <= 1) return;
-    
-            ciCount--;
-            const headerRow = tagsTable.querySelector("thead tr");
-            const rows = tagsTable.querySelectorAll("tbody tr");
-    
-            headerRow.querySelector("th:last-child").remove();
-            rows.forEach(row => row.querySelector("td:last-child").remove());
-    
-            document.getElementById("remove-column").disabled = ciCount === 1;
-            document.getElementById("add-column").disabled = false;
-        });
-    
         // Environment Dropdown Synchronization
         function updateEnvironmentDropdowns() {
             const selectedEnvironments = Array.from(
                 document.querySelectorAll('select[name="environment-type[]"]')
-            ).map(dropdown => dropdown.value).filter(value => value);
+            )
+                .map(dropdown => dropdown.value)
+                .filter(value => value);
     
             document.querySelectorAll(".environment-dropdown").forEach(dropdown => {
                 const currentSelection = dropdown.value;
-                dropdown.innerHTML = '<option value="" disabled>Select Environment</option>';
+                dropdown.innerHTML = '<option value="" disabled selected>Select Environment</option>';
                 selectedEnvironments.forEach(env => {
                     const option = document.createElement("option");
                     option.value = env;
                     option.textContent = env;
                     dropdown.appendChild(option);
                 });
-                dropdown.value = currentSelection;
+                if (selectedEnvironments.includes(currentSelection)) {
+                    dropdown.value = currentSelection;
+                } else {
+                    dropdown.value = ""; // Reset if no longer valid
+                }
             });
         }
     
@@ -1064,18 +1029,12 @@
             updateEnvironmentDropdowns();
         });
     
-        // Toggle Date Input
-        function toggleDateInput(selectElement) {
-            const dateInput = selectElement.closest("td").querySelector("input[type='date']");
-            if (selectElement.value === "date") {
-                dateInput.style.display = "inline";
-                dateInput.required = true;
-            } else {
-                dateInput.style.display = "none";
-                dateInput.required = false;
-                dateInput.value = "";
+        // Sync Environment Options on Change
+        document.addEventListener("change", event => {
+            if (event.target.name === "environment-type[]") {
+                updateEnvironmentDropdowns();
             }
-        }
-    </script>    
+        });
+    </script>        
 </body>
 </html>
