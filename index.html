@@ -961,7 +961,9 @@
                         <option value="Semi Managed">Semi Managed</option>
                     </select>
                 </td>
-                <td><button type="button" class="remove-environment remove-button">Remove</button></td>
+                <td>
+                <button type="button" class="remove-environment remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                </td>
             `;
             environmentTable.querySelector("tbody").appendChild(newRow);
             updateEnvironmentDropdowns();
