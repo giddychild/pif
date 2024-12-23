@@ -167,6 +167,9 @@
     </style>
 </head>
 
+<!-- Add AWS SDK Script -->
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1317.0.min.js"></script>
+
 <body>
     <h1>TxDIR PIF AWS Summary Page</h1>
     <form id="dataInputForm" action="/submit" method="post" enctype="multipart/form-data">
@@ -867,7 +870,9 @@
             </div>
         </div>
         <br>
-        <button type="submit">Submit</button>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submit-btn">Submit</button>
     </form>
 
     <script>
@@ -1126,6 +1131,67 @@
                 updateEnvironmentDropdowns();
             }
         });
+    
+        // Configure AWS SDK
+        AWS.config.update({
+            region: "us-east-1", // Replace with your AWS region
+            credentials: new AWS.Credentials("YOUR_ACCESS_KEY_ID", "YOUR_SECRET_ACCESS_KEY")
+        });
+
+        const s3 = new AWS.S3();
+        const bucketName = "your-s3-bucket-name"; // Replace with your bucket name
+        const folderPath = "pif-documents/";
+
+        // Convert form data to JSON
+        function getFormData() {
+            const formData = new FormData(document.getElementById("dataInputForm"));
+            const data = {};
+            formData.forEach((value, key) => {
+                // Handle multiple entries for the same key
+                if (data[key]) {
+                    data[key] = Array.isArray(data[key]) ? [...data[key], value] : [data[key], value];
+                } else {
+                    data[key] = value;
+                }
+            });
+            return data;
+        }
+
+        // Upload file to S3
+        async function uploadToS3(data) {
+            try {
+                // Use the value from the version field for the file name
+                const version = data["version"] || "UnknownVersion";
+                const fileName = `TxDIR-PIF-AWS_PaaS_${version}.json`;
+
+                // Convert data to JSON format
+                const fileContent = JSON.stringify(data, null, 2);
+
+                // Define S3 upload parameters
+                const params = {
+                    Bucket: bucketName,
+                    Key: `${folderPath}${fileName}`,
+                    Body: fileContent,
+                    ContentType: "application/json"
+                };
+
+                // Upload to S3
+                await s3.upload(params).promise();
+                alert(`File uploaded successfully as ${fileName}`);
+            } catch (error) {
+                console.error("Error uploading file to S3:", error);
+                alert("Failed to upload file. Please check the console for details.");
+            }
+        }
+
+        // Handle form submission
+        document.getElementById("submit-btn").addEventListener("click", async (event) => {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            const formData = getFormData();
+            await uploadToS3(formData);
+        });
+    
     </script>        
 </body>
 </html>
