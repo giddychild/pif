@@ -1177,11 +1177,10 @@
 
             // Account Section
             combinedData.push(["Account"]);
-            combinedData.push(["Customer"]);
-            combinedData.push(["Customer Name"]);
+            combinedData.push(["Customer", "Customer Name"]);
 
-            const customerName = document.querySelector('#customer-section select[name="customer-name[]"]').value || "";
-            combinedData.push(["", customerName]); // Include the selected customer name
+            const customerName = document.querySelector('#customer-section select[name="customer-name[]"]')?.value || "";
+            combinedData.push(["", customerName]); // Include the selected customer name in the same row as "Customer Name"
             combinedData.push([]); // Blank row
 
             // Environments
@@ -1203,6 +1202,7 @@
                 "Enterprise Tag Name", "Functional Purpose", "Customer Input", 
                 "Input Source", "Default Value", "PaaS"
             ];
+
             // Add dynamic CI headers
             const ciCount = document.querySelectorAll("#tags-table thead th").length - 6; // Adjust based on CI columns
             for (let i = 1; i <= ciCount; i++) {
@@ -1215,9 +1215,9 @@
                 const purpose = row.cells[1]?.textContent.trim() || "";
                 const required = row.cells[2]?.textContent.trim() || "";
                 const source = row.cells[3]?.textContent.trim() || "";
-                const defaultValue = row.cells[4]?.textContent.trim() || "";
+                const defaultValue = row.cells[4]?.querySelector("input, select")?.value || ""; // Fetch value from input/select
                 const paas = row.cells[5]?.querySelector("input, select")?.value || "";
-                
+
                 // Collect values for dynamic CI columns
                 const ciValues = [];
                 row.querySelectorAll("td:nth-child(n+7)").forEach(cell => {
