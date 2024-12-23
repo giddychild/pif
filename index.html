@@ -986,7 +986,6 @@
         }
 
         // Script to manage CI columns
-        // let ciCount = 1;
         let ciCount = document.querySelectorAll("#tags-table thead th").length - 5; // Subtract base columns
 
 
@@ -1001,6 +1000,7 @@
             // Add new column header
             const newHeader = document.createElement("th");
             newHeader.textContent = `CI #${ciCount}`;
+            newHeader.setAttribute("data-ci-index", ciCount); // Track CI index
             headerRow.appendChild(newHeader);
 
             // Add new cell to each row, populating it with data from the last column
