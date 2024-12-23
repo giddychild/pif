@@ -1035,8 +1035,10 @@
                 const lastElement = lastCell.querySelector("input, select");
                 const newElement = newCell.querySelector("input, select");
                 if (lastElement && newElement) {
-                    newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
-                    newElement.value = lastElement.value; // Copy value from last column
+                    // newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
+                    // newElement.value = lastElement.value; // Copy value from last column
+                    newElement.name = `ci-${ciCount}`;
+                    newElement.value = ""; // Reset value
                 }
                 row.appendChild(newCell);
             });
