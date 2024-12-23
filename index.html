@@ -1020,10 +1020,6 @@
             newHeader.textContent = `CI #${ciCount}`;
             newHeader.setAttribute("data-ci-index", ciCount); // Track CI index
             headerRow.appendChild(newHeader);
-            // tagHeaders.push(`CI #${ciCount}`);
-
-            // Confirm header has been added successfully
-            console.log("New header added: ", newHeader.outerHTML);
 
             // Add new cell to each row, populating it with data from the last column
             rows.forEach(row => {
@@ -1040,10 +1036,6 @@
                 }
                 row.appendChild(newCell);
             });
-
-            // Validate if the last column header is displayed
-            const allHeaders = Array.from(headerRow.querySelectorAll("th"));
-            console.log("Current headers: ", allHeaders.map(th => th.textContent));
 
             // Enable "Remove CI" button
             document.getElementById("remove-column").disabled = false;
@@ -1256,7 +1248,14 @@
                 }
             }
 
-            combinedData.push(tagHeaders);
+            // combinedData.push(tagHeaders);
+            // Regenerate headers from the DOM
+            const dynamicHeaders = Array.from(document.querySelectorAll("#tags-table thead th")).map(th => th.textContent.trim());
+            combinedData.push(dynamicHeaders);
+
+            // Debugging output
+            console.log("Headers being pushed to Excel:", dynamicHeaders);
+
 
             document.querySelectorAll("#tags-table tbody tr").forEach(row => {
                 const tagName = row.cells[0]?.textContent.trim() || "";
