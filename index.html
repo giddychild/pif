@@ -1214,18 +1214,22 @@
 
                 // Handle date fields for columns like pcm-backup_last_updated
                 const selectionField = row.querySelector("select[name='pcm-backup_last_updated-selection']");
-                const dateField = row.querySelector("input[name='pcm-backup_last_updated-date']");
-                let backupLastUpdated = dateField?.value || ""; // Default to the selected value (e.g., 'date', 'empty')
+                // const dateField = row.querySelector("input[name='pcm-backup_last_updated-date']");
+                let backupLastUpdated = selectionField?.value || ""; // Default to the selected value (e.g., 'date', 'empty')
 
                 // If "Date" is selected, get the value from the adjacent <input>
                 if (backupLastUpdated === "date" && dateField) {
-                    backupLastUpdated = dateField.value || ""; // Use the selected date
+                    // backupLastUpdated = dateField.value || ""; // Use the selected date
+                    const dateInput = selectionField.nextElementSibling; // Adjacent <input>
+                    if (dateInput && dateInput.type === "date") {
+                        backupLastUpdated = dateInput.value; // Set to the actual selected date
+                    }
                 }
 
                 const ci1 = row.cells[5]?.querySelector("input, select")?.value || "";
                 
                 // Collect values for dynamic CI columns
-                const ciValues = Array.from(row.querySelectorAll("td:nth-child(n+7)")).map(cell => {
+                const ciValues = Array.from(row.querySelectorAll("td:nth-child(n+6)")).map(cell => {
                     const inputElement = cell.querySelector("input, select");
                     return inputElement?.value || ""; // Get the value from inputs/selects
                 });
