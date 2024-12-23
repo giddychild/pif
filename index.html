@@ -1547,25 +1547,23 @@
 
         // VPC Dropdown Synchronization
         function updateVpcDropdowns() {
-            // Collect all unique VPC names entered in the VPC table
             const vpcNames = Array.from(document.querySelectorAll("input[name='vpc-name[]']"))
-                .map(input => input.value.trim())
-                .filter(name => name);
+                .map((input) => input.value.trim())
+                .filter((name) => name);
 
-            // Update all VPC dropdowns, including those in newly added rows
-            document.querySelectorAll(".vpc-dropdown").forEach(dropdown => {
-                const currentValue = dropdown.value; // Preserve the current selection
-                dropdown.innerHTML = '<option value="" disabled selected>Select VPC Name</option>'; // Reset options
-                vpcNames.forEach(name => {
+            document.querySelectorAll(".vpc-dropdown").forEach((dropdown) => {
+                const currentSelection = dropdown.value;
+                dropdown.innerHTML = '<option value="" disabled selected>Select VPC Name</option>';
+                vpcNames.forEach((name) => {
                     const option = document.createElement("option");
                     option.value = name;
                     option.textContent = name;
                     dropdown.appendChild(option);
                 });
-                dropdown.value = currentValue || ""; // Restore the previous selection if it exists
+                dropdown.value = currentSelection || "";
             });
         }
-
+        
         // Update VPC Lists dropdown
         document.addEventListener("input", event => {
             if (event.target.name === "vpc-name[]") {
