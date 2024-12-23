@@ -986,7 +986,9 @@
         }
 
         // Script to manage CI columns
-        let ciCount = 1;
+        // let ciCount = 1;
+        let ciCount = document.querySelectorAll("#tags-table thead th").length - 5; // Subtract base columns
+
 
         document.getElementById("add-column").addEventListener("click", () => {
             const table = document.getElementById("tags-table");
@@ -1009,9 +1011,10 @@
                 // Update input/select names and preserve the last column's value
                 const lastElement = lastCell.querySelector("input, select");
                 const newElement = newCell.querySelector("input, select");
+
                 if (lastElement && newElement) {
                     newElement.name = `ci-${ciCount}`;
-                    newElement.value = lastElement.value;
+                    newElement.value = lastElement.value || "";
                 }
                 row.appendChild(newCell);
             });
