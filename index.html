@@ -1145,116 +1145,125 @@
 
         // Save to Excel
         document.getElementById("save-to-excel").addEventListener("click", function () {
-        const workbook = XLSX.utils.book_new();
-        const combinedData = [];
+            const workbook = XLSX.utils.book_new();
+            const combinedData = [];
 
-        // Title
-        combinedData.push(["TxDIR PIF AWS Summary Page"]);
-        combinedData.push([]); // Blank row
+            // Title
+            combinedData.push(["TxDIR PIF AWS Summary Page"]);
+            combinedData.push([]); // Blank row
 
-        // Revision History
-        combinedData.push(["Revision History"]);
-        combinedData.push(["Version", "Author", "Comments", "Date"]);
-        document.querySelectorAll("#dataInputForm .content:nth-child(1) .form-group").forEach(group => {
-            const version = group.querySelector('input[name="version"]')?.value || "";
-            const author = group.querySelector('input[name="author"]')?.value || "";
-            const comments = group.querySelector('input[name="comments"]')?.value || "";
-            const date = group.querySelector('input[name="date"]')?.value || "";
-            combinedData.push([version, author, comments, date]);
-        });
-        combinedData.push([]); // Blank row
-
-        // Build Documents
-        combinedData.push(["Build Documents"]);
-        combinedData.push(["Document Type", "Link Location"]);
-        document.querySelectorAll("#document-fields .document-group").forEach(group => {
-            const docType = group.querySelector('select[name="document-type[]"]')?.value || "";
-            const link = group.querySelector('input[name="link-location[]"]')?.value || "";
-            combinedData.push([docType, link]);
-        });
-        combinedData.push([]); // Blank row
-
-        // Account Section
-        combinedData.push(["Account"]);
-        combinedData.push(["Customer"]);
-        combinedData.push(["Customer Name"]);
-        document.querySelectorAll('#customer-section select[name="customer-name[]"]').forEach(select => {
-            combinedData.push([select.value]);
-        });
-        combinedData.push([]); // Blank row
-
-        // Environments
-        combinedData.push(["Environments"]);
-        combinedData.push(["Environment", "Account Number", "Region", "Existing", "SLA"]);
-        document.querySelectorAll("#environmentTable tbody tr").forEach(row => {
-            const envType = row.querySelector('select[name="environment-type[]"]')?.value || "";
-            const accountNum = row.querySelector('input[name="account-number[]"]')?.value || "";
-            const region = row.querySelector('select[name="region[]"]')?.value || "";
-            const existing = row.querySelector('select[name="existing[]"]')?.value || "";
-            const sla = row.querySelector('select[name="sla[]"]')?.value || "";
-            combinedData.push([envType, accountNum, region, existing, sla]);
-        });
-        combinedData.push([]); // Blank row
-
-        // Tags
-        combinedData.push(["Tags"]);
-        const tagHeaders = [
-            "Enterprise Tag Name", "Functional Purpose", "Input Required", 
-            "Input Source", "Default Value", "PaaS"
-        ];
-        // Add dynamic CI headers
-        const ciCount = document.querySelectorAll("#tags-table thead th").length - 6; // Adjust based on CI columns
-        for (let i = 1; i <= ciCount; i++) {
-            tagHeaders.push(`CI #${i}`);
-        }
-        combinedData.push(tagHeaders);
-        document.querySelectorAll("#tags-table tbody tr").forEach(row => {
-            const tagName = row.cells[0]?.textContent.trim() || "";
-            const purpose = row.cells[1]?.textContent.trim() || "";
-            const required = row.cells[2]?.textContent.trim() || "";
-            const source = row.cells[3]?.textContent.trim() || "";
-            const defaultValue = row.cells[4]?.textContent.trim() || "";
-            const paas = row.cells[5]?.querySelector("input, select")?.value || "";
-            const ciValues = [];
-            row.querySelectorAll("td:nth-child(n+6)").forEach(cell => {
-                const value = cell.querySelector("input, select")?.value || "";
-                ciValues.push(value);
+            // Revision History
+            combinedData.push(["Revision History"]);
+            combinedData.push(["Version", "Author", "Comments", "Date"]);
+            document.querySelectorAll("#dataInputForm .content:nth-child(1) .form-group").forEach(group => {
+                const version = group.querySelector('input[name="version"]')?.value || "";
+                const author = group.querySelector('input[name="author"]')?.value || "";
+                const comments = group.querySelector('input[name="comments"]')?.value || "";
+                const date = group.querySelector('input[name="date"]')?.value || "";
+                combinedData.push([version, author, comments, date]);
             });
-            combinedData.push([tagName, purpose, required, source, defaultValue, paas, ...ciValues]);
+            combinedData.push([]); // Blank row
+
+            // Build Documents
+            combinedData.push(["Build Documents"]);
+            combinedData.push(["Document Type", "Link Location"]);
+            document.querySelectorAll("#document-fields .document-group").forEach(group => {
+                const docType = group.querySelector('select[name="document-type[]"]')?.value || "";
+                const link = group.querySelector('input[name="link-location[]"]')?.value || "";
+                combinedData.push([docType, link]);
+            });
+            combinedData.push([]); // Blank row
+
+            // Account Section
+            combinedData.push(["Account"]);
+            combinedData.push(["Customer"]);
+            combinedData.push(["Customer Name"]);
+            document.querySelectorAll('#customer-section select[name="customer-name[]"]').forEach(select => {
+                combinedData.push([select.value]);
+            });
+            combinedData.push([]); // Blank row
+
+            // Environments
+            combinedData.push(["Environments"]);
+            combinedData.push(["Environment", "Account Number", "Region", "Existing", "SLA"]);
+            document.querySelectorAll("#environmentTable tbody tr").forEach(row => {
+                const envType = row.querySelector('select[name="environment-type[]"]')?.value || "";
+                const accountNum = row.querySelector('input[name="account-number[]"]')?.value || "";
+                const region = row.querySelector('select[name="region[]"]')?.value || "";
+                const existing = row.querySelector('select[name="existing[]"]')?.value || "";
+                const sla = row.querySelector('select[name="sla[]"]')?.value || "";
+                combinedData.push([envType, accountNum, region, existing, sla]);
+            });
+            combinedData.push([]); // Blank row
+
+            // Tags
+            combinedData.push(["Tags"]);
+            const tagHeaders = [
+                "Enterprise Tag Name", "Functional Purpose", "Input Required", 
+                "Input Source", "Default Value", "PaaS"
+            ];
+            // Add dynamic CI headers
+            const ciCount = document.querySelectorAll("#tags-table thead th").length - 6; // Adjust based on CI columns
+            for (let i = 1; i <= ciCount; i++) {
+                tagHeaders.push(`CI #${i}`);
+            }
+            combinedData.push(tagHeaders);
+
+            document.querySelectorAll("#tags-table tbody tr").forEach(row => {
+                const rowData = [];
+                const cells = row.querySelectorAll("td");
+
+                cells.forEach((cell, index) => {
+                    const input = cell.querySelector("input, select");
+                    if (input) {
+                        if (input.tagName === "SELECT") {
+                            // Get selected text for dropdowns
+                            rowData.push(input.options[input.selectedIndex]?.text || "");
+                        } else {
+                            // Get input value
+                            rowData.push(input.value || "");
+                        }
+                    } else if (index < 6) {
+                        // Static text for first 6 columns
+                        rowData.push(cell.textContent.trim());
+                    }
+                });
+
+                combinedData.push(rowData);
+            });
+            combinedData.push([]); // Blank row
+
+            // DNS
+            combinedData.push(["DNS"]);
+            combinedData.push(["Environment", "Domain", "Type", "Ticket Created"]);
+            document.querySelectorAll("#dns-table tbody tr").forEach(row => {
+                const environment = row.querySelector('select[name="dns-environment[]"]')?.value || "";
+                const domain = row.querySelector('input[name="dns-domain[]"]')?.value || "";
+                const type = row.querySelector('select[name="dns-type[]"]')?.value || "";
+                const ticket = row.querySelector('input[name="dns-ticket[]"]')?.value || "";
+                combinedData.push([environment, domain, type, ticket]);
+            });
+            combinedData.push([]); // Blank row
+
+            // SSL
+            combinedData.push(["SSL"]);
+            combinedData.push(["Environment", "Domains", "Source", "ARN", "Contact Info"]);
+            document.querySelectorAll("#ssl-table tbody tr").forEach(row => {
+                const environment = row.querySelector('select[name="ssl-environment[]"]')?.value || "";
+                const domains = row.querySelector('input[name="ssl-domains[]"]')?.value || "";
+                const source = row.querySelector('select[name="ssl-source[]"]')?.value || "";
+                const arn = row.querySelector('input[name="ssl-arn[]"]')?.value || "";
+                const contact = row.querySelector('input[name="ssl-contact[]"]')?.value || "";
+                combinedData.push([environment, domains, source, arn, contact]);
+            });
+
+            // Create a single sheet
+            const sheet = XLSX.utils.aoa_to_sheet(combinedData);
+            XLSX.utils.book_append_sheet(workbook, sheet, "TxDIR PIF AWS Summary");
+
+            // Save the workbook
+            XLSX.writeFile(workbook, "TxDIR_PIF_AWS_Summary.xlsx");
         });
-        combinedData.push([]); // Blank row
-
-        // DNS
-        combinedData.push(["DNS"]);
-        combinedData.push(["Environment", "Domain", "Type", "Ticket Created"]);
-        document.querySelectorAll("#dns-table tbody tr").forEach(row => {
-            const environment = row.querySelector('select[name="dns-environment[]"]')?.value || "";
-            const domain = row.querySelector('input[name="dns-domain[]"]')?.value || "";
-            const type = row.querySelector('select[name="dns-type[]"]')?.value || "";
-            const ticket = row.querySelector('input[name="dns-ticket[]"]')?.value || "";
-            combinedData.push([environment, domain, type, ticket]);
-        });
-        combinedData.push([]); // Blank row
-
-        // SSL
-        combinedData.push(["SSL"]);
-        combinedData.push(["Environment", "Domains", "Source", "ARN", "Contact Info"]);
-        document.querySelectorAll("#ssl-table tbody tr").forEach(row => {
-            const environment = row.querySelector('select[name="ssl-environment[]"]')?.value || "";
-            const domains = row.querySelector('input[name="ssl-domains[]"]')?.value || "";
-            const source = row.querySelector('select[name="ssl-source[]"]')?.value || "";
-            const arn = row.querySelector('input[name="ssl-arn[]"]')?.value || "";
-            const contact = row.querySelector('input[name="ssl-contact[]"]')?.value || "";
-            combinedData.push([environment, domains, source, arn, contact]);
-        });
-
-        // Create a single sheet
-        const sheet = XLSX.utils.aoa_to_sheet(combinedData);
-        XLSX.utils.book_append_sheet(workbook, sheet, "TxDIR PIF AWS Summary");
-
-        // Save the workbook
-        XLSX.writeFile(workbook, "TxDIR_PIF_AWS_Summary.xlsx");
-    });
     </script>        
 </body>
 </html>
