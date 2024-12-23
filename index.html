@@ -167,6 +167,8 @@
     </style>
 </head>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 <body>
     <h1>TxDIR PIF AWS Summary Page</h1>
     <form id="dataInputForm" action="/submit" method="post" enctype="multipart/form-data">
@@ -1127,6 +1129,100 @@
                 updateEnvironmentDropdowns();
             }
         });
+    
+        document.getElementById("save-to-excel").addEventListener("click", function () {
+        const workbook = XLSX.utils.book_new();
+
+        // Revision History
+        const revisionHistory = [["Version", "Author", "Comments", "Date"]];
+        document.querySelectorAll("#dataInputForm .content:nth-child(1) .form-group").forEach(group => {
+            const version = group.querySelector('input[name="version"]')?.value || "";
+            const author = group.querySelector('input[name="author"]')?.value || "";
+            const comments = group.querySelector('input[name="comments"]')?.value || "";
+            const date = group.querySelector('input[name="date"]')?.value || "";
+            revisionHistory.push([version, author, comments, date]);
+        });
+        const revisionSheet = XLSX.utils.aoa_to_sheet(revisionHistory);
+        XLSX.utils.book_append_sheet(workbook, revisionSheet, "Revision History");
+
+        // Build Documents
+        const documents = [["Document Type", "Link Location"]];
+        document.querySelectorAll("#document-fields .document-group").forEach(group => {
+            const docType = group.querySelector('select[name="document-type[]"]')?.value || "";
+            const link = group.querySelector('input[name="link-location[]"]')?.value || "";
+            documents.push([docType, link]);
+        });
+        const docSheet = XLSX.utils.aoa_to_sheet(documents);
+        XLSX.utils.book_append_sheet(workbook, docSheet, "Build Documents");
+
+        // Account Section
+        const accounts = [["Customer Name"]];
+        document.querySelectorAll('#customer-section select[name="customer-name[]"]').forEach(select => {
+            accounts.push([select.value]);
+        });
+        const accountSheet = XLSX.utils.aoa_to_sheet(accounts);
+        XLSX.utils.book_append_sheet(workbook, accountSheet, "Account");
+
+        // Environments
+        const environments = [["Environment", "Account Number", "Region", "Existing", "SLA"]];
+        document.querySelectorAll("#environmentTable tbody tr").forEach(row => {
+            const envType = row.querySelector('select[name="environment-type[]"]')?.value || "";
+            const accountNum = row.querySelector('input[name="account-number[]"]')?.value || "";
+            const region = row.querySelector('select[name="region[]"]')?.value || "";
+            const existing = row.querySelector('select[name="existing[]"]')?.value || "";
+            const sla = row.querySelector('select[name="sla[]"]')?.value || "";
+            environments.push([envType, accountNum, region, existing, sla]);
+        });
+        const envSheet = XLSX.utils.aoa_to_sheet(environments);
+        XLSX.utils.book_append_sheet(workbook, envSheet, "Environments");
+
+        // Tags
+        const tags = [["Enterprise Tag Name", "Functional Purpose", "Input Required", "Input Source", "Default Value", "PaaS"]];
+        document.querySelectorAll("#tags-table tbody tr").forEach(row => {
+            const tagName = row.cells[0]?.textContent.trim() || "";
+            const purpose = row.cells[1]?.textContent.trim() || "";
+            const required = row.cells[2]?.textContent.trim() || "";
+            const source = row.cells[3]?.textContent.trim() || "";
+            const defaultValue = row.cells[4]?.textContent.trim() || "";
+            const paas = row.cells[5]?.querySelector("input, select")?.value || "";
+            const ciValues = [];
+            row.querySelectorAll("td:nth-child(n+6)").forEach(cell => {
+                const value = cell.querySelector("input, select")?.value || "";
+                ciValues.push(value);
+            });
+            tags.push([tagName, purpose, required, source, defaultValue, paas, ...ciValues]);
+        });
+        const tagsSheet = XLSX.utils.aoa_to_sheet(tags);
+        XLSX.utils.book_append_sheet(workbook, tagsSheet, "Tags");
+
+        // DNS
+        const dns = [["Environment", "Domain", "Type", "Ticket Created"]];
+        document.querySelectorAll("#dns-table tbody tr").forEach(row => {
+            const environment = row.querySelector('select[name="dns-environment[]"]')?.value || "";
+            const domain = row.querySelector('input[name="dns-domain[]"]')?.value || "";
+            const type = row.querySelector('select[name="dns-type[]"]')?.value || "";
+            const ticket = row.querySelector('input[name="dns-ticket[]"]')?.value || "";
+            dns.push([environment, domain, type, ticket]);
+        });
+        const dnsSheet = XLSX.utils.aoa_to_sheet(dns);
+        XLSX.utils.book_append_sheet(workbook, dnsSheet, "DNS");
+
+        // SSL
+        const ssl = [["Environment", "Domains", "Source", "ARN", "Contact Info"]];
+        document.querySelectorAll("#ssl-table tbody tr").forEach(row => {
+            const environment = row.querySelector('select[name="ssl-environment[]"]')?.value || "";
+            const domains = row.querySelector('input[name="ssl-domains[]"]')?.value || "";
+            const source = row.querySelector('select[name="ssl-source[]"]')?.value || "";
+            const arn = row.querySelector('input[name="ssl-arn[]"]')?.value || "";
+            const contact = row.querySelector('input[name="ssl-contact[]"]')?.value || "";
+            ssl.push([environment, domains, source, arn, contact]);
+        });
+        const sslSheet = XLSX.utils.aoa_to_sheet(ssl);
+        XLSX.utils.book_append_sheet(workbook, sslSheet, "SSL");
+
+        // Save Workbook
+        XLSX.writeFile(workbook, "TxDIR_PIF_AWS_Summary.xlsx");
+    });
     </script>        
 </body>
 </html>
