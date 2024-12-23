@@ -1038,7 +1038,7 @@
                     // newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
                     // newElement.value = lastElement.value; // Copy value from last column
                     newElement.name = `ci-${ciCount}`;
-                    newElement.value = ""; // Reset value
+                    newElement.value = lastElement.value; // Reset value
                 }
                 row.appendChild(newCell);
             });
