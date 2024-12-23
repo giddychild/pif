@@ -824,7 +824,7 @@
         <button type="button" class="collapsible">SSL</button>
         <div class="content">
             <div class="table-container" style="overflow-x: auto;">
-                <table id="ssl-table">
+                <table id="sslTable">
                     <thead>
                         <tr>
                             <th>Environment</th>
@@ -1008,6 +1008,50 @@
             if (event.target.classList.contains("remove-dns")) {
                 event.target.closest("tr").remove();
                 updateDnsDropdowns();
+            }
+        });
+
+        // Add/Remove SSL Rows
+        const sslTable = document.getElementById("sslTable");
+        document.getElementById("add-dns").addEventListener("click", () => {
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>
+                    <select name="ssl-environment[]" class="small-input environment-dropdown" required>
+                        <option value="" disabled selected>Select Environment</option>
+                        <!-- Dynamic options will be added here -->
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="ssl-domains[]" placeholder="Enter domains (comma-separated)" class="medium-input" required>
+                </td>
+                <td>
+                    <select name="ssl-source[]" class="small-input" required>
+                        <option value="" disabled selected>Select Source</option>
+                        <option value="Imported">Imported</option>
+                        <option value="ACM">ACM</option>
+                        <option value="Self Signed">Self Signed</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="ssl-arn[]" placeholder="Enter ARN" class="medium-input" required>
+                </td>
+                <td>
+                    <input type="email" name="ssl-contact[]" placeholder="Enter contact email" class="medium-input" required>
+                </td>
+                <td>
+                    <button type="button" class="remove-ssl remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                </td>
+            `;
+            sslTable.querySelector("tbody").appendChild(newRow);
+            updateSslDropdowns();
+        });
+
+        // Removes an SSL row when the "Remove" button is clicked.
+        document.addEventListener("click", event => {
+            if (event.target.classList.contains("remove-ssl")) {
+                event.target.closest("tr").remove();
+                updateSslDropdowns();
             }
         });
     
