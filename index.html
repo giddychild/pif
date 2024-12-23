@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.1</title>
+    <title>Project Intake Form 0.2</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -1361,11 +1361,13 @@
                     </select>
                 </td>
                 <td>
-                    <button type="button" class="remove-subnet remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                    <button type="button" class="remove-subnet remove-button" style="padding: 5px 10px;">Remove</button>
                 </td>
             `;
             subnetTable.querySelector("tbody").appendChild(newRow);
-            updateSubnetDropdowns();
+
+            // Immediately update the VPC dropdown for all rows
+            updateVpcDropdowns();
         });
 
         // Removes a Subnet row when the "Remove" button is clicked.
@@ -1401,6 +1403,25 @@
                     dropdown.appendChild(option);
                 });
                 dropdown.value = currentSelection || "";
+            });
+        }
+
+        // VPC Dropdown Synchronization
+        function updateVpcDropdowns() {
+            const vpcNames = Array.from(document.querySelectorAll(".vpc-name-input"))
+                .map(input => input.value.trim())
+                .filter(name => name);
+
+            document.querySelectorAll(".vpc-dropdown").forEach(dropdown => {
+                const currentValue = dropdown.value;
+                dropdown.innerHTML = '<option value="" disabled selected>Select VPC Name</option>';
+                vpcNames.forEach(name => {
+                    const option = document.createElement("option");
+                    option.value = name;
+                    option.textContent = name;
+                    dropdown.appendChild(option);
+                });
+                dropdown.value = currentValue || "";
             });
         }
     
