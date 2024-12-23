@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.2</title>
+    <title>Project Intake Form 0.3</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -1003,6 +1003,9 @@
             newHeader.setAttribute("data-ci-index", ciCount); // Track CI index
             headerRow.appendChild(newHeader);
 
+            // Confirm header has been added successfully
+            console.log("New header added: ", newHeader.outerHTML);
+
             // Add new cell to each row, populating it with data from the last column
             rows.forEach(row => {
                 const lastCell = row.querySelector("td:last-child");
@@ -1018,6 +1021,10 @@
                 }
                 row.appendChild(newCell);
             });
+
+            // Validate if the last column header is displayed
+            const allHeaders = Array.from(headerRow.querySelectorAll("th"));
+            console.log("Current headers: ", allHeaders.map(th => th.textContent));
 
             // Enable "Remove CI" button
             document.getElementById("remove-column").disabled = false;
