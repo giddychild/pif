@@ -1172,24 +1172,6 @@
             combinedData.push([]); // Blank row
 
             // Revision History
-            // combinedData.push(["Revision History"]);
-            // combinedData.push(["Version", "Author", "Comments", "Date"]);
-
-            // document.querySelectorAll("#revision-history .form-group").forEach(group => {
-            //     const version = group.querySelector('input[name="version"]')?.value || "";
-            //     const author = group.querySelector('input[name="author"]')?.value || "";
-            //     const comments = group.querySelector('input[name="comments"]')?.value || "";
-            //     const date = group.querySelector('input[name="date"]')?.value || "";
-               
-            //     // Add the retrieved values to the Excel sheet
-            //     if (version || author || comments || date) {
-            //         combinedData.push([version, author, comments, date]);
-            //     }
-            // });
-
-            // combinedData.push([]); // Blank row
-
-            // Revision History
             combinedData.push(["Revision History"]);
             combinedData.push(["Version", "Author", "Comments", "Date"]);
 
@@ -1253,14 +1235,16 @@
                 const purpose = row.cells[1]?.textContent.trim() || "";
                 const required = row.cells[2]?.textContent.trim() || "";
                 const source = row.cells[3]?.textContent.trim() || "";
-                const defaultValue = row.cells[4]?.querySelector("input, select")?.value || ""; // Fetch value from input/select
+                // const defaultValue = row.cells[4]?.querySelector("input, select")?.value || "";
+                const defaultValue = row.cells[4]?.textContent.trim() || "";
                 const paas = row.cells[5]?.querySelector("input, select")?.value || "";
 
                 // Collect values for dynamic CI columns
                 const ciValues = [];
                 row.querySelectorAll("td:nth-child(n+7)").forEach(cell => {
-                    const inputElement = cell.querySelector("input, select");
-                    let value = "";
+                    // const inputElement = cell.querySelector("input, select");
+                    // let value = "";
+                    const value = cell.querySelector("input, select")?.value || "";
 
                     // Check if the input is a date type
                     if (inputElement?.type === "date") {
