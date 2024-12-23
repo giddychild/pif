@@ -967,136 +967,74 @@
                 }
             });
         }
-
+    
         // Script to manage CI columns
         let ciCount = 1;
-
+    
         document.getElementById("add-column").addEventListener("click", () => {
             const table = document.getElementById("tags-table");
             const headerRow = table.querySelector("thead tr");
             const rows = table.querySelectorAll("tbody tr");
-
+    
             // Increment the CI column counter
             ciCount++;
-
+    
             // Add new column header
             const newHeader = document.createElement("th");
             newHeader.textContent = `CI #${ciCount}`;
             headerRow.appendChild(newHeader);
-
-            // Add new cell to each row
+    
+            // Add new cell to each row, populating it with data from the last column
             rows.forEach(row => {
-                const newCell = document.createElement("td");
-                const baseInput = row.querySelector("td:last-child input, td:last-child select");
-                if (baseInput) {
-                    // Clone the input or select element from the last cell
-                    const newElement = baseInput.cloneNode(true);
+                const lastCell = row.querySelector("td:last-child");
+                const newCell = lastCell.cloneNode(true);
+    
+                // Update input/select names and preserve the last column's value
+                const lastElement = lastCell.querySelector("input, select");
+                const newElement = newCell.querySelector("input, select");
+                if (lastElement && newElement) {
                     newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
-                    newElement.value = ""; // Clear the cloned value
-                    newCell.appendChild(newElement);
+                    newElement.value = lastElement.value; // Copy value from last column
                 }
                 row.appendChild(newCell);
             });
-
+    
             // Enable "Remove CI" button
             document.getElementById("remove-column").disabled = false;
-
+    
             // Disable "Add CI" button after reaching limit
             if (ciCount === 20) {
                 document.getElementById("add-column").disabled = true;
             }
         });
-
+    
         document.getElementById("remove-column").addEventListener("click", () => {
             if (ciCount > 1) {
                 const table = document.getElementById("tags-table");
                 const headerRow = table.querySelector("thead tr");
                 const rows = table.querySelectorAll("tbody tr");
-
+    
                 // Remove last header and column
                 headerRow.querySelector("th:last-child").remove();
                 rows.forEach(row => row.querySelector("td:last-child").remove());
-
+    
                 // Decrement the CI column counter
                 ciCount--;
-
+    
                 // Disable "Remove CI" button if only one column remains
                 if (ciCount === 1) {
                     document.getElementById("remove-column").disabled = true;
                 }
-
+    
                 // Enable "Add CI" button
                 document.getElementById("add-column").disabled = false;
             }
         });
     
-        // Add/Remove DNS Rows
-        document.getElementById("add-dns-row").addEventListener("click", () => {
-            const dnsTable = document.getElementById("dns-table").querySelector("tbody");
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = `
-                <td>
-                    <select name="dns-environment[]" class="small-input environment-dropdown" required>
-                        <option value="" disabled selected>Select Environment</option>
-                    </select>
-                </td>
-                <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="wide-input" required></td>
-                <td>
-                    <select name="dns-type[]" class="small-input" required>
-                        <option value="" disabled selected>Select Type</option>
-                        <option value="private">private</option>
-                        <option value="public">public</option>
-                    </select>
-                </td>
-                <td><input type="date" name="dns-ticket[]" class="small-input" required></td>
-                <td><button type="button" class="remove-dns remove-button">Remove</button></td>
-            `;
-            dnsTable.appendChild(newRow);
-            updateEnvironmentDropdowns();
-        });
-    
-        document.addEventListener("click", event => {
-            if (event.target.classList.contains("remove-dns")) {
-                event.target.closest("tr").remove();
-            }
-        });
-    
-        // Add/Remove SSL Rows
-        document.getElementById("add-ssl-row").addEventListener("click", () => {
-            const sslTable = document.getElementById("ssl-table").querySelector("tbody");
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = `
-                <td>
-                    <select name="ssl-environment[]" class="small-input environment-dropdown" required>
-                        <option value="" disabled selected>Select Environment</option>
-                    </select>
-                </td>
-                <td><input type="text" name="ssl-domains[]" placeholder="Enter domains (comma-separated)" class="medium-input" required></td>
-                <td>
-                    <select name="ssl-source[]" class="small-input" required>
-                        <option value="" disabled selected>Select Source</option>
-                        <option value="Imported">Imported</option>
-                        <option value="ACM">ACM</option>
-                        <option value="Self Signed">Self Signed</option>
-                    </select>
-                </td>
-                <td><input type="text" name="ssl-arn[]" placeholder="Enter ARN" class="medium-input" required></td>
-                <td><input type="email" name="ssl-contact[]" placeholder="Enter contact email" class="medium-input" required></td>
-            `;
-            sslTable.appendChild(newRow);
-            updateEnvironmentDropdowns();
-        });
-    
         document.addEventListener("DOMContentLoaded", () => {
             updateEnvironmentDropdowns();
         });
-    
-        // Sync Environment Options on Change
-        document.addEventListener("change", event => {
-            if (event.target.name === "environment-type[]") {
-                updateEnvironmentDropdowns();
-            }
-        });
-    </script>        
+    </script>
+        
 </body>
 </html>
