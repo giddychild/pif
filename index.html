@@ -1130,6 +1130,20 @@
             }
         });
     
+        // Select Date option and enter date
+        function toggleDateInput(selectElement) {
+            const dateInput = selectElement.nextElementSibling; // Find the adjacent input field
+            if (selectElement.value === "date") {
+                dateInput.style.display = "inline"; // Show the date input
+                dateInput.required = true; // Make the date input required
+            } else {
+                dateInput.style.display = "none"; // Hide the date input
+                dateInput.required = false; // Remove the required attribute
+                dateInput.value = ""; // Clear the date input value
+            }
+        }
+
+        // Save to Excel
         document.getElementById("save-to-excel").addEventListener("click", function () {
         const workbook = XLSX.utils.book_new();
         const combinedData = [];
