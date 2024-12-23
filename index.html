@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.5</title>
+    <title>Project Intake Form 0.1</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -1214,15 +1214,17 @@
 
                 // Handle date fields for columns like pcm-backup_last_updated
                 const selectionField = row.querySelector("select[name='pcm-backup_last_updated-selection']");
-                // const dateField = row.querySelector("input[name='pcm-backup_last_updated-date']");
                 let backupLastUpdated = selectionField?.value || ""; // Default to the selected value (e.g., 'date', 'empty')
 
                 // If "Date" is selected, get the value from the adjacent <input>
-                if (backupLastUpdated === "date" && dateField) {
-                    // backupLastUpdated = dateField.value || ""; // Use the selected date
-                    const dateInput = selectionField.nextElementSibling; // Adjacent <input>
-                    if (dateInput && dateInput.type === "date") {
+                if (backupLastUpdated === "date") {
+                    const dateInput = selectionField?.nextElementSibling; // Adjacent <input>
+                    if (dateInput && dateInput.type === "date" && dateInput.value) {
                         backupLastUpdated = dateInput.value; // Set to the actual selected date
+                    }
+                    else
+                    {
+                        backupLastUpdated = ""; // Default if no valid date is selected
                     }
                 }
 
