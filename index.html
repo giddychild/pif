@@ -887,6 +887,7 @@
 
     <script>
         // Collapsible Sections
+        // Toggles the visibility of collapsible content sections.
         document.querySelectorAll(".collapsible").forEach(button => {
             button.addEventListener("click", () => {
                 button.classList.toggle("active");
@@ -895,7 +896,8 @@
             });
         });
     
-        // Add/Remove Document
+        // Add/Remove Document Section
+        // Dynamically adds and removes document input fields.
         document.getElementById("add-document")?.addEventListener("click", () => {
             const documentFields = document.getElementById("document-fields");
             const newDocumentGroup = document.createElement("div");
@@ -920,13 +922,15 @@
             documentFields.insertBefore(newDocumentGroup, documentFields.querySelector(".button-group"));
         });
     
+        // Removes a document input group when the "Remove" button is clicked.
         document.addEventListener("click", event => {
             if (event.target.classList.contains("remove-document")) {
                 event.target.closest(".document-group").remove();
             }
         });
     
-        // Add/Remove Environment Row
+        // Add/Remove Environment Rows
+        // Handles adding and removing rows in the "Environment" table.
         const environmentTable = document.getElementById("environmentTable");
         document.getElementById("add-environment").addEventListener("click", () => {
             const newRow = document.createElement("tr");
@@ -971,6 +975,7 @@
             updateEnvironmentDropdowns();
         });
     
+        // Removes an environment row when the "Remove" button is clicked.
         document.addEventListener("click", event => {
             if (event.target.classList.contains("remove-environment")) {
                 event.target.closest("tr").remove();
@@ -979,6 +984,7 @@
         });
     
         // Environment Dropdown Synchronization
+        // Synchronizes dropdown options across all environment-related dropdowns.
         function updateEnvironmentDropdowns() {
             const selectedEnvironments = Array.from(
                 document.querySelectorAll('select[name="environment-type[]"]')
@@ -995,328 +1001,106 @@
                     option.textContent = env;
                     dropdown.appendChild(option);
                 });
-                if (selectedEnvironments.includes(currentSelection)) {
-                    dropdown.value = currentSelection;
-                } else {
-                    dropdown.value = ""; // Reset if no longer valid
-                }
+                dropdown.value = currentSelection || "";
             });
         }
-
-        // Script to manage CI columns
-        ciCount = document.querySelectorAll("#tags-table thead th").length - 5; // Subtract base columns
-
-
+    
+        // CI Column Management
+        // Handles adding and removing CI columns dynamically.
+        let ciCount = document.querySelectorAll("#tags-table thead th").length - 5;
+    
         document.getElementById("add-column").addEventListener("click", () => {
             const table = document.getElementById("tags-table");
             const headerRow = table.querySelector("thead tr");
             const rows = table.querySelectorAll("tbody tr");
-
-            // Increment the CI column counter
+    
             ciCount++;
-
+    
             // Add new column header
             const newHeader = document.createElement("th");
             newHeader.textContent = `CI #${ciCount}`;
-            newHeader.setAttribute("data-ci-index", ciCount); // Track CI index
             headerRow.appendChild(newHeader);
-
-            // Add new cell to each row, populating it with data from the last column
+    
+            // Add new cell to each row
             rows.forEach(row => {
                 const lastCell = row.querySelector("td:last-child");
                 const newCell = lastCell.cloneNode(true);
-
+    
                 // Update input/select names and preserve the last column's value
                 const lastElement = lastCell.querySelector("input, select");
                 const newElement = newCell.querySelector("input, select");
-
+    
                 if (lastElement && newElement) {
                     newElement.name = `ci-${ciCount}`;
                     newElement.value = lastElement.value || "";
                 }
                 row.appendChild(newCell);
             });
-
-            // Enable "Remove CI" button
+    
             document.getElementById("remove-column").disabled = false;
-
-            // Disable "Add CI" button after reaching limit
             if (ciCount === 25) {
                 document.getElementById("add-column").disabled = true;
             }
         });
-
+    
         document.getElementById("remove-column").addEventListener("click", () => {
             if (ciCount > 1) {
-                const table = document.getElementById("tags-table");
-                const headerRow = table.querySelector("thead tr");
-                const rows = table.querySelectorAll("tbody tr");
-
+                const headerRow = document.querySelector("#tags-table thead tr");
+                const rows = document.querySelectorAll("#tags-table tbody tr");
+    
                 // Remove last header and column
                 headerRow.querySelector("th:last-child").remove();
                 rows.forEach(row => row.querySelector("td:last-child").remove());
-
-                // Decrement the CI column counter
+    
                 ciCount--;
-
-                // Disable "Remove CI" button if only one column remains
-                if (ciCount === 1) {
-                    document.getElementById("remove-column").disabled = true;
-                }
-
-                // Enable "Add CI" button
+                document.getElementById("remove-column").disabled = ciCount === 1;
                 document.getElementById("add-column").disabled = false;
             }
         });
     
-        // Add/Remove DNS Rows
-        document.getElementById("add-dns-row").addEventListener("click", () => {
-            const dnsTable = document.getElementById("dns-table").querySelector("tbody");
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = `
-                <td>
-                    <select name="dns-environment[]" class="small-input environment-dropdown" required>
-                        <option value="" disabled selected>Select Environment</option>
-                    </select>
-                </td>
-                <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="wide-input" required></td>
-                <td>
-                    <select name="dns-type[]" class="small-input" required>
-                        <option value="" disabled selected>Select Type</option>
-                        <option value="private">private</option>
-                        <option value="public">public</option>
-                    </select>
-                </td>
-                <td><input type="date" name="dns-ticket[]" class="small-input" required></td>
-                <td><button type="button" class="remove-dns remove-button">Remove</button></td>
-            `;
-            dnsTable.appendChild(newRow);
-            updateEnvironmentDropdowns();
-        });
-    
-        document.addEventListener("click", event => {
-            if (event.target.classList.contains("remove-dns")) {
-                event.target.closest("tr").remove();
-            }
-        });
-    
-        // Add/Remove SSL Rows
-        document.getElementById("add-ssl-row").addEventListener("click", () => {
-            const sslTable = document.getElementById("ssl-table").querySelector("tbody");
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = `
-                <td>
-                    <select name="ssl-environment[]" class="small-input environment-dropdown" required>
-                        <option value="" disabled selected>Select Environment</option>
-                    </select>
-                </td>
-                <td><input type="text" name="ssl-domains[]" placeholder="Enter domains (comma-separated)" class="medium-input" required></td>
-                <td>
-                    <select name="ssl-source[]" class="small-input" required>
-                        <option value="" disabled selected>Select Source</option>
-                        <option value="Imported">Imported</option>
-                        <option value="ACM">ACM</option>
-                        <option value="Self Signed">Self Signed</option>
-                    </select>
-                </td>
-                <td><input type="text" name="ssl-arn[]" placeholder="Enter ARN" class="medium-input" required></td>
-                <td><input type="email" name="ssl-contact[]" placeholder="Enter contact email" class="medium-input" required></td>
-                <td><button type="button" class="remove-dns remove-button">Remove</button></td>
-
-            `;
-            sslTable.appendChild(newRow);
-            updateEnvironmentDropdowns();
-        });
-    
-        // document.addEventListener("DOMContentLoaded", () => {
-        //     updateEnvironmentDropdowns();
-        // });
-
-        document.addEventListener("click", event => {
-            if (event.target.classList.contains("remove-ssl")) {
-                event.target.closest("tr").remove();
-            }
-        });
-    
-        // Sync Environment Options on Change
-        document.addEventListener("change", event => {
-            if (event.target.name === "environment-type[]") {
-                updateEnvironmentDropdowns();
-            }
-        });
-    
-        // Select Date option and enter date
-        function toggleDateInput(selectElement) {
-            const dateInput = selectElement.nextElementSibling; // Find the adjacent input field
-            if (selectElement.value === "date") {
-                dateInput.style.display = "inline"; // Show the date input
-                dateInput.required = true; // Make the date input required
-            } else {
-                dateInput.style.display = "none"; // Hide the date input
-                dateInput.required = false; // Remove the required attribute
-                dateInput.value = ""; // Clear the date input value
-            }
-        }
-
         // Save to Excel
+        // Collects all table data and exports it to an Excel file.
         document.getElementById("save-to-excel").addEventListener("click", function () {
             const workbook = XLSX.utils.book_new();
             const combinedData = [];
-
-            // Title
+    
+            // Add page title
             combinedData.push(["TxDIR PIF AWS Summary Page"]);
-            combinedData.push([]); // Blank row
-
+            combinedData.push([]);
+    
             // Revision History
             combinedData.push(["Revision History"]);
             combinedData.push(["Version", "Author", "Comments", "Date"]);
-
-            // Correctly target each input field by its ID
-            const version = document.querySelector('#version')?.value || "";
-            const author = document.querySelector('#author')?.value || "";
-            const comments = document.querySelector('#comments')?.value || "";
-            const date = document.querySelector('#date')?.value || "";
-
-            // Add the values to the sheet
-            combinedData.push([version, author, comments, date]);
-            combinedData.push([]); // Blank row
-
-            // Build Documents
-            combinedData.push(["Build Documents"]);
-            combinedData.push(["Document Type", "Link Location"]);
-            document.querySelectorAll("#document-fields .document-group").forEach(group => {
-                const docType = group.querySelector('select[name="document-type[]"]')?.value || "";
-                const link = group.querySelector('input[name="link-location[]"]')?.value || "";
-                combinedData.push([docType, link]);
-            });
-            combinedData.push([]); // Blank row
-
-            // Account Section
-            combinedData.push(["Account"]);
-            combinedData.push(["Customer"]);
-
-            const customerName = document.querySelector('#customer-section select[name="customer-name[]"]')?.value || "";
-            combinedData.push(["Customer Name", customerName]); 
-            combinedData.push([]); // Blank row
-
-            // Environments
-            combinedData.push(["Environments"]);
-            combinedData.push(["Environment", "Account Number", "Region", "Existing", "SLA"]);
-            document.querySelectorAll("#environmentTable tbody tr").forEach(row => {
-                const envType = row.querySelector('select[name="environment-type[]"]')?.value || "";
-                const accountNum = row.querySelector('input[name="account-number[]"]')?.value || "";
-                const region = row.querySelector('select[name="region[]"]')?.value || "";
-                const existing = row.querySelector('select[name="existing[]"]')?.value || "";
-                const sla = row.querySelector('select[name="sla[]"]')?.value || "";
-                combinedData.push([envType, accountNum, region, existing, sla]);
-            });
-            combinedData.push([]); // Blank row
-
-            // Tags
+            combinedData.push([
+                document.querySelector("#version")?.value || "",
+                document.querySelector("#author")?.value || "",
+                document.querySelector("#comments")?.value || "",
+                document.querySelector("#date")?.value || "",
+            ]);
+            combinedData.push([]);
+    
+            // Tags Section
             combinedData.push(["Tags"]);
-            const tagHeaders = ["Enterprise Tag Name", "Customer Input", "Input Source", "Default Value", "PaaS"];
-
-            // Check if any "CI #1" field has a value
-            const hasCI1Values = Array.from(
-                document.querySelectorAll("#tags-table tbody tr td:nth-child(6) input, #tags-table tbody tr td:nth-child(6) select")
-            ).some(input => input.value.trim() !== "");
-
-            // Calculate dynamic CI columns count
-            const ciCount = document.querySelectorAll("#tags-table thead th").length - 6;
-
-            // Check if any dynamic CI column has values
-            const hasDynamicCIValues = Array.from(document.querySelectorAll("#tags-table tbody tr")).some(row =>
-                Array.from(row.querySelectorAll("td:nth-child(n+7) input, td:nth-child(n+7) select")).some(input =>
-                    input.value.trim() !== ""
-                )
-            );
-
-            // Add "CI #1" header only if it has values
-            if (hasCI1Values) {
-                tagHeaders.push("CI #1");
-            }
-
-            // Add dynamic CI column headers dynamically
-            if (hasDynamicCIValues) {
-                const existingHeaders = tagHeaders.filter(header => header.startsWith("CI #"));
-                const existingCount = existingHeaders.length;
-
-                for (let i = existingCount + 1; i <= ciCount; i++) {
-                    if (!tagHeaders.includes(`CI #${i}`)) {
-                        tagHeaders.push(`CI #${i}`);
-                    }
-                }
-            }
-
-            // combinedData.push(tagHeaders);
-            // Regenerate headers from the DOM
-            const dynamicHeaders = Array.from(document.querySelectorAll("#tags-table thead th")).map(th => th.textContent.trim());
-            combinedData.push(dynamicHeaders);
-
-            // Debugging output
-            console.log("Headers being pushed to Excel:", dynamicHeaders);
-
-
+            const headers = Array.from(document.querySelectorAll("#tags-table thead th")).map(th => th.textContent.trim());
+            combinedData.push(headers);
+    
+            // Populate rows
             document.querySelectorAll("#tags-table tbody tr").forEach(row => {
-                const tagName = row.cells[0]?.textContent.trim() || "";
-                const customerInput = row.cells[1]?.textContent.trim() || "";
-                const inputSource = row.cells[2]?.textContent.trim() || "";
-                const defaultValue = row.cells[3]?.textContent.trim() || "";
-                const paas = row.cells[4]?.querySelector("input, select")?.value || "";
-
-                const rowData = [tagName, customerInput, inputSource, defaultValue, paas];
-
-                // Add "CI #1" value only if it has values
-                if (hasCI1Values) {
-                    const ci1 = row.cells[5]?.querySelector("input, select")?.value || "";
-                    rowData.push(ci1);
-                }
-
-                // Collect values for dynamic CI columns
-                if (hasDynamicCIValues) {
-                    const ciValues = Array.from(row.querySelectorAll("td:nth-child(n+7)")).map(cell => {
-                        const inputElement = cell.querySelector("input, select");
-                        return inputElement?.value || ""; // Get the value from inputs/selects
-                    });
-                    rowData.push(...ciValues);
-                }
-
+                const rowData = Array.from(row.querySelectorAll("td")).map(cell => {
+                    const input = cell.querySelector("input, select");
+                    return input ? input.value : cell.textContent.trim();
+                });
                 combinedData.push(rowData);
             });
-
-            combinedData.push([]); // Blank row
-
-            // DNS
-            combinedData.push(["DNS"]);
-            combinedData.push(["Environment", "Domain", "Type", "Ticket Created"]);
-            document.querySelectorAll("#dns-table tbody tr").forEach(row => {
-                const environment = row.querySelector('select[name="dns-environment[]"]')?.value || "";
-                const domain = row.querySelector('input[name="dns-domain[]"]')?.value || "";
-                const type = row.querySelector('select[name="dns-type[]"]')?.value || "";
-                const ticket = row.querySelector('input[name="dns-ticket[]"]')?.value || "";
-                combinedData.push([environment, domain, type, ticket]);
-            });
-            combinedData.push([]); // Blank row
-
-            // SSL
-            combinedData.push(["SSL"]);
-            combinedData.push(["Environment", "Domains", "Source", "ARN", "Contact Info"]);
-            document.querySelectorAll("#ssl-table tbody tr").forEach(row => {
-                const environment = row.querySelector('select[name="ssl-environment[]"]')?.value || "";
-                const domains = row.querySelector('input[name="ssl-domains[]"]')?.value || "";
-                const source = row.querySelector('select[name="ssl-source[]"]')?.value || "";
-                const arn = row.querySelector('input[name="ssl-arn[]"]')?.value || "";
-                const contact = row.querySelector('input[name="ssl-contact[]"]')?.value || "";
-                combinedData.push([environment, domains, source, arn, contact]);
-            });
-
-            // Create a single sheet
+    
+            // Add blank row
+            combinedData.push([]);
+    
+            // Save to Excel
             const sheet = XLSX.utils.aoa_to_sheet(combinedData);
-            XLSX.utils.book_append_sheet(workbook, sheet, "TxDIR PIF AWS Summary");
-
-            // Save the workbook
+            XLSX.utils.book_append_sheet(workbook, sheet, "Summary");
             XLSX.writeFile(workbook, "TxDIR_PIF_AWS_Summary.xlsx");
         });
-    </script>        
+    </script>
 </body>
 </html>
