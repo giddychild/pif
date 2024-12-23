@@ -943,7 +943,7 @@
             }
         });
     
-        // Environment Dropdown Synchronization
+        // Synchronize Environment Dropdowns
         function updateEnvironmentDropdowns() {
             const selectedEnvironments = Array.from(
                 document.querySelectorAll('select[name="environment-type[]"]')
@@ -968,7 +968,7 @@
             });
         }
     
-        // Script to manage CI columns
+        // Add/Remove CI Columns
         let ciCount = 1;
     
         document.getElementById("add-column").addEventListener("click", () => {
@@ -984,18 +984,17 @@
             newHeader.textContent = `CI #${ciCount}`;
             headerRow.appendChild(newHeader);
     
-            // Add new cell to each row, populating it with data from the last column
+            // Add new cell to each row
             rows.forEach(row => {
                 const lastCell = row.querySelector("td:last-child");
                 const newCell = lastCell.cloneNode(true);
     
-                // Update input/select names and preserve the last column's value
-                const lastElement = lastCell.querySelector("input, select");
-                const newElement = newCell.querySelector("input, select");
-                if (lastElement && newElement) {
-                    newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
-                    newElement.value = lastElement.value; // Copy value from last column
+                // Adjust the name attribute in the cloned element
+                const input = newCell.querySelector("input, select");
+                if (input) {
+                    input.name = input.name.replace(/ci-\d+/, `ci-${ciCount}`);
                 }
+    
                 row.appendChild(newCell);
             });
     
@@ -1031,8 +1030,72 @@
             }
         });
     
+        // Add/Remove DNS Row
+        document.getElementById("add-dns-row").addEventListener("click", () => {
+            const dnsTable = document.getElementById("dns-table").querySelector("tbody");
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>
+                    <select name="dns-environment[]" class="small-input environment-dropdown" required>
+                        <option value="" disabled selected>Select Environment</option>
+                    </select>
+                </td>
+                <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="wide-input" required></td>
+                <td>
+                    <select name="dns-type[]" class="small-input" required>
+                        <option value="" disabled selected>Select Type</option>
+                        <option value="private">private</option>
+                        <option value="public">public</option>
+                    </select>
+                </td>
+                <td><input type="date" name="dns-ticket[]" class="small-input" required></td>
+                <td><button type="button" class="remove-dns remove-button">Remove</button></td>
+            `;
+            dnsTable.appendChild(newRow);
+            updateEnvironmentDropdowns();
+        });
+    
+        document.addEventListener("click", event => {
+            if (event.target.classList.contains("remove-dns")) {
+                event.target.closest("tr").remove();
+            }
+        });
+    
+        // Add/Remove SSL Rows
+        document.getElementById("add-ssl-row").addEventListener("click", () => {
+            const sslTable = document.getElementById("ssl-table").querySelector("tbody");
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>
+                    <select name="ssl-environment[]" class="small-input environment-dropdown" required>
+                        <option value="" disabled selected>Select Environment</option>
+                    </select>
+                </td>
+                <td><input type="text" name="ssl-domains[]" placeholder="Enter domains (comma-separated)" class="medium-input" required></td>
+                <td>
+                    <select name="ssl-source[]" class="small-input" required>
+                        <option value="" disabled selected>Select Source</option>
+                        <option value="Imported">Imported</option>
+                        <option value="ACM">ACM</option>
+                        <option value="Self Signed">Self Signed</option>
+                    </select>
+                </td>
+                <td><input type="text" name="ssl-arn[]" placeholder="Enter ARN" class="medium-input" required></td>
+                <td><input type="email" name="ssl-contact[]" placeholder="Enter contact email" class="medium-input" required></td>
+            `;
+            sslTable.appendChild(newRow);
+            updateEnvironmentDropdowns();
+        });
+    
         document.addEventListener("DOMContentLoaded", () => {
             updateEnvironmentDropdowns();
+        });
+    
+        // Sync Environment Options on Change
+        document.addEventListener("change", event => {
+            if (event.target.name === "environment-type[]") {
+                updateEnvironmentDropdowns();
+            }
         });
     </script>
         
