@@ -999,7 +999,9 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="text" name="vpc-name[]" placeholder="Enter VPC name" class="medium-input" required>
+                                <select name="subnet-vpc-name[]" class="small-input vpc-dropdown" required>
+                                    <option value="" disabled selected>Select VPC Name</option>
+                                </select>
                             </td>
                             <td>
                                 <input type="text" name="subnet-name[]" placeholder="Enter Subnet name" class="medium-input" required>
@@ -1310,8 +1312,8 @@
             }
         });
     
-                // Add/Remove Subnet Rows
-                const subnetTable = document.getElementById("subnetTable");
+        // Add/Remove Subnet Rows
+        const subnetTable = document.getElementById("subnetTable");
         document.getElementById("add-subnet").addEventListener("click", () => {
             const newRow = document.createElement("tr");
             newRow.innerHTML = `
@@ -1322,7 +1324,9 @@
                     </select>
                 </td>
                 <td>
-                    <input type="text" name="vpc-name[]" placeholder="Enter VPC name" class="medium-input" required>
+                    <select name="subnet-vpc-name[]" class="small-input vpc-dropdown" required>
+                        <option value="" disabled selected>Select VPC Name</option>
+                    </select>
                 </td>
                 <td>
                     <input type="text" name="subnet-name[]" placeholder="Enter Subnet name" class="medium-input" required>
@@ -1368,7 +1372,6 @@
         });
 
         // Environment Dropdown Synchronization
-        // Synchronizes dropdown options across all environment-related dropdowns.
         function updateEnvironmentDropdowns() {
             const selectedEnvironments = Array.from(
                 document.querySelectorAll('select[name="environment-type[]"]')
@@ -1392,6 +1395,27 @@
         // CI Column Management
         // Handles adding and removing CI columns dynamically.
         let ciCount = document.querySelectorAll("#tags-table thead th").length - 5;
+
+        // Update VPC Lists dropdown
+        document.addEventListener("input", (event) => {
+            if (event.target.classList.contains("vpc-name-input")) {
+                const vpcNames = Array.from(document.querySelectorAll(".vpc-name-input"))
+                    .map(input => input.value.trim())
+                    .filter(name => name);
+
+                document.querySelectorAll(".vpc-dropdown").forEach(dropdown => {
+                    const currentValue = dropdown.value;
+                    dropdown.innerHTML = '<option value="" disabled selected>Select VPC Name</option>';
+                    vpcNames.forEach(name => {
+                        const option = document.createElement("option");
+                        option.value = name;
+                        option.textContent = name;
+                        dropdown.appendChild(option);
+                    });
+                    dropdown.value = currentValue || "";
+                });
+            }
+        });
     
         document.getElementById("add-column").addEventListener("click", () => {
             const table = document.getElementById("tags-table");
