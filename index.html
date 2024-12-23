@@ -1176,10 +1176,10 @@
             combinedData.push(["Version", "Author", "Comments", "Date"]);
 
             // Correctly target each input field by its ID
-            const version = document.querySelector('#revision-history #version')?.value || "";
-            const author = document.querySelector('#revision-history #author')?.value || "";
-            const comments = document.querySelector('#revision-history #comments')?.value || "";
-            const date = document.querySelector('#revision-history #date')?.value || "";
+            const version = document.querySelector('#version')?.value || "";
+            const author = document.querySelector('#author')?.value || "";
+            const comments = document.querySelector('#comments')?.value || "";
+            const date = document.querySelector('#date')?.value || "";
 
             // Add the values to the sheet
             combinedData.push([version, author, comments, date]);
@@ -1235,28 +1235,18 @@
                 const purpose = row.cells[1]?.textContent.trim() || "";
                 const required = row.cells[2]?.textContent.trim() || "";
                 const source = row.cells[3]?.textContent.trim() || "";
-                // const defaultValue = row.cells[4]?.querySelector("input, select")?.value || "";
                 const defaultValue = row.cells[4]?.textContent.trim() || "";
                 const paas = row.cells[5]?.querySelector("input, select")?.value || "";
 
                 // Collect values for dynamic CI columns
-                const ciValues = [];
-                row.querySelectorAll("td:nth-child(n+7)").forEach(cell => {
-                    // const inputElement = cell.querySelector("input, select");
-                    // let value = "";
-                    const value = cell.querySelector("input, select")?.value || "";
-
-                    // Check if the input is a date type
-                    if (inputElement?.type === "date") {
-                        value = inputElement.value || ""; // Get the selected date
-                    } else {
-                        value = inputElement?.value || ""; // Get the value from other inputs/selects
-                    }
-                    ciValues.push(value);
+                const ciValues = Array.from(row.querySelectorAll("td:nth-child(n+7)")).map(cell => {
+                    const inputElement = cell.querySelector("input, select");
+                    return inputElement?.value || ""; // Get the value from inputs/selects
                 });
 
                 combinedData.push([tagName, purpose, required, source, defaultValue, paas, ...ciValues]);
             });
+
             combinedData.push([]); // Blank row
 
             // DNS
