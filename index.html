@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.1</title>
+    <title>Project Intake Form 0.2</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -1193,15 +1193,33 @@
 
             // Tags
             combinedData.push(["Tags"]);
-            const tagHeaders = [
-                "Enterprise Tag Name", "Customer Input", 
-                "Input Source", "Default Value", "PaaS", "CI #1"
-            ];
+            const tagHeaders = ["Enterprise Tag Name", "Customer Input", "Input Source", "Default Value", "PaaS"];
 
-            // Add dynamic CI headers
-            const ciCount = document.querySelectorAll("#tags-table thead th").length - 6; // Adjust based on CI columns
-            for (let i = 1; i <= ciCount; i++) {
-                tagHeaders.push(`CI #${i}`);
+            // Check if any "CI #1" field has a value
+            const hasCI1Values = Array.from(
+                document.querySelectorAll("#tags-table tbody tr td:nth-child(6) input, #tags-table tbody tr td:nth-child(6) select")
+            ).some(input => input.value.trim() !== "");
+
+            // Calculate dynamic CI columns count
+            const ciCount = document.querySelectorAll("#tags-table thead th").length - 6;
+
+            // Check if any dynamic CI column has values
+            const hasDynamicCIValues = Array.from(document.querySelectorAll("#tags-table tbody tr")).some(row =>
+                Array.from(row.querySelectorAll("td:nth-child(n+7) input, td:nth-child(n+7) select")).some(input =>
+                    input.value.trim() !== ""
+                )
+            );
+
+            // Add "CI #1" header only if it has values
+            if (hasCI1Values) {
+                tagHeaders.push("CI #1");
+            }
+
+            // Add dynamic CI column headers if there are dynamic column values
+            if (hasDynamicCIValues) {
+                for (let i = 2; i <= ciCount; i++) {
+                    tagHeaders.push(`CI #${i}`);
+                }
             }
             combinedData.push(tagHeaders);
 
@@ -1212,31 +1230,24 @@
                 const defaultValue = row.cells[3]?.textContent.trim() || "";
                 const paas = row.cells[4]?.querySelector("input, select")?.value || "";
 
-                // Handle date fields for columns like pcm-backup_last_updated
-                const selectionField = row.querySelector("select[name='pcm-backup_last_updated-selection']");
-                let backupLastUpdated = selectionField?.value || ""; // Default to the selected value (e.g., 'date', 'empty')
+                const rowData = [tagName, customerInput, inputSource, defaultValue, paas];
 
-                // If "Date" is selected, get the value from the adjacent <input>
-                if (backupLastUpdated === "date") {
-                    const dateInput = selectionField?.nextElementSibling; // Adjacent <input>
-                    if (dateInput && dateInput.type === "date" && dateInput.value) {
-                        backupLastUpdated = dateInput.value; // Set to the actual selected date
-                    }
-                    else
-                    {
-                        backupLastUpdated = ""; // Default if no valid date is selected
-                    }
+                // Add "CI #1" value only if it has values
+                if (hasCI1Values) {
+                    const ci1 = row.cells[5]?.querySelector("input, select")?.value || "";
+                    rowData.push(ci1);
                 }
 
-                const ci1 = row.cells[5]?.querySelector("input, select")?.value || "";
-                
                 // Collect values for dynamic CI columns
-                const ciValues = Array.from(row.querySelectorAll("td:nth-child(n+6)")).map(cell => {
-                    const inputElement = cell.querySelector("input, select");
-                    return inputElement?.value || ""; // Get the value from inputs/selects
-                });
+                if (hasDynamicCIValues) {
+                    const ciValues = Array.from(row.querySelectorAll("td:nth-child(n+7)")).map(cell => {
+                        const inputElement = cell.querySelector("input, select");
+                        return inputElement?.value || ""; // Get the value from inputs/selects
+                    });
+                    rowData.push(...ciValues);
+                }
 
-                combinedData.push([tagName, customerInput, inputSource, defaultValue, paas, ci1, ...ciValues]);
+                combinedData.push(rowData);
             });
 
             combinedData.push([]); // Blank row
