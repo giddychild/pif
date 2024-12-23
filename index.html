@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.1</title>
+    <title>Project Intake Form 1</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -1538,6 +1538,13 @@
             });
         }
 
+        // Update Environment Lists dropdown
+        document.addEventListener("input", event => {
+            if (event.target.name === "environment-type[]") {
+                updateEnvironmentDropdowns();
+            }
+        });
+
         // VPC Dropdown Synchronization
         function updateVpcDropdowns() {
             // Collect all unique VPC names entered in the VPC table
@@ -1558,31 +1565,17 @@
                 dropdown.value = currentValue || ""; // Restore the previous selection if it exists
             });
         }
+
+        // Update VPC Lists dropdown
+        document.addEventListener("input", event => {
+            if (event.target.name === "vpc-name[]") {
+                updateVpcDropdowns();
+            }
+        });
     
         // CI Column Management
         // Handles adding and removing CI columns dynamically.
         let ciCount = document.querySelectorAll("#tags-table thead th").length - 5;
-
-        // Update VPC Lists dropdown
-        document.addEventListener("input", (event) => {
-            if (event.target.classList.contains("vpc-name-input")) {
-                const vpcNames = Array.from(document.querySelectorAll(".vpc-name-input"))
-                    .map(input => input.value.trim())
-                    .filter(name => name);
-
-                document.querySelectorAll(".vpc-dropdown").forEach(dropdown => {
-                    const currentValue = dropdown.value;
-                    dropdown.innerHTML = '<option value="" disabled selected>Select VPC Name</option>';
-                    vpcNames.forEach(name => {
-                        const option = document.createElement("option");
-                        option.value = name;
-                        option.textContent = name;
-                        dropdown.appendChild(option);
-                    });
-                    dropdown.value = currentValue || "";
-                });
-            }
-        });
     
         document.getElementById("add-column").addEventListener("click", () => {
             const table = document.getElementById("tags-table");
