@@ -1080,7 +1080,7 @@
             });
         }
 
-        // Add New DNS Row
+        // Add/Remove DNS Row
         document.getElementById('add-dns-row').addEventListener('click', () => {
             const dnsTable = document.getElementById('dns-table').querySelector('tbody');
             const newRow = document.createElement('tr');
@@ -1088,6 +1088,7 @@
                 <td>
                     <select name="dns-environment[]" class="small-input environment-dropdown" required>
                         <option value="" disabled selected>Select Environment</option>
+                        <!-- Dynamic options will be added here -->
                     </select>
                 </td>
                 <td><input type="text" name="dns-domain[]" placeholder="Enter domain" class="wide-input" required></td>
@@ -1099,6 +1100,7 @@
                     </select>
                 </td>
                 <td><input type="date" name="dns-ticket[]" class="small-input" required></td>
+                <td><button type="button" class="remove-dns remove-button">Remove</button></td>
             `;
             dnsTable.appendChild(newRow);
 
