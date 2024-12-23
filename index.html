@@ -1085,13 +1085,21 @@
                 </td>
                 <td><input type="text" name="ssl-arn[]" placeholder="Enter ARN" class="medium-input" required></td>
                 <td><input type="email" name="ssl-contact[]" placeholder="Enter contact email" class="medium-input" required></td>
+                <td><button type="button" class="remove-dns remove-button">Remove</button></td>
+
             `;
             sslTable.appendChild(newRow);
             updateEnvironmentDropdowns();
         });
     
-        document.addEventListener("DOMContentLoaded", () => {
-            updateEnvironmentDropdowns();
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     updateEnvironmentDropdowns();
+        // });
+
+        document.addEventListener("click", event => {
+            if (event.target.classList.contains("remove-ssl")) {
+                event.target.closest("tr").remove();
+            }
         });
     
         // Sync Environment Options on Change
