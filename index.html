@@ -1215,12 +1215,18 @@
                 tagHeaders.push("CI #1");
             }
 
-            // Add dynamic CI column headers if there are dynamic column values
+            // Add dynamic CI column headers dynamically
             if (hasDynamicCIValues) {
-                for (let i = 2; i <= ciCount; i++) {
-                    tagHeaders.push(`CI #${i}`);
+                const existingHeaders = tagHeaders.filter(header => header.startsWith("CI #"));
+                const existingCount = existingHeaders.length;
+
+                for (let i = existingCount + 1; i <= ciCount; i++) {
+                    if (!tagHeaders.includes(`CI #${i}`)) {
+                        tagHeaders.push(`CI #${i}`);
+                    }
                 }
             }
+
             combinedData.push(tagHeaders);
 
             document.querySelectorAll("#tags-table tbody tr").forEach(row => {
