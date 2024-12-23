@@ -1211,20 +1211,14 @@
                 const inputSource = row.cells[2]?.textContent.trim() || "";
                 const defaultValue = row.cells[3]?.textContent.trim() || "";
                 const paas = row.cells[4]?.querySelector("input, select")?.value || "";
-                // const ci1 = row.cells[5]?.querySelector("input, select")?.value || "";
 
                 // Handle date fields for columns like pcm-backup_last_updated
                 const selectionField = row.querySelector("select[name='pcm-backup_last_updated-selection']");
                 const dateField = row.querySelector("input[name='pcm-backup_last_updated-date']");
-                // const backupLastUpdatedCell = row.querySelector("select[name='pcm-backup_last_updated-cs-1']");
-                let backupLastUpdated = selectionField?.value || ""; // Default to the selected value (e.g., 'date', 'empty')
+                let backupLastUpdated = dateField?.value || ""; // Default to the selected value (e.g., 'date', 'empty')
 
                 // If "Date" is selected, get the value from the adjacent <input>
                 if (backupLastUpdated === "date" && dateField) {
-                    // const dateInput = backupLastUpdatedCell.nextElementSibling; // Adjacent <input>
-                    // if (dateInput && dateInput.type === "Date") {
-                    //     backupLastUpdated = dateInput.value; // Set to the actual selected date
-                    // }
                     backupLastUpdated = dateField.value || ""; // Use the selected date
                 }
 
