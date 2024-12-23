@@ -223,60 +223,62 @@
         <!-- Environments -->
         <button type="button" class="collapsible">Environments</button>
         <div class="content">
-            <table class="environment-table" id="environmentTable">
-                <thead>
-                    <tr>
-                        <th>Environment</th>
-                        <th>Account Number</th>
-                        <th>Region</th>
-                        <th>Existing</th>
-                        <th>SLA</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <select name="environment-type[]" class="small-input" required>
-                                <option value="" disabled selected>Select ENV type</option>
-                                <option value="DEV">DEV</option>
-                                <option value="TEST">TEST</option>
-                                <option value="STAGE">STAGE</option>
-                                <option value="PROD">PROD</option>
-                                <option value="UTILITY">UTILITY</option>
-                            </select>
-                        </td>
-                        <td><input type="text" name="account-number[]" placeholder="Enter AWS Account #"
-                                class="small-input" maxlength="12" required></td>
-                        <td>
-                            <select name="region[]" class="small-input" required>
-                                <option value="" disabled selected>Select region</option>
-                                <option value="us-east-1">us-east-1</option>
-                                <option value="us-east-2">us-east-2</option>
-                                <option value="us-west-1">us-west-1</option>
-                                <option value="us-west-2">us-west-2</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select name="existing[]" class="small-input" required>
-                                <option value="" disabled selected>Select existing</option>
-                                <option value="New">New</option>
-                                <option value="Existing">Existing</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select name="sla[]" class="small-input" required>
-                                <option value="" disabled selected>Select SLA</option>
-                                <option value="Fully Managed">Fully Managed</option>
-                                <option value="Semi Managed">Semi Managed</option>
-                            </select>
-                        </td>
-                        <td><button type="button" class="remove-environment remove-button">Remove</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <button type="button" id="add-environment" class="add-button">+ Add Environment</button>
+            <div class="table-container" style="overflow-x: auto;">
+                <table id="environmentTable">
+                    <thead>
+                        <tr>
+                            <th>Environment</th>
+                            <th>Account Number</th>
+                            <th>Region</th>
+                            <th>Existing</th>
+                            <th>SLA</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select name="environment-type[]" class="small-input" required>
+                                    <option value="" disabled selected>Select ENV type</option>
+                                    <option value="DEV">DEV</option>
+                                    <option value="TEST">TEST</option>
+                                    <option value="STAGE">STAGE</option>
+                                    <option value="PROD">PROD</option>
+                                    <option value="UTILITY">UTILITY</option>
+                                </select>
+                            </td>
+                            <td><input type="text" name="account-number[]" placeholder="Enter AWS Account #" class="small-input" maxlength="12" required></td>
+                            <td>
+                                <select name="region[]" class="small-input" required>
+                                    <option value="" disabled selected>Select region</option>
+                                    <option value="us-east-1">us-east-1</option>
+                                    <option value="us-east-2">us-east-2</option>
+                                    <option value="us-west-1">us-west-1</option>
+                                    <option value="us-west-2">us-west-2</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="existing[]" class="small-input" required>
+                                    <option value="" disabled selected>Select existing</option>
+                                    <option value="New">New</option>
+                                    <option value="Existing">Existing</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="sla[]" class="small-input" required>
+                                    <option value="" disabled selected>Select SLA</option>
+                                    <option value="Fully Managed">Fully Managed</option>
+                                    <option value="Semi Managed">Semi Managed</option>
+                                </select>
+                            </td>
+                            <td><button type="button" class="remove-environment remove-button">Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" id="add-environment" class="add-button">+ Add Environment</button>
+            </div>
         </div>
+
 
         <!-- Tags Section -->
         <button type="button" class="collapsible">Tags</button>
@@ -847,7 +849,6 @@
                 <button type="button" id="add-ssl-row" class="add-button">+ Add SSL Entry</button>
             </div>
         </div>
-
         <br>
         <button type="submit">Submit</button>
     </form>
