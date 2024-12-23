@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Intake Form 0.2</title>
+    <title>Project Intake Form 0.1</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,7 +35,10 @@
             border-radius: 4px;
         }
 
-        /* Input sizes */
+        option:disabled {
+        color: #ccc;
+        }
+
         .small-input {
             width: 150px;
         }
@@ -869,6 +872,84 @@
                 <button type="button" id="add-ssl" class="add-button">+ Add SSL Entry</button>
             </div>
         </div>
+
+        <!-- Networking Section -->
+        <h2>NETWORKING</h2>
+        <button type="button" class="collapsible">VPC</button>
+        <div class="content">
+            <div class="table-container" style="overflow-x: auto;">
+                <table id="vpcTable">
+                    <thead>
+                        <tr>
+                            <th>Environment</th>
+                            <th>VPC Name</th>
+                            <th>VPC CIDR</th>
+                            <th>DHCP Options</th>
+                            <th>Flow Logs</th>
+                            <th>VGW</th>
+                            <th>Direct Connect Attachment</th>
+                            <th>Existing</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select name="vpc-environment[]" class="small-input environment-dropdown" required>
+                                    <option value="" disabled selected>Select Environment</option>
+                                    <!-- Dynamic options will be added here -->
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="vpc-name[]" placeholder="Enter VPC name" class="medium-input" required>
+                            </td>
+                            <td>
+                                <input type="text" name="vpc-cidr[]" placeholder="Enter CIDR" class="small-input" required>
+                            </td>
+                            <td>
+                                <select name="dhcp-options[]" class="small-input" required>
+                                    <option value="" disabled selected>Select Option</option>
+                                    <option value="Route 53">Route 53</option>
+                                    <option value="Active Directory">Active Directory</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="flowlogs[]" class="small-input" required>
+                                    <option value="" disabled selected>Select Option</option>
+                                    <option value="CloudWatch">CloudWatch</option>
+                                    <option value="s3">s3</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="vgw[]" class="small-input" required>
+                                    <option value="" disabled selected>Select Option</option>
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="direct-connect[]" class="small-input" required>
+                                    <option value="" disabled selected>Select Option</option>
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="existing[]" class="small-input" required>
+                                    <option value="" disabled selected>Select existing</option>
+                                    <option value="New">New</option>
+                                    <option value="Existing">Existing</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="button" class="remove-vpc remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" id="add-vpc" class="add-button">+ Add VPC</button>
+            </div>
+        </div>      
+        
         <br>
         <button type="submit">Submit</button>
         <button type="button" id="save-to-excel" class="add-button">Save to Excel</button>
@@ -1052,6 +1133,74 @@
             if (event.target.classList.contains("remove-ssl")) {
                 event.target.closest("tr").remove();
                 updateSslDropdowns();
+            }
+        });
+
+        // Add/Remove VPC Rows
+        const vpcTable = document.getElementById("vpcTable");
+        document.getElementById("add-vpc").addEventListener("click", () => {
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>
+                    <select name="vpc-environment[]" class="small-input environment-dropdown" required>
+                        <option value="" disabled selected>Select Environment</option>
+                        <!-- Dynamic options will be added here -->
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="vpc-name[]" placeholder="Enter VPC name" class="medium-input" required>
+                </td>
+                <td>
+                    <input type="text" name="vpc-cidr[]" placeholder="Enter CIDR" class="small-input" required>
+                </td>
+                <td>
+                    <select name="dhcp-options[]" class="small-input" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="Route 53">Route 53</option>
+                        <option value="Active Directory">Active Directory</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="flowlogs[]" class="small-input" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="CloudWatch">CloudWatch</option>
+                        <option value="s3">s3</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="vgw[]" class="small-input" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="direct-connect[]" class="small-input" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="existing[]" class="small-input" required>
+                        <option value="" disabled selected>Select existing</option>
+                        <option value="New">New</option>
+                        <option value="Existing">Existing</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="button" class="remove-vpc remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                </td>
+            `;
+            vpcTable.querySelector("tbody").appendChild(newRow);
+            updateVpcDropdowns();
+        });
+
+        // Removes a VPC row when the "Remove" button is clicked.
+        document.addEventListener("click", event => {
+            if (event.target.classList.contains("remove-vpc")) {
+                event.target.closest("tr").remove();
+                updateVpcDropdowns();
             }
         });
     
