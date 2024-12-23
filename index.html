@@ -321,10 +321,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <button type="button" id="add-environment" class="add-button">+ Add Environment</button><br>
+                <button type="button" id="add-environment" class="add-button">+ Add Environment</button>
             </div>
         </div>
-
 
         <!-- Tags Section -->
         <button type="button" class="collapsible">Tags</button>
@@ -847,7 +846,7 @@
             </div>
         </div>
 
-        <!-- New SSL Section -->
+        <!-- SSL Section -->
         <button type="button" class="collapsible">SSL</button>
         <div class="content">
             <div class="table-container" style="overflow-x: auto;">
@@ -973,7 +972,68 @@
                 </table>
                 <button type="button" id="add-vpc" class="add-button">+ Add VPC</button>
             </div>
-        </div>      
+        </div>
+        
+        <button type="button" class="collapsible">Subnets</button>
+        <div class="content">
+            <div class="table-container" style="overflow-x: auto;">
+                <table id="subnetTable">
+                    <thead>
+                        <tr>
+                            <th>Environment</th>
+                            <th>VPC Name</th>
+                            <th>Subnet Name</th>
+                            <th>Subnet Type</th>
+                            <th>Subnet CIDR</th>
+                            <th>AZ</th>
+                            <th>Existing</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select name="subnet-environment[]" class="small-input environment-dropdown" required>
+                                    <option value="" disabled selected>Select Environment</option>
+                                    <!-- Dynamic options will be added here -->
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="vpc-name[]" placeholder="Enter VPC name" class="medium-input" required>
+                            </td>
+                            <td>
+                                <select name="subnet-type[]" class="small-input" required>
+                                    <option value="" disabled selected>Select Option</option>
+                                    <option value="public">public</option>
+                                    <option value="private">private</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="subnet-cidr[]" placeholder="Enter CIDR" class="small-input" required>
+                            </td>
+                            <td>
+                                <select name="availability-zone[]" class="small-input" required>
+                                    <option value="" disabled selected>Select Option</option>
+                                    <option value="a">a</option>
+                                    <option value="b">b</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="existing[]" class="small-input" required>
+                                    <option value="" disabled selected>Select existing</option>
+                                    <option value="New">New</option>
+                                    <option value="Existing">Existing</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="button" class="remove-subnet remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" id="add-subnet" class="add-button">+ Add Subnet</button>
+            </div>
+        </div>    
         
         <br>
         <button type="submit">Submit</button>
@@ -1247,6 +1307,60 @@
             }
         });
     
+                // Add/Remove Subnet Rows
+                const subnetTable = document.getElementById("subnetTable");
+        document.getElementById("add-subnet").addEventListener("click", () => {
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>
+                    <select name="subnet-environment[]" class="small-input environment-dropdown" required>
+                        <option value="" disabled selected>Select Environment</option>
+                        <!-- Dynamic options will be added here -->
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="vpc-name[]" placeholder="Enter VPC name" class="medium-input" required>
+                </td>
+                <td>
+                    <select name="subnet-type[]" class="small-input" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="public">public</option>
+                        <option value="private">private</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="subnet-cidr[]" placeholder="Enter CIDR" class="small-input" required>
+                </td>
+                <td>
+                    <select name="availability-zone[]" class="small-input" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="a">a</option>
+                        <option value="b">b</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="existing[]" class="small-input" required>
+                        <option value="" disabled selected>Select existing</option>
+                        <option value="New">New</option>
+                        <option value="Existing">Existing</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="button" class="remove-subnet remove-button" style="padding: 5px 10px; background-color: #FF4C4C; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                </td>
+            `;
+            subnetTable.querySelector("tbody").appendChild(newRow);
+            updateSubnetDropdowns();
+        });
+
+        // Removes a Subnet row when the "Remove" button is clicked.
+        document.addEventListener("click", event => {
+            if (event.target.classList.contains("remove-subnet")) {
+                event.target.closest("tr").remove();
+                updateSubnetDropdowns();
+            }
+        });
+
         // Environment Dropdown Synchronization
         // Synchronizes dropdown options across all environment-related dropdowns.
         function updateEnvironmentDropdowns() {
