@@ -984,29 +984,19 @@
             newHeader.textContent = `CI #${ciCount}`;
             headerRow.appendChild(newHeader);
 
-            // Add new cell to each row
-            // rows.forEach(row => {
-            //     const newCell = document.createElement("td");
-            //     const baseInput = row.querySelector("td:last-child input, td:last-child select");
-            //     if (baseInput) {
-            //         // Clone the input or select element from the last cell
-            //         const newElement = baseInput.cloneNode(true);
-            //         newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
-            //         newElement.value = ""; // Clear the cloned value
-            //         newCell.appendChild(newElement);
-            //     }
-            //     row.appendChild(newCell);
+            // Add new cell to each row, populating it with data from the last column
             rows.forEach(row => {
-            const lastCell = row.querySelector("td:last-child");
-            const newCell = lastCell.cloneNode(true);
+                const lastCell = row.querySelector("td:last-child");
+                const newCell = lastCell.cloneNode(true);
 
-            // Adjust the name attribute in the cloned element
-            const input = newCell.querySelector("input, select");
-            if (input) {
-                input.name = input.name.replace(/ci-\d+/, `ci-${ciCount}`);
-            }
-
-            row.appendChild(newCell);
+                // Update input/select names and preserve the last column's value
+                const lastElement = lastCell.querySelector("input, select");
+                const newElement = newCell.querySelector("input, select");
+                if (lastElement && newElement) {
+                    newElement.name = newElement.name.replace(/ci-\d+/, `ci-${ciCount}`);
+                    newElement.value = lastElement.value; // Copy value from last column
+                }
+                row.appendChild(newCell);
             });
 
             // Enable "Remove CI" button
